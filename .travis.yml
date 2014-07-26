@@ -7,3 +7,5 @@ notifications:
       - mat.czajka@gmail.com
     on_success: never
     on_failure: always
+before_script:
+  - psql -c 'create database sailhero-api_test;' -U postgres
