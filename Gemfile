@@ -16,3 +16,5 @@ gem 'decent_exposure'
 gem 'decent_decoration'
 
 gem 'pry-remote'
+gem 'doorkeeper'
+gem 'devise'

@@ -1,5 +1,6 @@
 module V1
   class PlacesController < VersionController
+    doorkeeper_for :all
     expose(:places)
     expose(:place, attributes: :permitted_params)
 
