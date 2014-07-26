@@ -1,7 +1,23 @@
-class V1::UsersController < V1::VersionController
+module V1
+  class UsersController < VersionController
+    expose(:users)
+    expose(:user, attributes: :permitted_params)
 
-  def index
-    respond_with :json, body: 'Not implemented yet'
+    def index
+      render json: users
+    end
+
+    def create
+      if user.save
+        render json: user, status: :created
+      else
+        render json: user.errors, status: 422
+      end
+    end
+
+    def permitted_params
+      params.require(:user).permit(:email, :password)
+    end
+
   end
-
 end
