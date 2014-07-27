@@ -8,6 +8,7 @@ gem 'decent_decoration'
 gem 'doorkeeper'
 gem 'devise'
 gem 'active_model_serializers'
+gem 'rack-cors', require: 'rack/cors'
 
 group :test, :development do
   gem 'pry'
