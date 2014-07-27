@@ -9,7 +9,7 @@ module V1
     end
 
     def create
-      if user.save
+      if place.save
         render json: place, status: :created
       else
         render json: place.errors, status: 422
