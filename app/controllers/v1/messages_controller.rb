@@ -18,7 +18,7 @@ module V1
     end
 
     def permitted_params
-      params.require(:message).permit(:body)
+      params.require(:message).permit(:body, :title)
     end
   end
 end

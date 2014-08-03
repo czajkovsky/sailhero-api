@@ -1,5 +1,5 @@
 class MessageSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :author
+  attributes :id, :title, :body, :created_at, :author, :solved
 
   def author
     user = object.user
