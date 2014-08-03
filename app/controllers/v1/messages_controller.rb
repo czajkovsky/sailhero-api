@@ -1,6 +1,6 @@
 module V1
   class MessagesController < VersionController
-    doorkeeper_for :all
+    # doorkeeper_for :all
     expose(:messages)
     expose(:message, attributes: :permitted_params)
 
@@ -10,6 +10,7 @@ module V1
 
     def create
       if message.save
+        message.update_attributes(user_id: current_user.id)
         render status: 201, json: message
       else
         render status: 422, json: { errors: message.errors }

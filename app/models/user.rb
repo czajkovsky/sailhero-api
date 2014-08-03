@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
                        length: { in: 4..128 }
   validates :password_confirmation, :name, :surname, presence: true
 
+  has_many :messages
+
   def self.authenticate!(email, password)
     user = User.where(email: email).first
     bcrypted_hash = BCrypt::Engine.hash_secret(password, user.password_salt)
