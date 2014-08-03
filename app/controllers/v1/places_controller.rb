@@ -19,6 +19,5 @@ module V1
     def permitted_params
       params.require(:place).permit(:name)
     end
-
   end
 end
