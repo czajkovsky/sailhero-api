@@ -4,10 +4,7 @@ Rails.application.routes.draw do
   constraints subdomain: 'api' do
     namespace :v1 do
       resources :places
-    end
-    scope :v1 do
-      devise_for :users
+      resources :users
     end
   end
-
 end

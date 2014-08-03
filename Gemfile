@@ -6,8 +6,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'decent_exposure'
 gem 'decent_decoration'
 gem 'doorkeeper'
-gem 'devise'
 gem 'active_model_serializers'
+gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'rack-cors', require: 'rack/cors'
 
 group :test, :development do
