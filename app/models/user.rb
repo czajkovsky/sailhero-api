@@ -1,7 +1,15 @@
 class User < ActiveRecord::Base
   before_save :encrypt_password
 
+  EMAIL_FORMAT = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+
   attr_accessor :password, :password_confirmation
+
+  validates :email, presence: true, uniqueness: true,
+                    format: { with: EMAIL_FORMAT }
+  validates :password, confirmation: true, presence: true, on: :create,
+                       length: { in: 4..128 }
+  validates :password_confirmation, :name, :surname, presence: true
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first

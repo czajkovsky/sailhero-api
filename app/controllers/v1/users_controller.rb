@@ -9,14 +9,15 @@ module V1
 
     def create
       if user.save
-        render json: user, status: :created
+        render status: 201, json: user
       else
-        render json: user.errors, status: 422
+        render status: 422, json: { errors: user.errors }
       end
     end
 
     def permitted_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user).permit(:email, :password, :password_confirmation,
+                                   :name, :surname)
     end
   end
 end
