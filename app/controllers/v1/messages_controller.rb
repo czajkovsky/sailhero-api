@@ -8,6 +8,10 @@ module V1
       render json: messages
     end
 
+    def show
+      render json: message
+    end
+
     def create
       if message.save
         message.update_attributes(user_id: current_user.id)

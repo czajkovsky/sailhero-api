@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :name, :surname, presence: true
 
   has_many :messages
+  has_many :replies
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first
