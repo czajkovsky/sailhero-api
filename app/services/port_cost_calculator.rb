@@ -17,7 +17,18 @@ class PortCostCalculator
   end
 
   def calculate_yacht_cost
-    0
+    port.yacht_size_range_prices.each do |range|
+      return range.price if proper_length?(range) && proper_width?(range)
+    end
+    @messages << 'Ooops, it looks like there is no place for your yacht :('
+  end
+
+  def proper_length?(range)
+    (range.min_length..range.max_length).include?(yacht.length)
+  end
+
+  def proper_width?(range)
+    yacht.width < range.max_width
   end
 
   def calculate_options_cost
