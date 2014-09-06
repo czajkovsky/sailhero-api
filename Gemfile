@@ -10,6 +10,7 @@ gem 'active_model_serializers'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'rack-cors', require: 'rack/cors'
 gem 'geocoder'
+gem 'virtus'
 
 group :test, :development do
   gem 'pry'
