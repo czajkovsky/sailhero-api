@@ -11,16 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140906191347) do
+ActiveRecord::Schema.define(version: 20140906213230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "map_ports", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "messages", force: true do |t|
     t.string   "body"
@@ -76,6 +70,14 @@ ActiveRecord::Schema.define(version: 20140906191347) do
     t.datetime "updated_at"
   end
 
+  create_table "ports", force: true do |t|
+    t.string   "name"
+    t.float    "longitude",  default: 0.0
+    t.float    "latitude",   default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "replies", force: true do |t|
     t.string   "body"
     t.integer  "user_id"
@@ -95,5 +97,14 @@ ActiveRecord::Schema.define(version: 20140906191347) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+
+  create_table "yacht_size_range_prices", force: true do |t|
+    t.integer  "min_length"
+    t.integer  "max_length"
+    t.float    "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "port_id"
+  end
 
 end
