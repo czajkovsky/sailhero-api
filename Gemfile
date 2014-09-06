@@ -9,6 +9,7 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'rack-cors', require: 'rack/cors'
+gem 'geocoder'
 
 group :test, :development do
   gem 'pry'
