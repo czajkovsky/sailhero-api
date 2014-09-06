@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140906214745) do
+ActiveRecord::Schema.define(version: 20140906215439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,10 +72,38 @@ ActiveRecord::Schema.define(version: 20140906214745) do
 
   create_table "ports", force: true do |t|
     t.string   "name"
-    t.float    "longitude",  default: 0.0
-    t.float    "latitude",   default: 0.0
+    t.float    "longitude",                      default: 0.0
+    t.float    "latitude",                       default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "website"
+    t.string   "city"
+    t.string   "street"
+    t.string   "telephone"
+    t.string   "additional_info"
+    t.integer  "spots"
+    t.float    "depth",                          default: -1.0
+    t.float    "price_per_person",               default: 0.0
+    t.float    "price_power_connection",         default: 0.0
+    t.float    "price_wc",                       default: 0.0
+    t.float    "price_shower",                   default: 0.0
+    t.float    "price_washbasin",                default: 0.0
+    t.float    "price_dishes",                   default: 0.0
+    t.float    "price_wifi",                     default: 0.0
+    t.float    "price_parking_per_day",          default: 0.0
+    t.float    "price_washing_machine",          default: 0.0
+    t.float    "price_emptying_chemical_toilet", default: 0.0
+    t.boolean  "has_power_connection",           default: true
+    t.boolean  "has_wc",                         default: true
+    t.boolean  "has_shower",                     default: true
+    t.boolean  "has_washbasin",                  default: true
+    t.boolean  "has_dishes",                     default: true
+    t.boolean  "has_wifi",                       default: true
+    t.boolean  "has_parking",                    default: true
+    t.boolean  "has_slip",                       default: false
+    t.boolean  "has_washing_machine",            default: true
+    t.boolean  "has_fuel_station",               default: false
+    t.boolean  "has_emptying_chemical_toilet",   default: true
   end
 
   create_table "replies", force: true do |t|
