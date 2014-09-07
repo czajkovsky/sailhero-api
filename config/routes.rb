@@ -10,7 +10,11 @@ Rails.application.routes.draw do
           resources :replies, only: [:create, :index]
         end
         namespace :map do
-          resources :ports, only: [:index, :show]
+          resources :ports, only: [:index, :show] do
+            member do
+              get 'calculate'
+            end
+          end
           resources :channels, only: [:index, :show]
           resources :routes, only: [:index, :show]
           resources :dangers, only: [:index, :show]

@@ -34,4 +34,11 @@ class PortCostCalculator
   def calculate_options_cost
     0
   end
+
+  def serialize
+    {
+      cost: total_cost,
+      messages: messages
+    }
+  end
 end
