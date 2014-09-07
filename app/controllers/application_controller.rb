@@ -3,11 +3,15 @@ class ApplicationController < ActionController::Base
   serialization_scope :view_context
   skip_before_filter :verify_authenticity_token
   respond_to :json
-
+  before_action :set_locale
   helper_method :current_user
 
   decent_configuration do
     strategy DecentExposure::StrongParametersStrategy
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 
   private

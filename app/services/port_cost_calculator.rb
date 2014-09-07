@@ -20,7 +20,7 @@ class PortCostCalculator
     port.yacht_size_range_prices.each do |range|
       return range.price if proper_length?(range) && proper_width?(range)
     end
-    @messages << 'Ooops, it looks like there is no place for your yacht :('
+    @messages << I18n.t('port_cost_calculator.errors.no_place_available')
   end
 
   def proper_length?(range)

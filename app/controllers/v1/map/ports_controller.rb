@@ -3,9 +3,14 @@ module V1
     class PortsController < VersionController
       # doorkeeper_for :all
       expose(:ports)
+      expose(:port)
 
       def index
         render json: ports
+      end
+
+      def show
+        render json: port
       end
     end
   end
