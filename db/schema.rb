@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907201343) do
+ActiveRecord::Schema.define(version: 20140907211012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20140907201343) do
     t.float    "price_washbasin",                default: 0.0
     t.float    "price_dishes",                   default: 0.0
     t.float    "price_wifi",                     default: 0.0
-    t.float    "price_parking_per_day",          default: 0.0
     t.float    "price_washing_machine",          default: 0.0
     t.float    "price_emptying_chemical_toilet", default: 0.0
     t.boolean  "has_power_connection",           default: true
@@ -104,6 +103,7 @@ ActiveRecord::Schema.define(version: 20140907201343) do
     t.boolean  "has_washing_machine",            default: true
     t.boolean  "has_fuel_station",               default: false
     t.boolean  "has_emptying_chemical_toilet",   default: true
+    t.float    "price_parking",                  default: 0.0
   end
 
   create_table "replies", force: true do |t|

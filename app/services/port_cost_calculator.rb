@@ -1,15 +1,18 @@
 class PortCostCalculator
-  attr_reader :yacht, :port, :total_cost, :messages
+  attr_reader :yacht, :port, :total_cost, :messages, :included, :optional
 
   def initialize(yacht, port)
     @yacht = yacht
     @port = port
     @messages = []
+    @included = []
+    @optional = []
+    options
     @total_cost = calculate_cost
   end
 
   def calculate_cost
-    calculate_crew_cost + calculate_yacht_cost + calculate_options_cost
+    calculate_crew_cost + calculate_yacht_cost
   end
 
   def calculate_crew_cost
@@ -31,14 +34,27 @@ class PortCostCalculator
     yacht.width < range.max_width
   end
 
-  def calculate_options_cost
-    0
+  def options
+    %w(power_connection wc shower washbasin dishes wifi parking
+       emptying_chemical_toilet).each do |opt|
+      add_option(opt) if port.public_send("has_#{opt}")
+    end
+  end
+
+  def add_option(opt)
+    if port.public_send("price_#{opt}").zero?
+      included << opt
+    else
+      optional << { name: opt, price: port.public_send("price_#{opt}") }
+    end
   end
 
   def serialize
     {
       cost: total_cost,
-      messages: messages
+      messages: messages,
+      included: included,
+      optional: optional
     }
   end
 end
