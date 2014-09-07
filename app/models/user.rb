@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   has_many :messages
   has_many :replies
+  has_one :yacht
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first
