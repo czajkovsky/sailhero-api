@@ -4,13 +4,8 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
 
-if ENV['CI']
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
-else
-  require 'simplecov'
-  SimpleCov.start 'rails'
-end
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
