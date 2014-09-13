@@ -20,6 +20,7 @@ Rails.application.routes.draw do
           resources :routes, only: [:index, :show]
           resources :dangers, only: [:index, :show]
         end
+        get 'me', to: 'credentials#me'
       end
     end
   end
