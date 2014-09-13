@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]
         end
+        resources :yachts, only: [:create]
         namespace :map do
           resources :ports, only: [:index, :show] do
             member do
