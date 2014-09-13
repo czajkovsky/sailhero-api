@@ -8,6 +8,7 @@ module V1
     end
 
     def create
+      render status: 422 if params[:user].empty?
       if user.save
         render status: 201, json: user
       else
@@ -26,6 +27,7 @@ module V1
     end
 
     def permitted_params
+      binding.remote_pry
       params.require(:user).permit(:email, :password, :password_confirmation,
                                    :name, :surname)
     end

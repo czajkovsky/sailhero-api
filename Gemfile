@@ -23,7 +23,9 @@ group :test, :development do
 end
 
 group :test do
+  gem 'rspec-rails', '~> 3.0.0'
   gem 'codeclimate-test-reporter'
+  gem 'database_cleaner'
 end
 
 group :development do
