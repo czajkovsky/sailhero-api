@@ -22,7 +22,7 @@ API for apps dedicated to sailors.
 #### Creating user
 
 ##### Request
-```json
+```
 POST /v1/en/users HTTP/1.1
 Host: api.sail-hero.dev
 Content-Type: application/json
@@ -39,7 +39,7 @@ Content-Type: application/json
 ```
 
 ##### Response
-```json
+```
 # STATUS: 201 Created
 {
   "user":{
