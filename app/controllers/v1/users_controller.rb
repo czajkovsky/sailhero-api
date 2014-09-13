@@ -27,7 +27,6 @@ module V1
     end
 
     def permitted_params
-      binding.remote_pry
       params.require(:user).permit(:email, :password, :password_confirmation,
                                    :name, :surname)
     end
