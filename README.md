@@ -43,7 +43,7 @@ Content-Type: application/json
   "user":{
     "email":"email@example.com",
     "password":"password_example",
-    "password_confirmation":"password1",
+    "password_confirmation":"password_example",
     "name":"Your Name",
     "surname":"Your Surname"
   }

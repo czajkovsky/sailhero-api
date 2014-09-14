@@ -17,7 +17,7 @@ module V1
     end
 
     def me
-      render status: 201, json: current_resource_owner
+      render status: 200, json: current_resource_owner
     end
 
     private
