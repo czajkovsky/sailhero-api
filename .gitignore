@@ -15,4 +15,4 @@
 /log/*.log
 /tmp
 /coverage
-config/secrets.yml
+config/application.yml
