@@ -4,8 +4,10 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'factory_girl_rails'
 
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+if ENV['CODECLIMATE_REPO_TOKEN']
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+end
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
