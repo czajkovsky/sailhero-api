@@ -82,9 +82,9 @@ Content-Type: application/json
     "email":"email@example.com",
     "yacht":{
       id: 997,
-      name:"Yacht name",
+      name:"Your Yacht Name",
       length: 780,
-      width: 250
+      width: 230
     }
   }
 }
