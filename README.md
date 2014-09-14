@@ -57,7 +57,35 @@ Content-Type: application/json
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
-    "email":"email@example.com"
+    "email":"email@example.com",
+    "yacht":null
+  }
+}
+```
+
+#### Authenticated user profile
+
+##### Request
+```
+GET /v1/en/users/me?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+Host: api.sail-hero.dev
+Content-Type: application/json
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  "user":{
+    "id":999,
+    "created_at":"2014-09-13T09:57:21.402Z",
+    "email":"email@example.com",
+    "yacht":{
+      id: 997,
+      name:"Yacht name",
+      length: 780,
+      width: 250
+    }
   }
 }
 ```

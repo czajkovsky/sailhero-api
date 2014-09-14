@@ -11,6 +11,7 @@ class UserSerializer < ActiveModel::Serializer
       name: yacht.name,
       length: yacht.length,
       width: yacht.width
+      crew: yacht.crew
     }
   end
 end
