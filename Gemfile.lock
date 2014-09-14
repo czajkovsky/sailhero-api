@@ -83,6 +83,11 @@ GEM
       railties (>= 3.1)
     equalizer (0.0.9)
     erubis (2.7.0)
+    factory_girl (4.4.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.4.1)
+      factory_girl (~> 4.4.0)
+      railties (>= 3.0.0)
     ffi (1.9.3)
     geocoder (1.2.1)
     hike (1.2.3)
@@ -220,6 +225,7 @@ DEPENDENCIES
   decent_decoration
   decent_exposure
   doorkeeper
+  factory_girl_rails
   geocoder
   jbuilder (~> 2.0)
   konacha
@@ -230,7 +236,7 @@ DEPENDENCIES
   pry-remote
   rack-cors
   rails (= 4.1.1)
-  rspec-rails (~> 3.0.0)
+  rspec-rails
   selenium-webdriver
   spring
   virtus

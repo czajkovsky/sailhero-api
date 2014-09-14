@@ -13,6 +13,8 @@ gem 'geocoder'
 gem 'virtus'
 
 group :test, :development do
+  gem 'factory_girl_rails', require: false
+  gem 'rspec-rails'
   gem 'pry'
   gem 'pry-debugger'
   gem 'pry-rails'
@@ -23,7 +25,6 @@ group :test, :development do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 3.0.0'
   gem 'codeclimate-test-reporter'
   gem 'database_cleaner'
 end

@@ -24,6 +24,7 @@ class PortCostCalculator
       return range.price if proper_length?(range) && proper_width?(range)
     end
     @messages << I18n.t('port_cost_calculator.errors.no_place_available')
+    0
   end
 
   def proper_length?(range)
