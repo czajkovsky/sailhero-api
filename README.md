@@ -15,7 +15,7 @@ api.sail-hero.dev/v1/en
 
 + **Subdomain** -  API by default is accessible from subdomain - <code>api.BASE_URL.com</code>
 + **Versioning** follows base url in HOST name (current version is <code>v1</code>).
-+ **I18n** - currently only english version is variable (<code>en</code>).
++ **I18n** - currently only english version is available (<code>en</code>).
 
 ## Models
 
