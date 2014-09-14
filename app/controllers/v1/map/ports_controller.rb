@@ -14,7 +14,8 @@ module V1
       end
 
       def calculate
-        render json: PortCostCalculator.new(current_user.yacht, port).serialize
+        render json: PortCostCalculator.new(yacht: current_user.yacht,
+                                            port: port).serialize
       end
     end
   end

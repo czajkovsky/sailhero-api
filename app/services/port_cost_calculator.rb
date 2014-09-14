@@ -1,18 +1,19 @@
-class PortCostCalculator
-  attr_reader :yacht, :port, :total_cost, :messages, :included, :optional
+class PortCostCalculator < Response
+  attr_reader :yacht, :port
+  attr_accessor :total_cost, :included, :optional, :messages, :available
 
-  def initialize(yacht, port)
-    @yacht = yacht
-    @port = port
-    @messages = []
-    @included = []
-    @optional = []
-    options
-    @total_cost = calculate_cost
+  def initialize(params = {})
+    super
+    @yacht = params.fetch(:yacht)
+    @port = params.fetch(:port)
+    calculate
   end
 
-  def calculate_cost
-    calculate_crew_cost + calculate_yacht_cost
+  def calculate
+    @included, @optional = [], []
+    @available = true
+    set_options
+    @total_cost = calculate_crew_cost + calculate_yacht_cost
   end
 
   def calculate_crew_cost
@@ -23,7 +24,8 @@ class PortCostCalculator
     port.yacht_size_range_prices.each do |range|
       return range.price if proper_length?(range) && proper_width?(range)
     end
-    @messages << I18n.t('port_cost_calculator.errors.no_place_available')
+    add_message('pc501_no_place_available')
+    @available = false
     0
   end
 
@@ -35,7 +37,7 @@ class PortCostCalculator
     yacht.width < range.max_width
   end
 
-  def options
+  def set_options
     %w(power_connection wc shower washbasin dishes wifi parking
        emptying_chemical_toilet).each do |opt|
       add_option(opt) if port.public_send("has_#{opt}")
@@ -51,11 +53,15 @@ class PortCostCalculator
   end
 
   def serialize
-    {
-      cost: total_cost,
-      messages: messages,
-      included: included,
-      optional: optional
-    }
+    available ? available_hash : unavailable_hash
+  end
+
+  def available_hash
+    { cost: total_cost, messages: messages, included: included,
+      optional: optional }
+  end
+
+  def unavailable_hash
+    { cost: '---', messages: messages }
   end
 end

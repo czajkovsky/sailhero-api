@@ -16,9 +16,15 @@ module SailheroApi
           methods: [:get, :post, :put, :patch, :delete, :options]
       end
     end
+
     config.generators do |g|
       g.test_framework :rspec, fixture: true
-      g.fixture_replacement :factory_girl, dir: "spec/factories"
+      g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**',
+                                                 '*.{rb,yml}')]
+
+    config.autoload_paths += %W(#{config.root}/app/services)
   end
 end
