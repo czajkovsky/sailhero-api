@@ -14,13 +14,16 @@ describe PortCostCalculator do
       expect(subject.total_cost).to eq(110)
     end
 
-    context 'for big yacht' do
-
+    context 'for too big yacht' do
       subject { PortCostCalculator.new(yacht: big_yacht, port: port) }
       let(:big_yacht) { create(:yacht, length: 10_000) }
 
-      it 'has no place' do
+      it 'is unavailable' do
         expect(subject.available).to be_falsey
+      end
+
+      it 'renders no cost' do
+        expect(subject.serialize[:cost]).to eq('---')
       end
     end
   end
