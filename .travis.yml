@@ -1,3 +1,14 @@
+language: ruby
+rvm:
+  - 2.1.1
+env:
+  - DB=postgresql
+before_script:
+  - psql -c 'create database sailhero_api_test;' -U postgres
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rspec
 addons:
   code_climate:
     repo_token: "TEr/j5KfT6VT1Wak4kHc1P+oRloJrW/YwEJvv7C29Vvk5ekS8I4uzCsuuQUoTSyOlELu2vFhDzjZq6oqOmdnJnn1IBqWB8isLselWuxTzBQ8KcA+BxwnHIuJ6LdFK2JFV4Ykk/ZyrOEnmy7KUnCAOoox2UeRIKLH3jSK+CMZfZM="
@@ -7,5 +18,4 @@ notifications:
       - mat.czajka@gmail.com
     on_success: never
     on_failure: always
-before_script:
-  - psql -c 'create database sailhero_api_test;' -U postgres
+
