@@ -12,4 +12,19 @@ describe V1::UsersController, type: :controller do
       end
     end
   end
+
+  context 'user is authenticated' do
+
+    let(:token) { stub accessible?: true }
+
+    before do
+      controller.stub(:doorkeeper_token) { token }
+    end
+
+    describe 'GET#me' do
+      it 'renders OK response' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
 end

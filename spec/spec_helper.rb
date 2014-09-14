@@ -24,6 +24,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+
   config.include FactoryGirl::Syntax::Methods
   config.order = 'random'
 end
