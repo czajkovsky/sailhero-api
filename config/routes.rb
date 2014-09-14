@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   constraints subdomain: 'api' do
     namespace :v1 do
-      scope '/:locale' do
+      scope '(:locale)', locale: /en|pl/ do
         resources :places
         resources :users do
           get 'me', on: :collection
