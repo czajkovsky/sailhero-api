@@ -7,14 +7,14 @@ FactoryGirl.define do
   end
 
   factory :port do
-    name 'Sztynort'
-    longitude 0.0
-    latitude 0.0
+    name Faker::Company.name
+    longitude Faker::Address.latitude
+    latitude Faker::Address.longitude
     website 'http://example.com'
-    city 'Gizycko'
-    street 'Wojska Polskiego 7'
-    telephone '+48 501 122 610'
-    additional_info 'MyText'
+    city Faker::Address.city
+    street Faker::Address.street_address
+    telephone Faker::PhoneNumber.cell_phone
+    additional_info Faker::Lorem.sentence
     spots 15
     depth 2.0
     price_per_person 10.0

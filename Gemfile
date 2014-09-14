@@ -22,6 +22,7 @@ group :test, :development do
   gem 'konacha'
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'faker'
 end
 
 group :test do
