@@ -10,10 +10,10 @@ API for apps dedicated to sailors.
 ## Host
 
 ```
-api.sail-hero.dev/v1/en
+sail-hero.dev/api/api/v1/en
 ```
 
-+ **Subdomain** -  API by default is accessible from subdomain - <code>api.BASE_URL.com</code>
++ **Scoping** - API by default is accessible from api scope - <code>BASE_URL.com/api/REST_OF_THE_URL</code>
 + **Versioning** follows base url in HOST name (current version is <code>v1</code>).
 + **I18n** - currently only english version is available (<code>en</code>).
 
@@ -51,8 +51,8 @@ API requires <code>api</code> subdomain, so url should look more/less like <code
 
 ##### Request
 ```
-POST /v1/en/users HTTP/1.1
-Host: api.sail-hero.dev
+POST /api/v1/en/users HTTP/1.1
+Host: sail-hero.dev
 Content-Type: application/json
 
 {
@@ -83,8 +83,8 @@ Content-Type: application/json
 
 ##### Request
 ```
-GET /v1/en/users/me?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
-Host: api.sail-hero.dev
+GET /api/v1/en/users/me?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+Host: sail-hero.dev
 Content-Type: application/json
 ```
 
@@ -123,8 +123,8 @@ Each user has one yacht which is used for port cost calculations.
 
 ##### Request
 ```
-POST /v1/en/yachts?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
-Host: api.sail-hero.dev
+POST /api/v1/en/yachts?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+Host: sail-hero.dev
 Content-Type: application/json
 
 {
