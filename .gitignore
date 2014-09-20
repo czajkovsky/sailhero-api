@@ -16,3 +16,4 @@
 /tmp
 /coverage
 config/application.yml
+/vendor/bundle
