@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     strategy DecentExposure::StrongParametersStrategy
   end
 
+  def authorize!
+    render nothing: true, status: 401 if current_user.nil?
+  end
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
