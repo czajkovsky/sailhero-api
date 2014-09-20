@@ -1,6 +1,5 @@
 module V1
   class UsersController < VersionController
-    doorkeeper_for :all
     expose(:users)
     expose(:user, attributes: :permitted_params)
 
