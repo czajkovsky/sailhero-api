@@ -12,7 +12,7 @@ module V1
     end
 
     def update
-      render nothing: true, status: 401 unless current_user == yacht.user
+      render nothing: true, status: 403 unless current_user == yacht.user
       if yacht.save
         render status: 200, json: yacht
       else
