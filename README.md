@@ -17,6 +17,22 @@ api.sail-hero.dev/v1/en
 + **Versioning** follows base url in HOST name (current version is <code>v1</code>).
 + **I18n** - currently only english version is available (<code>en</code>).
 
+## Running API locally
+
+##### 1. Add <code>ENV variables</code> to <code>config/application.yml</code>.
+1. <code>cp config/application.yml.sample config/application.yml</code>
+2. Add <code>SECRET_KEY_BASE</code>
+
+##### 2. DB setup
+1. Install Postgresal and create role
+2. Run <code>rake db:create</code> & <code>rake db:migrate</code>
+
+##### 3. Setup local domain
+API requires <code>api</code> subdomain, so url should look more/less like <code>http://api.sail-hero.dev</code>
+
+##### 4. Run server
+<code>rails s</code>
+
 ## Models
 
 ### User
