@@ -4,7 +4,7 @@ module V1
 
     def create
       if yacht.save
-        current_user.yacht = yacht
+        current_user.yacht = yacht if current_user.yacht.nil?
         render status: 201, json: yacht
       else
         render status: 422, json: { errors: yacht.errors }
