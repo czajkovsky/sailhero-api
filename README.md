@@ -21,7 +21,7 @@ sail-hero.dev/api/api/v1/en
 
 ##### 1. Add <code>ENV variables</code> to <code>config/application.yml</code>.
 1. <code>cp config/application.yml.sample config/application.yml</code>
-2. Add <code>SECRET_KEY_BASE</code>
+2. Add <code>SECRET_KEY_BASE</code> - <code>rake secret</code>.
 
 ##### 2. DB setup
 1. Install Postgresal and create role
