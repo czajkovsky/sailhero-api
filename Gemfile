@@ -13,6 +13,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'geocoder'
 gem 'virtus'
 gem 'figaro'
+gem 'rails_12factor'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false
