@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   use_doorkeeper
 
-  constraints subdomain: 'api' do
+  scope :api do
     namespace :v1 do
       scope '(:locale)', locale: /en|pl/ do
         resources :places
