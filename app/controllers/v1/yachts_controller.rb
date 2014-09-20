@@ -1,5 +1,6 @@
 module V1
   class YachtsController < VersionController
+    doorkeeper_for :all
     expose(:yacht, attributes: :permitted_params)
 
     def create
