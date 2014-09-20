@@ -17,7 +17,6 @@ group :test, :development do
   gem 'factory_girl_rails', require: false
   gem 'rspec-rails'
   gem 'pry'
-  gem 'pry-debugger'
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'konacha'
