@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]
         end
-        resources :yachts, only: [:create]
+        resources :yachts, except: [:index]
         namespace :map do
           resources :ports, only: [:index, :show] do
             get 'calculate', on: :member

@@ -11,6 +11,15 @@ module V1
       end
     end
 
+    def update
+      render nothing: true, status: 401 unless current_user == yacht.user
+      if yacht.save
+        render status: 200, json: yacht
+      else
+        render status: 422, json: { errors: yacht.errors }
+      end
+    end
+
     def permitted_params
       params.require(:yacht).permit(:length, :width, :crew, :name)
     end
