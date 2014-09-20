@@ -1,21 +1,28 @@
 language: ruby
 rvm:
-  - 2.1.1
+- 2.1.1
 env:
-  - DB=postgresql
+- DB=postgresql
 before_script:
-  - psql -c 'create database sailhero_api_test;' -U postgres
+- psql -c 'create database sailhero_api_test;' -U postgres
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rake db:test:prepare
-  - bundle exec rspec
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec
 addons:
   code_climate:
     repo_token:
-      secure: "LgWedEM7LsnQbMUYwYSqhv5Kmrj2vSXWAbTDPveZCGp/T1reBN59LI0v568q+Okj1EYVUWnzfWkfiSdeyXS+6bZVK6dO5q66TCs52jbPhvxCAwY73ynXrFIyhuNZtgwpULq/mLgdDvrpQZ2QgppT87f13uiwDypwhz8vxswJ0l4="
+      secure: LgWedEM7LsnQbMUYwYSqhv5Kmrj2vSXWAbTDPveZCGp/T1reBN59LI0v568q+Okj1EYVUWnzfWkfiSdeyXS+6bZVK6dO5q66TCs52jbPhvxCAwY73ynXrFIyhuNZtgwpULq/mLgdDvrpQZ2QgppT87f13uiwDypwhz8vxswJ0l4=
 notifications:
   email:
     recipients:
-      - mat.czajka@gmail.com
+    - mat.czajka@gmail.com
     on_success: never
     on_failure: always
+deploy:
+  provider: heroku
+  api_key:
+    secure: MHp40ODxvDOncceWcQcyND3h3BEIaOht1GAQAH9dDB1j0llhi2zXuP+BQdWj7HdR0HpQC0rCYlAK2RVFMOtqUawgjqPmtoJRth7r/RaQWy4VoJLRrOCUS4MWc4H/Kx/iUmcpURNXa2oVv8X8ALhZS7mJuPVVO6EaDc+OnCp3qEw=
+  app: sailhero-staging
+  on:
+    repo: czajkovsky/sailhero-api
