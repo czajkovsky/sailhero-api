@@ -45,15 +45,22 @@ describe V1::YachtsController, type: :controller do
 
       it 'updates yacht' do
         user.yacht = yacht
-        put :update, { id: yacht, yacht: yachtB_params, access_token: token.token }
+        put :update, id: yacht, yacht: yachtB_params, access_token: token.token
         expect(response).to have_http_status(200)
         expect(response.body).to include(yachtB_params[:name])
+      end
+
+      it 'returns error for wrong yacht params' do
+        wrong_params = FactoryGirl.attributes_for(:yacht, length: 500_000)
+        put :update, id: yacht, yacht: wrong_params, access_token: token.token
+        expect(response).to have_http_status(422)
       end
 
       context 'yacht belongs to another user' do
         it 'forbids access with 403 status' do
           yacht2 = FactoryGirl.create(:yacht, user_id: 10)
-          put :update, { id: yacht2, yacht: yachtA_params, access_token: token.token }
+          put :update, id: yacht2, yacht: yachtA_params,
+                       access_token: token.token
           expect(response).to have_http_status(403)
         end
       end
