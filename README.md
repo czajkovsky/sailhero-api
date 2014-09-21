@@ -36,10 +36,10 @@ API requires <code>api</code> subdomain, so url should look more/less like <code
 ## Authentication
 
 ### Create your client APP
-Visit <code>http://api.sail-hero.dev/oauth/applications/</code> and create new Application.
+Visit <code>http://api.sail-hero.dev/oauth/applications/</code> and create new application.
 
 ### Get access token
-After [creating user](https://github.com/czajkovsky/sailhero-api/blob/master/README.md#creating-user) you can send request for access token:
+After application and [registering user](https://github.com/czajkovsky/sailhero-api/blob/master/README.md#creating-user) you can send request for access token:
 
 ##### Request
 ```
@@ -69,16 +69,16 @@ Content-Type: application/json
 ## Models
 
 ### User
-| Field                      | Type    | Comments |
-| -------------------------- | ------- | -------- |
-| <code>id</code>            | Integer |          |
-| <code>email</code>         | String  |          |
-| <code>password_hash</code> | String  |          |
-| <code>password_salt</code> | String  |          |
-| <code>created_at</code>    | String  |          |
-| <code>updated_at</code>    | String  |          |
-| <code>name</code>          | String  |          |
-| <code>surname</code>       | String  |          |
+| Field                      | Type    | Comments                                                 | Validations                                                |
+| -------------------------- | ------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| <code>id</code>            | Integer |                                                          |                                                            |
+| <code>email</code>         | String  |                                                          | <code>/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i</code> |
+| <code>password_hash</code> | String  | Based on password which is beetween 4 and 128 characters |                                                            |
+| <code>password_salt</code> | String  |                                                          |                                                            |
+| <code>created_at</code>    | String  |                                                          |                                                            |
+| <code>updated_at</code>    | String  |                                                          |                                                            |
+| <code>name</code>          | String  |                                                          | Beetween 4 and 128 characters                              |
+| <code>surname</code>       | String  |                                                          | Beetween 4 and 128 characters                              |
 
 #### Creating user
 
@@ -143,14 +143,14 @@ Content-Type: application/json
 
 Each user has one yacht which is used for port cost calculations.
 
-| Field                | Type    | Comments              |
-| -------------------- | ------- | --------------------- |
-| <code>id</code>      | Integer |                       |
-| <code>name</code>    | String  |                       |
-| <code>length</code>  | Integer | In centimeters        |
-| <code>width</code>   | Integer | In centimeters        |
-| <code>crew</code>    | Integer | Crew members on board |
-| <code>user_id</code> | Integer |                       |
+| Field                | Type    | Comments              | Validations                   |
+| -------------------- | ------- | --------------------- | ----------------------------- |
+| <code>id</code>      | Integer |                       |                               |
+| <code>name</code>    | String  |                       | Beetween 4 and 128 characters |
+| <code>length</code>  | Integer | In centimeters        | Integer between 300 and 4000  |
+| <code>width</code>   | Integer | In centimeters        | Integer between 100 and 1500  |
+| <code>crew</code>    | Integer | Crew members on board | Integer between 1 and 30      |
+| <code>user_id</code> | Integer |                       |                               |
 
 #### Creating yacht
 
