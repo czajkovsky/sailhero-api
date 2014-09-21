@@ -77,8 +77,8 @@ Content-Type: application/json
 | <code>password_salt</code> | String  |                                                          |                                                            |
 | <code>created_at</code>    | String  |                                                          |                                                            |
 | <code>updated_at</code>    | String  |                                                          |                                                            |
-| <code>name</code>          | String  |                                                          | Beetween 4 and 128 characters                              |
-| <code>surname</code>       | String  |                                                          | Beetween 4 and 128 characters                              |
+| <code>name</code>          | String  |                                                          | Beetween 2 and 128 characters                              |
+| <code>surname</code>       | String  |                                                          | Beetween 2 and 128 characters                              |
 
 #### Creating user
 
