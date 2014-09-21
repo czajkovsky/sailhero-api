@@ -49,6 +49,14 @@ describe V1::YachtsController, type: :controller do
         expect(response).to have_http_status(200)
         expect(response.body).to include(yachtB_params[:name])
       end
+
+      context 'yacht belongs to another user' do
+        it 'forbids access with 403 status' do
+          yacht2 = FactoryGirl.create(:yacht, user_id: 10)
+          put :update, { id: yacht2, yacht: yachtA_params, access_token: token.token }
+          expect(response).to have_http_status(403)
+        end
+      end
     end
   end
 end

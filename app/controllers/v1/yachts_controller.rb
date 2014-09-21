@@ -1,5 +1,6 @@
 module V1
   class YachtsController < VersionController
+    before_action :authenticate_yacht_owner, only: [:update, :show]
     doorkeeper_for :all
     expose(:yacht, attributes: :permitted_params)
 
@@ -13,7 +14,6 @@ module V1
     end
 
     def update
-      render nothing: true, status: 403 unless current_user == yacht.user
       if yacht.save
         render status: 200, json: yacht
       else
@@ -23,6 +23,12 @@ module V1
 
     def permitted_params
       params.require(:yacht).permit(:length, :width, :crew, :name)
+    end
+
+    def authenticate_yacht_owner
+      if current_user != yacht.user
+        render nothing: true, status: 403 unless current_user == yacht.user
+      end
     end
   end
 end
