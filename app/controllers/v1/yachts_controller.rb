@@ -4,8 +4,8 @@ module V1
     expose(:yacht, attributes: :permitted_params)
 
     def create
-      if yacht.save
-        current_user.yacht = yacht if current_user.yacht.nil?
+      if yacht.save && current_user.yacht.nil?
+        current_user.yacht = yacht
         render status: 201, json: yacht
       else
         render status: 422, json: { errors: yacht.errors }
