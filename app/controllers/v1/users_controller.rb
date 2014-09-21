@@ -1,7 +1,7 @@
 module V1
   class UsersController < VersionController
     before_action :authorize!, except: [:create]
-    before_action :check_params
+    before_action :check_params, only: [:create]
     expose(:users)
     expose(:user, attributes: :permitted_params)
 

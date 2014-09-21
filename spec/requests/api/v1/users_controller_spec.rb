@@ -15,15 +15,15 @@ describe V1::UsersController, type: :controller do
 
   context 'user is authenticated' do
 
-    let(:token) { stub accessible?: true }
-
-    before do
-      controller.stub(:doorkeeper_token) { token }
-    end
+    let(:app) { create_client_app }
+    let(:user) { create(:user) }
+    let(:token) { access_token(app, user) }
 
     describe 'GET#me' do
       it 'renders OK response' do
+        get :me, access_token: token.token
         expect(response).to have_http_status(200)
+        expect(response.body).to include(user.email)
       end
     end
   end
