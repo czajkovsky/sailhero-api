@@ -176,6 +176,7 @@ Content-Type: application/json
 
 ##### Response
 ```
+# STATUS: 201 Created
 {
   "yacht":{
     id:8,
@@ -187,3 +188,33 @@ Content-Type: application/json
 }
 ```
 
+#### Updating yacht
+
+##### Request
+```
+PUT /api/v1/en/yachts/YACHT_ID?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+
+{
+  "yacht":{
+    "name":"New yacht name"
+  }
+}
+```
+
+##### Response
+
+If you're access token owner is not an owner of the yacht response status will be <code>403</code>. If data is not valid you will get response with <code>422<code> status and errors in response body. Otherwise response will look more less like:
+```
+# STATUS: 200 OK
+{
+  "yacht":{
+    id:8,
+    name:"New yacht name",
+    length: 780,
+    width: 230,
+    crew:10
+  }
+}
+```
