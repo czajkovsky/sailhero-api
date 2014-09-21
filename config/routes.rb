@@ -12,6 +12,7 @@ Rails.application.routes.draw do
           resources :replies, only: [:create, :index]
         end
         resources :yachts, except: [:index]
+        get 'maps/:location', to: 'maps#show'
         namespace :map do
           resources :ports, only: [:index, :show] do
             get 'calculate', on: :member
