@@ -39,5 +39,16 @@ describe V1::YachtsController, type: :controller do
         end
       end
     end
+
+    describe 'PUT#update' do
+      let (:yacht) { create(:yacht, user_id: user.id) }
+
+      it 'updates yacht' do
+        user.yacht = yacht
+        put :update, { id: yacht, yacht: yachtB_params, access_token: token.token }
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(yachtB_params[:name])
+      end
+    end
   end
 end
