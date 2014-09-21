@@ -26,9 +26,7 @@ module V1
     end
 
     def authenticate_yacht_owner
-      if current_user != yacht.user
-        render nothing: true, status: 403 unless current_user == yacht.user
-      end
+      render nothing: true, status: 403 unless current_user == yacht.user
     end
   end
 end
