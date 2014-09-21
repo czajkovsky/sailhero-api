@@ -45,5 +45,10 @@ describe V1::UsersController, type: :controller do
       expect(response).to have_http_status(422)
       expect(User.count).to eq(0)
     end
+
+    it 'responds with wrong data for empty params' do
+      post :create
+      expect(response).to have_http_status(422)
+    end
   end
 end
