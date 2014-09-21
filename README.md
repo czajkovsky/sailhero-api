@@ -125,16 +125,20 @@ Content-Type: application/json
 ```
 # STATUS: 200 OK
 {
+  "yachts":[
+    - {
+      id:8,
+      name:"Your Yacht Name",
+      length: 780,
+      width: 230,
+      crew:7
+    }
+  ]
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
     "email":"email@example.com",
-    "yacht":{
-      id: 997,
-      name:"Your Yacht Name",
-      length: 780,
-      width: 230
-    }
+    "yacht_id":8
   }
 }
 ```
@@ -172,6 +176,14 @@ Content-Type: application/json
 
 ##### Response
 ```
-TO-DO
+{
+  "yacht":{
+    id:8,
+    name:"Your Yacht Name",
+    length: 780,
+    width: 230,
+    crew:10
+  }
+}
 ```
 
