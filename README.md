@@ -205,7 +205,7 @@ Content-Type: application/json
 
 ##### Response
 
-If you're access token owner is not an owner of the yacht response status will be <code>403</code>. If data is not valid you will get response with <code>422<code> status and errors in response body. Otherwise response will look more less like:
+If you're access token owner is not an owner of the yacht response status will be <code>403</code>. If data is not valid you will get response with <code>422</code> status and errors in response body. Otherwise response will look more less like:
 ```
 # STATUS: 200 OK
 {
