@@ -33,6 +33,39 @@ API requires <code>api</code> subdomain, so url should look more/less like <code
 ##### 4. Run server
 <code>rails s</code>
 
+## Authentication
+
+### Create your client APP
+Visit <code>http://api.sail-hero.dev/oauth/applications/</code> and create new Application.
+
+### Get access token
+After [creating user](https://github.com/czajkovsky/sailhero-api/blob/master/README.md#creating-user) you can send request for access token:
+
+##### Request
+```
+POST /oauth/token HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+
+{
+  "client_id":YOUR-CLIENT-ID,
+  "client_secret":YOUR-CLIENT-SECRET,
+  "username":"email@example.com",
+  "grant_type":"password",
+  "password":"password_example"
+}
+```
+##### Response
+```
+# STATUS 200 OK
+{
+  access_token: YOUR-ACCESS-TOKEN
+  token_type: "bearer"
+  expires_in: 604800
+  refresh_token: YOUR-REFRESH-TOKEN
+}
+```
+
 ## Models
 
 ### User
