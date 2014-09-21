@@ -16,7 +16,7 @@ describe PortCostCalculator do
 
     context 'for too big yacht' do
       subject { PortCostCalculator.new(yacht: big_yacht, port: port) }
-      let(:big_yacht) { create(:yacht, length: 10_000) }
+      let(:big_yacht) { create(:yacht, length: 3_000) }
 
       it 'is unavailable' do
         expect(subject.available).to be_falsey

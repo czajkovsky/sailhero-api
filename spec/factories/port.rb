@@ -3,7 +3,7 @@ FactoryGirl.define do
     min_length 0
     max_length 800
     price 40
-    max_width 10_000
+    max_width 2_000
   end
 
   factory :port do
