@@ -10,7 +10,7 @@ API for apps dedicated to sailors.
 ## Host
 
 ```
-sail-hero.dev/api/api/v1/en
+sail-hero.dev/api/v1/en
 ```
 
 + **Scoping** - API by default is accessible from api scope - <code>BASE_URL.com/api/REST_OF_THE_URL</code>
