@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :password, confirmation: true, presence: true, on: :create,
                        length: { in: 4..128 }
   validates :password_confirmation, :name, :surname, presence: true
+  validates :surname, :name, length: { in: 4..128 }
 
   has_many :messages
   has_many :replies
