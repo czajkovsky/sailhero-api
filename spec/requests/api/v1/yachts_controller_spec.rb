@@ -17,9 +17,9 @@ describe V1::YachtsController, type: :controller do
 
   context 'user is authenticated' do
 
-    let!(:app) { Doorkeeper::Application.create!(name: 'MyApp', redirect_uri: 'http://app.com') }
+    let!(:app) { create_client_app }
     let!(:user) { create(:user) }
-    let!(:token) { Doorkeeper::AccessToken.create! application_id: app.id, resource_owner_id: user.id }
+    let!(:token) { access_token(app, user) }
 
     describe 'POST#create' do
       it 'renders CREATED response' do
