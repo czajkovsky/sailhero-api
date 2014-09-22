@@ -1,3 +1,3 @@
 class PortSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :latitude, :longitude
 end
