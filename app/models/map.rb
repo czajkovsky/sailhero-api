@@ -5,8 +5,8 @@ class Map
   attr_accessor :latitude, :longitude, :id, :ports
 
   def initialize(latitude, longitude, id)
-    @latitude = latitude
-    @longitude = longitude
+    @latitude = latitude.gsub(',', '.')
+    @longitude = longitude.gsub(',', '.')
     @id = id
   end
 
