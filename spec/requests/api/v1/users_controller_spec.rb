@@ -25,6 +25,15 @@ describe V1::UsersController, type: :controller do
         expect(response).to have_http_status(200)
         expect(response.body).to include(user.email)
       end
+
+      context 'token is revoked' do
+        it 'denies access with 401 status code' do
+          token.revoke
+          get :me, access_token: token.token
+          expect(response).not_to be_success
+          expect(response).to have_http_status(401)
+        end
+      end
     end
   end
 
