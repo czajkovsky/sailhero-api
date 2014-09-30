@@ -21,7 +21,12 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user = doorkeeper_token.present? ? find_current_user : nil
+    @current_user = valid_token? ? find_current_user : nil
+  end
+
+  def valid_token?
+    token = doorkeeper_token
+    token.present? && token.valid? && !token.expired? && !token.revoked?
   end
 
   def find_current_user
