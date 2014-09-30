@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         resources :places
         resources :users do
           get 'me', on: :collection
+          delete 'me', on: :collection, to: 'users#deactivate_profile'
         end
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]

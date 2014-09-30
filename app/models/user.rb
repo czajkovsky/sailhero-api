@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
                     format: { with: EMAIL_FORMAT }
   validates :password, confirmation: true, presence: true, on: :create,
                        length: { in: 4..128 }
-  validates :password_confirmation, :name, :surname, presence: true
+  validates :password_confirmation, presence: true, on: :create
+  validates :name, :surname, presence: true
   validates :surname, :name, length: { in: 2..128 }
 
   has_many :messages
