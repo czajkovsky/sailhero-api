@@ -36,7 +36,7 @@ API requires <code>api</code> subdomain, so url should look more/less like <code
 ## Authentication
 
 ### Create your client APP
-Visit <code>http://api.sail-hero.dev/oauth/applications/</code> and create new application.
+Visit <code>http://sail-hero.dev/oauth/applications/</code> and create new application.
 
 ### Get access token
 After application and [registering user](https://github.com/czajkovsky/sailhero-api/blob/master/README.md#creating-user) you can send request for access token:
