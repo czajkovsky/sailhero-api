@@ -99,6 +99,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 | <code>updated_at</code>    | String  |                                                          |                                                            |
 | <code>name</code>          | String  |                                                          | Beetween 2 and 128 characters                              |
 | <code>surname</code>       | String  |                                                          | Beetween 2 and 128 characters                              |
+| <code>active</code>        | Boolean | Default: <code>true</code>                               |                                                            |
 
 #### Creating user
 
@@ -162,6 +163,22 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
     "yacht_id":8
   }
 }
+```
+
+#### Deactivating account
+
+##### Request
+```
+DELETE /api/v1/en/users HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{}
 ```
 
 ### Yacht
