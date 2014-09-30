@@ -116,9 +116,10 @@ Content-Type: application/json
 
 ##### Request
 ```
-GET /api/v1/en/users/me?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+GET /api/v1/en/users HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 
 ##### Response
@@ -160,9 +161,10 @@ Each user has one yacht which is used for port cost calculations.
 
 ##### Request
 ```
-POST /api/v1/en/yachts?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+POST /api/v1/en/yachts HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
 
 {
   "yacht":{
@@ -192,9 +194,10 @@ Content-Type: application/json
 
 ##### Request
 ```
-PUT /api/v1/en/yachts/YACHT_ID?access_token=YOUR_ACCESS_TOKEN HTTP/1.1
+PUT /api/v1/en/yachts/YACHT_ID HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
 
 {
   "yacht":{
