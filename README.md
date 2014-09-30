@@ -65,6 +65,26 @@ Content-Type: application/json
   refresh_token: YOUR-REFRESH-TOKEN
 }
 ```
+### Revoke access token
+
+##### Request
+```
+POST /ouath/revoke HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "token":YOUR_ACCESS_TOKEN
+}
+```
+
+##### Response
+
+```
+# STATUS 200 OK
+{}
+```
 
 ## Models
 
