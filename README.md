@@ -24,13 +24,10 @@ sail-hero.dev/api/v1/en
 2. Add <code>SECRET_KEY_BASE</code> - <code>rake secret</code>.
 
 ##### 2. DB setup
-1. Install Postgresal and create role
+1. Install Postgresql and create proper role
 2. Run <code>rake db:create</code> & <code>rake db:migrate</code>
 
-##### 3. Setup local domain
-API requires <code>api</code> subdomain, so url should look more/less like <code>http://api.sail-hero.dev</code>
-
-##### 4. Run server
+##### 3. Run server
 <code>rails s</code>
 
 ## Authentication
@@ -125,9 +122,9 @@ Response has always empty body and can have one of three statuses:
 | 401    | Access token is invalid or revoked.           |
 | 427    | Longitude or latitude is invalid.             |
 
-## Models
+## API endpoints
 
-### User
+### Users
 | Field                      | Type    | Comments                                                 | Validations                                                |
 | -------------------------- | ------- | -------------------------------------------------------- | ---------------------------------------------------------- |
 | <code>id</code>            | Integer |                                                          |                                                            |
@@ -225,7 +222,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 {}
 ```
 
-### Yacht
+### Yachts
 
 Each user has one yacht which is used for port cost calculations.
 
