@@ -102,6 +102,28 @@ Latitude: YOUR_LATITUDE
 ```
 
 You can always check your last saved position at [your profile](https://github.com/czajkovsky/sailhero-api#authenticated-user-profile) endpoint.
+
+### Heartbeat
+The more accurate and up-to-date position of client is known on server the more accurate alerts and messages are available for end user. To keep current position updated it is recommended to send empty request with coordinates to <code>/heartbeat</code> endpoint.
+
+##### Request
+```
+POST /api/v1/en/heartbeat HTTP/1.1
+Host: sail-hero.dev
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryp7MA4YWxkTrZu0gW
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+Response has always empty body and can have one of three statuses:
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 200    | Everything went fine and position is updated. |
+| 401    | Access token is invalid or revoked.           |
+| 427    | Longitude or latitude is invalid.             |
+
 ## Models
 
 ### User
