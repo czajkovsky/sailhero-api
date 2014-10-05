@@ -22,8 +22,9 @@ class ApplicationController < ActionController::Base
   def update_current_position
     latitude = request.env['HTTP_LATITUDE']
     longitude = request.env['HTTP_LONGITUDE']
-    return if latitude.nil? || longitude.nil?
-    current_user.update_attributes(latitude: latitude, longitude: longitude)
+    return if latitude.nil? || longitude.nil? || current_user.nil?
+    current_user.update_attributes(latitude: latitude, longitude: longitude,
+                                   position_updated_at: Time.now)
   end
 
   private
