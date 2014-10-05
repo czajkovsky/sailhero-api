@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token
   respond_to :json
   before_action :set_locale
+  before_action :update_current_position
   helper_method :current_user
 
   decent_configuration do
@@ -16,6 +17,13 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def update_current_position
+    latitude = request.env['HTTP_LATITUDE']
+    longitude = request.env['HTTP_LONGITUDE']
+    return if latitude.nil? || longitude.nil?
+    current_user.update_attributes(latitude: latitude, longitude: longitude)
   end
 
   private
