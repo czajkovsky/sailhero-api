@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]
         end
+        resources :trainings do
+          resources :checkpoints, only: [:create]
+        end
         resources :yachts, except: [:index]
         get 'maps/:location', to: 'maps#show'
         namespace :map do
