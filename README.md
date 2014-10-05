@@ -118,6 +118,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 ##### Response
 Response has always empty body and can have one of three statuses:
+
 | Status | Description                                   |
 | ------ | --------------------------------------------- |
 | 200    | Everything went fine and position is updated. |
