@@ -86,6 +86,22 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 {}
 ```
 
+## Geolocation
+This app is designed to work with geolocation services. It's highly recommended to send current position in header of every HTTP request.
+
+##### Example Header
+```
+GET /api/v1/en/users/me HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+...
+
+# request body
+```
+
+You can always check your last saved position at [your profile](https://github.com/czajkovsky/sailhero-api#authenticated-user-profile) endpoint.
 ## Models
 
 ### User
@@ -149,17 +165,22 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 {
   "yachts":[
     - {
-      id:8,
-      name:"Your Yacht Name",
-      length: 780,
-      width: 230,
-      crew:7
+      "id":8,
+      "name":"Your Yacht Name",
+      "length": 780,
+      "width": 230,
+      "crew":7
     }
   ]
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
     "email":"email@example.com",
+    "last_position":{
+      "latitude:16.9765102,
+      "longitude":16.9765102,
+      "updated_at":"2014-10-05T15:25:21.919Z"
+    }
     "yacht_id":8
   }
 }
