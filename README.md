@@ -100,27 +100,6 @@ Latitude: YOUR_LATITUDE
 
 You can always check your last saved position at [your profile](https://github.com/czajkovsky/sailhero-api#authenticated-user-profile) endpoint.
 
-### Heartbeat
-The more accurate and up-to-date position of client is known on server the more accurate alerts and messages are available for end user. To keep current position updated it is recommended to send empty request with coordinates to <code>/heartbeat</code> endpoint.
-
-##### Request
-```
-POST /api/v1/en/heartbeat HTTP/1.1
-Host: sail-hero.dev
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryp7MA4YWxkTrZu0gW
-Longitude: YOUR_LONGITUDE
-Latitude: YOUR_LATITUDE
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-##### Response
-Response has always empty body and can have one of three statuses:
-
-| Status | Description                                   |
-| ------ | --------------------------------------------- |
-| 200    | Everything went fine and position is updated. |
-| 401    | Access token is invalid or revoked.           |
-| 427    | Longitude or latitude is invalid.             |
 
 ## API endpoints
 
@@ -160,11 +139,19 @@ Content-Type: application/json
 ```
 # STATUS: 201 Created
 {
+  "yachts":[]
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
+    "updated_at":"2014-09-13T09:57:21.402Z",
     "email":"email@example.com",
-    "yacht":null
+    "last_position":{
+      "latitude":null,
+      "longitude":null,
+      "updated_at":null
+    },
+    "region_id":null,
+    "yacht_id":null
   }
 }
 ```
@@ -201,6 +188,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
       "longitude":16.9765102,
       "updated_at":"2014-10-05T15:25:21.919Z"
     }
+    "region_id":2,
     "yacht_id":8
   }
 }
@@ -221,6 +209,77 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 # STATUS: 200 OK
 {}
 ```
+
+### Regions
+Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
+
+#### Getting available regions
+
+##### Request
+```
+GET /api/v1/en/regions HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+```
+# Status: 200 OK
+{
+  "regions":[
+    {
+      "id":1,
+      "full_name":"Wielkie Jeziora Mazurskie",
+      "code_name":"MAZURY"
+    },
+    {
+      "id":2,
+      "full_name":"Jezioro Powidz",
+      "code_name":"POWIDZ"
+    }
+  ]
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 200    | Everything went fine. Described above         |
+| 401    | Access token is invalid or revoked.           |
+
+#### Selecting region
+
+##### Request
+```
+POST /api/v1/en/regions/1/select HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+```
+# Status: 200 OK
+{
+  "regions":{
+    "id":1,
+    "full_name":"Wielkie Jeziora Mazurskie",
+    "code_name":"MAZURY"
+  }
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 200    | Everything went fine. User region is updated. |
+| 401    | Access token is invalid or revoked.           |
+| 404    | No region with given id was found             |
+
+
 
 ### Yachts
 
