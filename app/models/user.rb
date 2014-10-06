@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :replies
   has_one :yacht
   has_many :trainings
+  belongs_to :region
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first
