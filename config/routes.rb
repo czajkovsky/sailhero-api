@@ -12,7 +12,6 @@ Rails.application.routes.draw do
         resources :regions, only: [:index] do
           post 'select', on: :member, to: 'regions#select'
         end
-        post 'heartbeat', to: 'heartbeat#index'
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]
         end
