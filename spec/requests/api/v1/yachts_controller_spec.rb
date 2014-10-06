@@ -19,8 +19,7 @@ describe V1::YachtsController, type: :controller do
   context 'user is authenticated' do
 
     let(:app) { create_client_app }
-    let(:region) { create(:region) }
-    let(:user) { create(:user, region_id: region.id) }
+    let(:user) { create(:user) }
     let(:token) { access_token(app, user) }
 
     describe 'POST#create' do

@@ -1,7 +1,7 @@
 module V1
-  class YachtsController < RegionRestrictedController
-    before_action :authenticate_yacht_owner, only: [:update, :show]
+  class YachtsController < VersionController
     doorkeeper_for :all
+    before_action :authenticate_yacht_owner, only: [:update, :show]
     expose(:yacht, attributes: :permitted_params)
 
     def create
