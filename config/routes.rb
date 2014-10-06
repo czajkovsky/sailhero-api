@@ -9,6 +9,9 @@ Rails.application.routes.draw do
           get 'me', on: :collection
           delete 'me', on: :collection, to: 'users#deactivate_profile'
         end
+        resources :regions, only: [:index] do
+          post 'select', on: :member, to: 'regions#select'
+        end
         post 'heartbeat', to: 'heartbeat#index'
         resources :messages, only: [:index, :create, :show] do
           resources :replies, only: [:create, :index]
