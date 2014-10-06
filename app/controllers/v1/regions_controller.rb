@@ -7,5 +7,10 @@ module V1
     def index
       render json: regions
     end
+
+    def select
+      current_user.update_attributes(region_id: region.id)
+      render json: region
+    end
   end
 end
