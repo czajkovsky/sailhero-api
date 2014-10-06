@@ -1,5 +1,5 @@
 module V1
-  class MapsController < VersionController
+  class MapsController < RegionRestrictedController
     def show
       latitude, longitude = params[:location].split('@')
       map = ::Map.new(latitude, longitude, params[:location])

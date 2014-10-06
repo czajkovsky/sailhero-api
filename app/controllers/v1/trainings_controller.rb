@@ -1,6 +1,5 @@
 module V1
-  class TrainingsController < VersionController
-    doorkeeper_for :all
+  class TrainingsController < RegionRestrictedController
     expose(:trainings)
     expose(:training)
 

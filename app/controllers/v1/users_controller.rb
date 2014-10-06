@@ -1,7 +1,6 @@
 module V1
   class UsersController < VersionController
     before_action :authorize!, except: [:create]
-    before_action :check_params, only: [:create]
     expose(:users)
     expose(:user, attributes: :permitted_params)
 
@@ -31,10 +30,6 @@ module V1
 
     def current_resource_owner
       User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-    end
-
-    def check_params
-      render nothing: true, status: 422 unless params.key?('user')
     end
 
     def permitted_params

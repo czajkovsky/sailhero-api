@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :surname, :created_at, :updated_at, :email,
-             :last_position
+             :last_position, :region_id
   has_one :yacht, embed: :id, include: true
 
   def last_position

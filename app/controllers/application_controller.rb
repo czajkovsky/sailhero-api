@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   serialization_scope :view_context
-  skip_before_filter :verify_authenticity_token
   respond_to :json
+
   before_action :set_locale
   before_action :updated_current_position?
+  skip_before_filter :verify_authenticity_token
+
   helper_method :current_user
 
   decent_configuration do
