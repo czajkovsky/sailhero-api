@@ -35,6 +35,17 @@ describe V1::UsersController, type: :controller do
         end
       end
     end
+
+    describe 'DELETE#me' do
+      it 'renders OK response' do
+        delete :deactivate_profile, access_token: token.token
+        token.reload
+        user.reload
+        expect(user.active).to eq(false)
+        expect(token.revoked?).to eq(true)
+        expect(response).to have_http_status(200)
+      end
+    end
   end
 
   describe 'POST#create' do
