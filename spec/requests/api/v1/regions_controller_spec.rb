@@ -14,6 +14,14 @@ describe V1::RegionsController, type: :controller do
         expect(response).to have_http_status(401)
       end
     end
+
+    describe 'POST#select' do
+      it 'denies access with 401 status code' do
+        post :select, id: region
+        expect(response).not_to be_success
+        expect(response).to have_http_status(401)
+      end
+    end
   end
 
   context 'user is authenticated' do
@@ -24,6 +32,15 @@ describe V1::RegionsController, type: :controller do
     describe 'GET#index' do
       it 'renders OK response' do
         get :index, access_token: token.token
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    describe 'POST#select' do
+      it 'renders OK response' do
+        post :select, id: region, access_token: token.token
+        expect(user.region_id).to eq(region.id)
         expect(response).to be_success
         expect(response).to have_http_status(200)
       end
