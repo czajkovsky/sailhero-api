@@ -4,7 +4,6 @@ describe V1::RegionsController, type: :controller do
 
   let(:region) { create(:region) }
   let(:user) { create(:user, region_id: region.id) }
-  let(:user_without_region) { create(:user) }
 
   context 'for unauthenticated user' do
 
