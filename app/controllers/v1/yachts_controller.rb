@@ -21,6 +21,8 @@ module V1
       end
     end
 
+    private
+
     def permitted_params
       params.require(:yacht).permit(:length, :width, :crew, :name)
     end
