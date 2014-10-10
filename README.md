@@ -263,7 +263,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 # Status: 200 OK
 {
-  "regions":{
+  "region":{
     "id":1,
     "full_name":"Wielkie Jeziora Mazurskie",
     "code_name":"MAZURY"
