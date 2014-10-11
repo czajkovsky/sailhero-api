@@ -139,7 +139,6 @@ Content-Type: application/json
 ```
 # STATUS: 201 Created
 {
-  "yachts":[]
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
@@ -150,8 +149,8 @@ Content-Type: application/json
       "longitude":null,
       "updated_at":null
     },
-    "region_id":null,
-    "yacht_id":null
+    "region":null,
+    "yacht":null
   }
 }
 ```
@@ -170,15 +169,6 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 # STATUS: 200 OK
 {
-  "yachts":[
-    - {
-      "id":8,
-      "name":"Your Yacht Name",
-      "length": 780,
-      "width": 230,
-      "crew":7
-    }
-  ]
   "user":{
     "id":999,
     "created_at":"2014-09-13T09:57:21.402Z",
@@ -188,8 +178,18 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
       "longitude":16.9765102,
       "updated_at":"2014-10-05T15:25:21.919Z"
     }
-    "region_id":2,
-    "yacht_id":8
+    "region":{
+      "id":1,
+      "full_name":"Wielkie Jeziora Mazurskie",
+      "code_name":"MAZURY"
+    }
+    "yacht":{
+      "id":8,
+      "name":"Your Yacht Name",
+      "length": 780,
+      "width": 230,
+      "crew":7
+    }
   }
 }
 ```
