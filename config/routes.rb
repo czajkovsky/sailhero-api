@@ -19,12 +19,15 @@ Rails.application.routes.draw do
         end
 
         resources :trainings do
-          resources :checkpoints, only: [:create]
+          resources :checkpoints, only: :create
         end
 
-        resources :alerts, except: [:update, :edit, :destroy]
+        resources :alerts, except: [:update, :edit, :destroy] do
+          post 'confirmations', on: :member, to: 'alert_confirmations#create'
+          delete 'confirmations', on: :member, to: 'alert_confirmations#destroy'
+        end
 
-        resources :yachts, except: [:index]
+        resources :yachts, except: :index
         get 'maps/:location', to: 'maps#show'
 
         namespace :map do
