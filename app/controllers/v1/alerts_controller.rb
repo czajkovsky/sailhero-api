@@ -7,9 +7,13 @@ module V1
       render json: alerts
     end
 
+    def show
+      render json: alert
+    end
+
     def create
       if alert.save
-        alert.user = current_user
+        alert.update_attributes(user: current_user)
         render status: 201, json: alert
       else
         render status: 422, json: alert.errors
