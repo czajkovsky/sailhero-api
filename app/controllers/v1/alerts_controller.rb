@@ -9,6 +9,7 @@ module V1
 
     def create
       if alert.save
+        alert.user = current_user
         render status: 201, json: alert
       else
         render status: 422, json: alert.errors
