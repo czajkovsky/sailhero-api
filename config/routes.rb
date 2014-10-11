@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         end
 
         resources :yachts, except: :index
+
         get 'maps/:location', to: 'maps#show'
 
         namespace :map do

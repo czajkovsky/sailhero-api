@@ -1,7 +1,8 @@
 module V1
   class AlertConfirmationsController < RegionRestrictedController
     expose(:alert) { Alert.find_by_id(params[:id]) }
-    before_filter :check_if_alert_exists?
+    before_filter :alert_exists?
+    before_filter :reported_alert?
 
     def create
       change_alert_status(true)
@@ -30,8 +31,12 @@ module V1
       up ? 2 : -2
     end
 
-    def check_if_alert_exists?
+    def alert_exists?
       render nothing: true, status: 404 if alert.nil?
+    end
+
+    def reported_alert?
+      render nothing: true, status: 403 if alert.user == current_user
     end
 
     def user_confirmation
