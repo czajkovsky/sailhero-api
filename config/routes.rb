@@ -10,7 +10,7 @@ Rails.application.routes.draw do
           delete 'me', on: :collection, to: 'users#deactivate_profile'
         end
 
-        resources :regions, only: [:index] do
+        resources :regions, only: :index do
           post 'select', on: :member, to: 'regions#select'
         end
 
@@ -21,6 +21,8 @@ Rails.application.routes.draw do
         resources :trainings do
           resources :checkpoints, only: [:create]
         end
+
+        resources :alerts, except: [:update, :edit, :destroy]
 
         resources :yachts, except: [:index]
         get 'maps/:location', to: 'maps#show'

@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :replies
   has_one :yacht
   has_many :trainings
+  has_many :alerts
   belongs_to :region
 
   def self.authenticate!(email, password)
