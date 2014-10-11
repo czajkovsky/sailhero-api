@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe V1::AlertsController, type: :controller do
+describe V1::AlertConfirmationsController, type: :controller do
 
   let(:region) { create(:region) }
   let(:user) { create(:user, region_id: region.id) }
@@ -11,7 +11,13 @@ describe V1::AlertsController, type: :controller do
     describe 'POST#create' do
       it 'denies access with 401 status code' do
         post :create, id: alert
-        expect(response).not_to be_success
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    describe 'DELETE#destroy' do
+      it 'denies access with 401 status code' do
+        delete :destroy, id: alert
         expect(response).to have_http_status(401)
       end
     end
@@ -24,11 +30,12 @@ describe V1::AlertsController, type: :controller do
     let(:alert_params) { FactoryGirl.attributes_for(:alert) }
 
     describe 'POST#create' do
-      it 'renders OK response' do
-        post :create, alert: alert_params, access_token: token.token
-        expect(Alert.first.user_id).to eq(user.id)
-        expect(response).to be_success
-        expect(response).to have_http_status(201)
+
+      it 'blocks self confirmation with 403 status code' do
+        post :create, id: alert, access_token: token.token
+        alert.reload
+        expect(alert.credibility).to eq(0)
+        expect(response).to have_http_status(403)
       end
     end
   end
