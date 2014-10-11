@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   scope :api do
     namespace :v1 do
       scope '(:locale)', locale: /en|pl/ do
-        resources :places
         resources :users do
           get 'me', on: :collection
           delete 'me', on: :collection, to: 'users#deactivate_profile'
