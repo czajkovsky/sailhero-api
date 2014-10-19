@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141019142442) do
+ActiveRecord::Schema.define(version: 20141019142829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,19 +25,19 @@ ActiveRecord::Schema.define(version: 20141019142442) do
   end
 
   create_table "alerts", force: true do |t|
-    t.string   "longitude"
-    t.string   "latitude"
     t.string   "alert_type"
     t.text     "additional_info"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "credibility",     default: 0
+    t.integer  "credibility",                              default: 0
+    t.decimal  "latitude",        precision: 10, scale: 6
+    t.decimal  "longitude",       precision: 10, scale: 6
   end
 
   create_table "checkpoints", force: true do |t|
-    t.float    "longitude"
-    t.float    "latitude"
+    t.decimal  "longitude",   precision: 10, scale: 6
+    t.decimal  "latitude",    precision: 10, scale: 6
     t.integer  "training_id"
     t.string   "type"
     t.datetime "created_at"
@@ -101,8 +101,8 @@ ActiveRecord::Schema.define(version: 20141019142442) do
 
   create_table "ports", force: true do |t|
     t.string   "name"
-    t.float    "longitude",                      default: 0.0
-    t.float    "latitude",                       default: 0.0
+    t.decimal  "longitude",                      precision: 10, scale: 6, default: 0.0
+    t.decimal  "latitude",                       precision: 10, scale: 6, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "website"
@@ -111,28 +111,28 @@ ActiveRecord::Schema.define(version: 20141019142442) do
     t.string   "telephone"
     t.string   "additional_info"
     t.integer  "spots"
-    t.float    "depth",                          default: -1.0
-    t.float    "price_per_person",               default: 0.0
-    t.float    "price_power_connection",         default: 0.0
-    t.float    "price_wc",                       default: 0.0
-    t.float    "price_shower",                   default: 0.0
-    t.float    "price_washbasin",                default: 0.0
-    t.float    "price_dishes",                   default: 0.0
-    t.float    "price_wifi",                     default: 0.0
-    t.float    "price_washing_machine",          default: 0.0
-    t.float    "price_emptying_chemical_toilet", default: 0.0
-    t.boolean  "has_power_connection",           default: true
-    t.boolean  "has_wc",                         default: true
-    t.boolean  "has_shower",                     default: true
-    t.boolean  "has_washbasin",                  default: true
-    t.boolean  "has_dishes",                     default: true
-    t.boolean  "has_wifi",                       default: true
-    t.boolean  "has_parking",                    default: true
-    t.boolean  "has_slip",                       default: false
-    t.boolean  "has_washing_machine",            default: true
-    t.boolean  "has_fuel_station",               default: false
-    t.boolean  "has_emptying_chemical_toilet",   default: true
-    t.float    "price_parking",                  default: 0.0
+    t.integer  "depth",                                                   default: 100
+    t.float    "price_per_person",                                        default: 0.0
+    t.float    "price_power_connection",                                  default: 0.0
+    t.float    "price_wc",                                                default: 0.0
+    t.float    "price_shower",                                            default: 0.0
+    t.float    "price_washbasin",                                         default: 0.0
+    t.float    "price_dishes",                                            default: 0.0
+    t.float    "price_wifi",                                              default: 0.0
+    t.float    "price_washing_machine",                                   default: 0.0
+    t.float    "price_emptying_chemical_toilet",                          default: 0.0
+    t.boolean  "has_power_connection",                                    default: true
+    t.boolean  "has_wc",                                                  default: true
+    t.boolean  "has_shower",                                              default: true
+    t.boolean  "has_washbasin",                                           default: true
+    t.boolean  "has_dishes",                                              default: true
+    t.boolean  "has_wifi",                                                default: true
+    t.boolean  "has_parking",                                             default: true
+    t.boolean  "has_slip",                                                default: false
+    t.boolean  "has_washing_machine",                                     default: true
+    t.boolean  "has_fuel_station",                                        default: false
+    t.boolean  "has_emptying_chemical_toilet",                            default: true
+    t.float    "price_parking",                                           default: 0.0
   end
 
   create_table "regions", force: true do |t|
@@ -160,16 +160,16 @@ ActiveRecord::Schema.define(version: 20141019142442) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",               default: "",   null: false
-    t.string   "password_hash",       default: "",   null: false
-    t.string   "password_salt",       default: "",   null: false
+    t.string   "email",                                        default: "",   null: false
+    t.string   "password_hash",                                default: "",   null: false
+    t.string   "password_salt",                                default: "",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                default: ""
-    t.string   "surname",             default: ""
-    t.boolean  "active",              default: true
-    t.float    "latitude"
-    t.float    "longitude"
+    t.string   "name",                                         default: ""
+    t.string   "surname",                                      default: ""
+    t.boolean  "active",                                       default: true
+    t.decimal  "latitude",            precision: 10, scale: 6
+    t.decimal  "longitude",           precision: 10, scale: 6
     t.datetime "position_updated_at"
     t.integer  "region_id"
   end
@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(version: 20141019142442) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "port_id"
-    t.float    "max_width",  default: 100.0
+    t.integer  "max_width",  default: 100
   end
 
   create_table "yachts", force: true do |t|
