@@ -346,15 +346,128 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ##### Response
 
 If you're access token owner is not an owner of the yacht response status will be <code>403</code>. If data is not valid you will get response with <code>422</code> status and errors in response body. Otherwise response will look more less like:
+
 ```
 # STATUS: 200 OK
 {
   "yacht":{
-    id:8,
-    name:"New yacht name",
-    length: 780,
-    width: 230,
-    crew:10
+    "id":8,
+    "name":"New yacht name",
+    "length":780,
+    "width":230,
+    "crew":10
   }
 }
 ```
+
+### Alerts
+
+#### Creating an alert
+
+##### Request
+
+```
+POST /api/v1/en/alerts HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+
+{
+  "alert":{
+    "latitude":"54.025369",
+    "longitude":"21.765876",
+    "alert_type":"BAD_WEATHER_CONDITIONS",
+    "additional_info":"Zawody Giżycko 2014"
+  }
+}
+```
+
+##### Sucessful response
+
+```
+# STATUS: 201 Created
+{
+  "alert": {
+    "id":15,
+    "latitude":"54.025369",
+    "longitude:"21.765876",
+    "alert_type":"BAD_WEATHER_CONDITIONS",
+    "additional_info":"Zawody Giżycko 2014",
+    "created_at":"2014-10-19T16:06:25.422Z",
+    "user_id":22,
+    "credibility":0
+  }
+}
+```
+
+##### Possible responses
+
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 201    | Everything went fine. New alert is created    |
+| 401    | Access token is invalid or revoked.           |
+| 460    | Region id is invalid                          |
+
+#### Confirming/canceling alert
+
+##### Confirming
+
+```
+POST /api/v1/en/alerts/:ID/confirmations HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Canceling
+
+```
+DELETE /api/v1/en/alerts/15/confirmations HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Response
+
+```
+# STATUS: 200 OK
+{
+  "alert": {
+    "id":15,
+    "latitude":"54.025369",
+    "longitude:"21.765876",
+    "alert_type":"BAD_WEATHER_CONDITIONS",
+    "additional_info":"Zawody Giżycko 2014",
+    "created_at":"2014-10-19T16:06:25.422Z",
+    "user_id":22,
+    "credibility":0
+  }
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                                |
+| ------ | ---------------------------------------------------------- |
+| 200    | Everything went fine.                                      |
+| 401    | Access token is invalid or revoked.                        |
+| 403    | You're alert owner - you can't confirm/deny your own alert |
+| 460    | Region id is invalid                                       |
+
+##### Credibility rules
+
+You can have only one action per alert - confirming it means +1 to alert creadibilty. If you change your mind and decline alert your +1 is changed for -1.
+
+
+
+
+
+
+
