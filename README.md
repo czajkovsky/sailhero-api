@@ -448,6 +448,7 @@ Latitude: YOUR_LATITUDE
 | 200    | Everything went fine.                                      |
 | 401    | Access token is invalid or revoked.                        |
 | 404    | Alert with given ID is not present                         |
+| 422    | Provided data is invalid                                   |
 | 460    | Region ID is invalid                                       |
 
 #### Confirming/canceling alert
@@ -505,3 +506,9 @@ Latitude: YOUR_LATITUDE
 ##### Credibility rules
 
 You can make only one action per alert - confirming it means +1 to alert creadibilty. If you change your mind and decline alert your +1 is changed for -1.
+
+#### Possible alert types
+
++ <code>BAD_WEATHER_CONDITIONS</code>
++ <code>CLOSED_AREA</code>
++ <code>YACHT_FAILURE</code>
