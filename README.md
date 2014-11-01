@@ -9,20 +9,20 @@ API for apps dedicated to sailors.
 + [Host](#host)
 + [Running API locally](#running-api-locally)
 + [Authentication](#authentication)
-  + [Create your client app](#create-your-client-app) 
+  + [Create your client app](#create-your-client-app)
   + [Get access token](#get-access-token)
   + [Revoke access token](#revoke-access-token)
 + [Geolocation](#geolocation)
 + [API endpoints](#api-endpoints)
   + [Users](#users)
-    + [Creating user](#creating-user) 
+    + [Creating user](#creating-user)
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
   + [Regions](#regions)
     + [Getting available regions](#getting-available-regions)
     + [Selecting region](#selecting-region)
   + [Yachts](#yachts)
-    + [Creating yacht](#creating-yacht) 
+    + [Creating yacht](#creating-yacht)
     + [Updating yacht](#updating-yacht)
   + [Alerts](#alerts)
     + [Creating an alert](#creating-an-alert)
@@ -351,6 +351,15 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
   }
 }
 ```
+
+##### Possible status codes
+
+| Status | Description                             |
+| ------ | --------------------------------------- |
+| 201    | Everything went fine. Yacht is created. |
+| 401    | Access token is invalid or revoked.     |
+| 422    | Provided data is invalid                |
+| 461    | Current user has already created yacht. |
 
 #### Updating yacht
 
