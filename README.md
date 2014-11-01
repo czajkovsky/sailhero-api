@@ -29,6 +29,7 @@ API for apps dedicated to sailors.
     + [Geting single alert](#geting-single-alert)
     + [Confirming/canceling alert](#confirmingcanceling-alert)
     + [Possible alert types](#possible-alert-types)
++ [Custom API status codes](#custom-api-status-codes)
 
 
 ## Host
@@ -531,8 +532,14 @@ Latitude: YOUR_LATITUDE
 
 You can make only one action per alert - confirming it means +1 to alert creadibilty. If you change your mind and decline alert your +1 is changed for -1.
 
-#### Possible alert types
+#### Allowed alert types
 
 + <code>BAD_WEATHER_CONDITIONS</code>
 + <code>CLOSED_AREA</code>
 + <code>YACHT_FAILURE</code>
+
+## Custom API status codes
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 460    | Region ID is invalid.                         |
+| 401    | User has already created yacht.               |
