@@ -33,7 +33,7 @@ describe V1::YachtsController, type: :controller do
         it "doesn't create second yacht" do
           post :create, yacht: yachtA_params, access_token: token.token
           post :create, yacht: yachtB_params, access_token: token.token
-          expect(response).to have_http_status(422)
+          expect(response).to have_http_status(461)
           expect(user.yacht.name).to eq(yachtA_params[:name])
           expect(Yacht.count).to eq(1)
         end
