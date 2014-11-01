@@ -6,6 +6,30 @@ SailHero API
 
 API for apps dedicated to sailors.
 
++ [Host](#host)
++ [Running API locally](#running-api-locally)
++ [Authentication](#authentication)
+  + [Create your client app](#create-your-client-app) 
+  + [Get access token](#get-access-token)
+  + [Revoke access token](#revoke-access-token)
++ [Geolocation](#geolocation)
++ [API endpoints](#api-endpoints)
+  + [Users](#users)
+    + [Creating user](#creating-user) 
+    + [Authenticated user profile](#authenticated-user-profile)
+    + [Deactivating account](#deactivating-account)
+  + [Regions](#regions)
+    + [Getting available regions](#getting-available-regions)
+    + [Selecting region](#selecting-region)
+  + [Yachts](#yachts)
+    + [Creating yacht](#creating-yacht) 
+    + [Updating yacht](#updating-yacht)
+  + [Alerts](#alerts)
+    + [Creating an alert](#creating-an-alert)
+    + [Geting single alert](#geting-single-alert)
+    + [Confirming/canceling alert](#confirmingcanceling-alert)
+    + [Possible alert types](#possible-alert-types)
+
 
 ## Host
 
