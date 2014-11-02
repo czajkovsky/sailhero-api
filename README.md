@@ -252,7 +252,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 ##### Response
 ```
-# STATUS: 200 OK
+# STATUS: 201 OK
 {
   gcm: {
     id: 3,
