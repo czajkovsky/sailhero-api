@@ -28,5 +28,5 @@ deploy:
     repo: czajkovsky/sailhero-api
   run:
     - 'rake db:migrate'
-    - 'rake db:seeds'
+    - 'rake db:seed'
     - 'restart'
