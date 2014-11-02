@@ -1,12 +1,7 @@
 module V1
   class UsersController < VersionController
     before_action :authorize!, except: [:create]
-    expose(:users)
     expose(:user, attributes: :permitted_params)
-
-    def index
-      render json: users
-    end
 
     def create
       if user.save

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       scope '(:locale)', locale: /en|pl/ do
 
-        resources :users do
+        resources :users, except: :index do
           get 'me', on: :collection
           delete 'me', on: :collection, to: 'users#deactivate_profile'
           post 'me/devices', on: :collection, to: 'devices#create'
