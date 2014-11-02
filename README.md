@@ -18,6 +18,7 @@ API for apps dedicated to sailors.
     + [Creating user](#creating-user)
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
+    + [Adding GCM key](#adding-gcm-key)
   + [Regions](#regions)
     + [Getting available regions](#getting-available-regions)
     + [Selecting region](#selecting-region)
@@ -234,6 +235,39 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 # STATUS: 200 OK
 {}
 ```
+
+#### Adding GCM key
+
+##### Request
+```
+GET /api/v1/en/users/me/gcm HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "key":"YOUR_GCM_KEY"
+}
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  gcm: {
+    id: 3,
+    key: "YOUR_GCM_KEY",
+    created_at: "2014-11-02T14:25:29.722Z"
+ }
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 201    | Everything went fine. GCM key created         |
+| 401    | Access token is invalid or revoked.           |
 
 ### Regions
 Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
