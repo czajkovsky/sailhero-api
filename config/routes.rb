@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         resources :users do
           get 'me', on: :collection
           delete 'me', on: :collection, to: 'users#deactivate_profile'
+          post 'me/gcm', on: :collection, to: 'gcm#create'
         end
 
         resources :regions, only: :index do
