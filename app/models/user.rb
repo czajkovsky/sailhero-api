@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :trainings
   has_many :alerts
   belongs_to :region
+  has_many :devices
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first
