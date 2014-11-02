@@ -31,7 +31,7 @@ module V1
     def notify_users
       current_user.region.users.each do |user|
         GCMPusher.new(data: { message: 'new alert'}, collapse_key: 'alert',
-                              devices: user.devices.android.map(&:key))
+                              devices: user.devices.android.map(&:key)).call
 
       end
     end
