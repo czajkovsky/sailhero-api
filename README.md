@@ -18,7 +18,7 @@ API for apps dedicated to sailors.
     + [Creating user](#creating-user)
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
-    + [Adding GCM key](#adding-gcm-key)
+    + [Adding devices](#adding-devices)
   + [Regions](#regions)
     + [Getting available regions](#getting-available-regions)
     + [Selecting region](#selecting-region)
@@ -236,17 +236,19 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 {}
 ```
 
-#### Adding GCM key
+#### Adding devices
 
 ##### Request
 ```
-GET /api/v1/en/users/me/gcm HTTP/1.1
+GET /api/v1/en/users/me/devices HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
 Authorization: Bearer YOUR_ACCESS_TOKEN
 
 {
-  "key":"YOUR_GCM_KEY"
+  "device_type":"ANDROID",
+  "name":"YOUR DEVICE NAME"
+  "key":"YOUR_GCM_OR_IOS_KEY"
 }
 ```
 
@@ -254,8 +256,10 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 # STATUS: 201 OK
 {
-  gcm: {
+  device: {
     id: 3,
+    name:"YOUR_DEVICE_NAME",
+    device_type:"ANDROID",
     key: "YOUR_GCM_KEY",
     created_at: "2014-11-02T14:25:29.722Z"
  }
@@ -268,6 +272,11 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 | ------ | --------------------------------------------- |
 | 201    | Everything went fine. GCM key created         |
 | 401    | Access token is invalid or revoked.           |
+| 422    | Provided data is invalid                      |
+
+##### Device types
+
+Currently only <code>ANDROID</code> with GCM as <code>key</code> is supported.
 
 ### Regions
 Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
