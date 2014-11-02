@@ -21,12 +21,19 @@ describe V1::YachtsController, type: :controller do
     let(:app) { create_client_app }
     let(:user) { create(:user) }
     let(:token) { access_token(app, user) }
+    let(:wrong_yacht_params) { FactoryGirl.attributes_for(:yacht, width: -10) }
 
     describe 'POST#create' do
       it 'creates yacht' do
         post :create, yacht: yachtA_params, access_token: token.token
         expect(response).to have_http_status(201)
         expect(user.yacht.name).to eq(yachtA_params[:name])
+      end
+
+      it 'creates yacht with wrong params' do
+        post :create,  yacht: wrong_yacht_params, access_token: token.token
+        expect(response).to have_http_status(422)
+        expect(response).not_to be_success
       end
 
       context 'user has already created yacht' do
