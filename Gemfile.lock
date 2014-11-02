@@ -91,8 +91,14 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
+    gcm (0.0.9)
+      httparty
+      json
     geocoder (1.2.1)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     ice_nine (0.11.0)
     jbuilder (2.1.1)
@@ -113,6 +119,7 @@ GEM
     mini_portile (0.6.0)
     minitest (5.3.5)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
@@ -241,6 +248,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   figaro
+  gcm
   geocoder
   jbuilder (~> 2.0)
   konacha

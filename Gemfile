@@ -15,6 +15,7 @@ gem 'virtus'
 gem 'figaro'
 gem 'seedbank'
 gem 'capistrano', '~> 3.2.0'
+gem 'gcm'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false
