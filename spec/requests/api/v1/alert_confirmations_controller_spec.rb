@@ -72,9 +72,8 @@ describe V1::AlertConfirmationsController, type: :controller do
         post :create, id: alert # 1
         delete :destroy, id: alert # -1
         controller.stub(:doorkeeper_token) { confirmer2_token }
-        post :create, id: alert # 0
-        alert.reload
-        expect(alert.credibility).to eq(0)
+        post :create, id: alert
+        expect(response).to have_http_status(404)
       end
     end
   end

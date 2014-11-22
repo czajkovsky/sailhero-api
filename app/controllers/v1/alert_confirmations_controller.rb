@@ -33,7 +33,7 @@ module V1
     end
 
     def alert_exists?
-      render nothing: true, status: 404 if alert.nil?
+      render nothing: true, status: 404 if alert.nil? || !alert.active?
     end
 
     def reported_alert?
