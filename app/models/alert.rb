@@ -8,4 +8,6 @@ class Alert < ActiveRecord::Base
   validates :latitude, :longitude, format: { with: LAT_LANG_FORMAT }
   validates :latitude, :longitude, :alert_type, presence: true
   validates :alert_type, inclusion: { in: ALERT_TYPES }
+
+  scope :active, -> { where(active: true) }
 end

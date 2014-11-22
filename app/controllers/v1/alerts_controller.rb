@@ -1,6 +1,6 @@
 module V1
   class AlertsController < RegionRestrictedController
-    expose(:alerts)
+    expose(:alerts) { Alert.active }
     expose(:alert, attributes: :permitted_params)
 
     def index
