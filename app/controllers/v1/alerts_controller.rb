@@ -1,6 +1,6 @@
 module V1
   class AlertsController < RegionRestrictedController
-    expose(:alerts) { Alert.active }
+    expose(:alerts) { current_user.region.alerts.active }
     expose(:alert, attributes: :permitted_params)
 
     def index
@@ -13,7 +13,7 @@ module V1
 
     def create
       if alert.save
-        alert.update_attributes(user: current_user)
+        alert.update_attributes(user: current_user, region: current_user.region)
         notify_all_users_in_region('sync_alerts', 'alert')
         render status: 201, json: alert
       else
