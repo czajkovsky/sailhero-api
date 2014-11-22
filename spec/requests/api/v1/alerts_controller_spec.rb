@@ -39,5 +39,15 @@ describe V1::AlertsController, type: :controller do
         expect(response).to have_http_status(422)
       end
     end
+
+    describe 'GET#index' do
+      it 'renders OK response' do
+        post :create, alert: alert_params, access_token: token.token
+        get :index
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['alerts'].count).to eq(1)
+        expect(response).to have_http_status(200)
+      end
+    end
   end
 end
