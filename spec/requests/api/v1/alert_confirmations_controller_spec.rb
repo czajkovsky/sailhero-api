@@ -65,6 +65,8 @@ describe V1::AlertConfirmationsController, type: :controller do
         delete :destroy, id: alert, access_token: confirmer_token.token
         alert.reload
         expect(alert.credibility).to eq(-1)
+        expect(alert.active).to eq(false)
+        expect(Alert.active.count).to eq(0)
       end
 
       it 'down removes previous vote for alert' do
