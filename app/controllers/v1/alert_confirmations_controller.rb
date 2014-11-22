@@ -17,6 +17,7 @@ module V1
     def change_alert_status(up)
       df = user_confirmation ? update_confirmation(up) : create_confirmation(up)
       alert.update_attributes(credibility: alert.credibility += df)
+      alert.update_attributes(active: false) if alert.credibility < 0
       render status: 200, json: alert
     end
 

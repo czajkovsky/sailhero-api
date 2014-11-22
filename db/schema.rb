@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102163208) do
+ActiveRecord::Schema.define(version: 20141122231038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20141102163208) do
     t.integer  "credibility",                              default: 0
     t.decimal  "latitude",        precision: 10, scale: 6
     t.decimal  "longitude",       precision: 10, scale: 6
+    t.boolean  "active",                                   default: true
   end
 
   create_table "checkpoints", force: true do |t|
