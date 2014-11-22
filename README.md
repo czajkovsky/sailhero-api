@@ -474,7 +474,8 @@ Latitude: YOUR_LATITUDE
     "additional_info":"Zawody Giżycko 2014",
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
-    "credibility":0
+    "credibility":0,
+    "active":true
   }
 }
 ```
@@ -513,7 +514,8 @@ Latitude: YOUR_LATITUDE
     "additional_info":"Zawody Giżycko 2014",
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
-    "credibility":0
+    "credibility":0,
+    "active":true
   }
 }
 ```
@@ -565,7 +567,8 @@ Latitude: YOUR_LATITUDE
     "additional_info":"Zawody Giżycko 2014",
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
-    "credibility":0
+    "credibility":-5,
+    "active":false
   }
 }
 ```
