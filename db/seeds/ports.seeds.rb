@@ -1,4 +1,4 @@
-Port.create(
+Port.find_or_create_by(
   name: 'Stranda',
   latitude: 54.043302,
   longitude: 21.738819,
@@ -32,7 +32,7 @@ Port.create(
   has_emptying_chemical_toilet: true
 )
 
-Port.create(
+Port.find_or_create_by(
   name: 'Sztynort',
   latitude: 54.130976,
   longitude: 21.682389,
@@ -66,7 +66,7 @@ Port.create(
   has_emptying_chemical_toilet: true
 )
 
-Port.create(
+Port.find_or_create_by(
   name: 'AZS Wilkasy',
   latitude: 54.011890,
   longitude: 21.735685,
