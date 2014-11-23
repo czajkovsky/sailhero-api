@@ -2,8 +2,6 @@ class Friendship < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
-  STATES = %w( pending accepted blocked ).freeze
-
   scope :pending, -> (user) { where(status: 0, friend_id: user.id) }
   scope :sent, -> (user) { where(status: 0, user_id: user.id) }
 
