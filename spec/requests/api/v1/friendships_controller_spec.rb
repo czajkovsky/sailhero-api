@@ -20,6 +20,7 @@ describe V1::FriendshipsController, type: :controller do
 
     let(:app) { create_client_app }
     let(:token) { access_token(app, user) }
+    let(:friend_token) { access_token(app, friend) }
 
     describe 'POST#create' do
       it 'renders OK response' do
@@ -51,6 +52,16 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).not_to be_success
         expect(response).to have_http_status(403)
       end
+
+      it "doesn't duplicate inv friendships" do
+        post :create, friend_id: friend.id, access_token: token.token,
+                      friendship: { friend_id: friend.id }
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :create, friend_id: user.id, friendship: { friend_id: user.id }
+        expect(response).not_to be_success
+        expect(response).to have_http_status(403)
+      end
+
     end
   end
 end

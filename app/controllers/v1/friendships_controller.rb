@@ -21,9 +21,10 @@ module V1
     private
 
     def check_if_friendship_exists
-      friendship_count = Friendship.where(user_id: current_user.id,
-                                          friend_id: params[:friend_id]).count
-      render status: 403, nothing: true unless friendship_count.zero?
+      request = 'user_id = ? and friend_id = ? or user_id = ? and friend_id = ?'
+      count = Friendship.where(request, current_user.id, params[:friend_id],
+                               params[:friend_id], current_user.id).count
+      render status: 403, nothing: true unless count.zero?
     end
 
     def prevent_self_friending
