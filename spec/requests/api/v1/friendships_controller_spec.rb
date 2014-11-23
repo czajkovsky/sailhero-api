@@ -35,6 +35,13 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).not_to be_success
         expect(response).to have_http_status(462)
       end
+
+      it 'checks if friend exists' do
+        post :create, friend_id: 1000, access_token: token.token,
+                      friendship: { friend_id: 1000 }
+        expect(response).not_to be_success
+        expect(response).to have_http_status(463)
+      end
     end
   end
 end

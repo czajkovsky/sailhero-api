@@ -3,8 +3,8 @@ module V1
     doorkeeper_for :all
 
     before_action :check_if_friendship_exists, only: :create
-    before_action :prevent_self_friending, only: :create
     before_action :check_if_friend_exists
+    before_action :prevent_self_friending, only: :create
 
     expose(:friendship, attributes: :permitted_params)
     expose(:friend) { User.where(id: params[:friend_id]).first }
