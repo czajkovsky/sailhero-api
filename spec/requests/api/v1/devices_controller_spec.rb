@@ -4,6 +4,9 @@ describe V1::DevicesController, type: :controller do
 
   let(:user) { create(:user) }
   let(:device_params) { FactoryGirl.attributes_for(:device) }
+  let(:wrong_device_params) do
+    FactoryGirl.attributes_for(:device, device_type: 'WRONG')
+  end
 
   context 'for unauthenticated user' do
 
@@ -29,6 +32,12 @@ describe V1::DevicesController, type: :controller do
         expect(device.token_id).to eq(token.id)
         expect(response).to be_success
         expect(response).to have_http_status(201)
+      end
+
+      it 'it allows only android device' do
+        post :create, device: wrong_device_params, access_token: token.token
+        expect(response).not_to be_success
+        expect(response).to have_http_status(422)
       end
     end
   end
