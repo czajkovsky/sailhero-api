@@ -6,7 +6,7 @@ module V1
     before_action :check_if_friend_exists, only: :create
     before_action :prevent_self_friending, only: :create
     before_action :check_if_is_pending, only: [:accept, :deny, :block]
-    before_action :check_friendship_owner, only: [:destroy]
+    before_action :check_if_is_owner, only: [:destroy]
 
     expose(:friendship)
     expose(:friend) { User.where(id: params[:friend_id]).first }
@@ -59,7 +59,7 @@ module V1
 
     private
 
-    def check_friendship_owner
+    def check_if_is_owner
       render status: 403, nothing: true unless friendship.owner?(current_user)
     end
 
