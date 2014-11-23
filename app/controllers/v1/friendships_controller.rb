@@ -20,8 +20,13 @@ module V1
 
     def index
       request = 'status = 1 and (user_id = ? or friend_id = ?)'
-      friendships = Friendship.where(request, current_user.id, current_user.id)
-      render json: friendships
+      accepted = Friendship.where(request, current_user.id, current_user.id)
+      render json: accepted
+    end
+
+    def sent
+      sent = Friendship.where(status: 0, user_id: current_user.id)
+      render json: sent
     end
 
     private
