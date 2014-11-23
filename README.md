@@ -411,11 +411,58 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 | Status | Description                                                  |
 | ------ | ------------------------------------------------------------ |
-| 200    | Everything went fine. Described above                        |
+| 201    | Everything went fine. Described above                        |
 | 401    | Access token is invalid or revoked.                          |
 | 403    | Friendship already exists (any state allowed).               |
 | 462    | Forever alone - you're trying to make friends with yourself. |
 | 463    | You're trying to become friends with <code>nil</code>.       |
+
+#### Accepting/blocking/denying friendship request
+
+##### Accepting
+
+```
+POST /api/v1/en/friendships/:id/accept HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Blocking
+
+```
+POST /api/v1/en/friendships/:id/block HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Denying
+
+```
+POST /api/v1/en/friendships/:id/deny HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+
+For **accepting** and **blocking** - standard friendship response (see creating new friendship).
+For **denying**:
+```
+# STATUS 200 OK
+{}
+```
+
+##### Possible status codes
+
+| Status | Description                                                                 |
+| ------ | --------------------------------------------------------------------------- |
+| 200    | Everything went fine. Described above                                       |
+| 401    | Access token is invalid or revoked.                                         |
+| 403    | This friendship is not in pending state or you're not allowed to accept it. |
+| 404    | Friendship with given id doesn't exist.                                     |
 
 #### Friendship status codes
 There can be 3 status codes:
