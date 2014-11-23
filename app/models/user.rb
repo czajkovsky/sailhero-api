@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   has_many :friendships
   has_many :friends, through: :friendships
-  has_many :inv_friendships, class_name: 'Friendships', foreign_key: 'friend_id'
+  has_many :inv_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :inv_friends, through: :inv_friendships, source: :user
 
   def self.authenticate!(email, password)
