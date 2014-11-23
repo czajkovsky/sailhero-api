@@ -23,6 +23,8 @@ Rails.application.routes.draw do
           resources :checkpoints, only: :create
         end
 
+        resources :friendships
+
         resources :alerts, except: [:update, :edit, :destroy] do
           post 'confirmations', on: :member, to: 'alert_confirmations#create'
           delete 'confirmations', on: :member, to: 'alert_confirmations#destroy'

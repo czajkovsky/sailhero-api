@@ -21,6 +21,11 @@ class User < ActiveRecord::Base
   belongs_to :region
   has_many :devices
 
+  has_many :friendships
+  has_many :friends, through: :friendships
+  has_many :inv_friendships, class_name: 'Friendships', foreign_key: 'friend_id'
+  has_many :inv_friends, through: :inv_friendships, source: :user
+
   def self.authenticate!(email, password)
     user = User.where(email: email).first
     return nil if user.nil?
