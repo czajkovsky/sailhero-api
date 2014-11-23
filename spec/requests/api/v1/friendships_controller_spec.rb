@@ -61,7 +61,26 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).not_to be_success
         expect(response).to have_http_status(403)
       end
+    end
 
+    describe 'GET#index' do
+      it "doesn't include sent requests" do
+        post :create, friend_id: friend.id, access_token: token.token,
+                      friendship: { friend_id: friend.id }
+        get :index, access_token: token.token
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+      end
+
+      it "doesn't include pending requests" do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :create, friend_id: user.id, friendship: { friend_id: user.id }
+        get :index, access_token: token.token
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+      end
     end
   end
 end
