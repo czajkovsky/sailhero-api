@@ -34,6 +34,10 @@ module V1
       render json: pending
     end
 
+    def show
+      render json: friendship
+    end
+
     private
 
     def check_if_friendship_exists
