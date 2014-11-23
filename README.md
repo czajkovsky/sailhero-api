@@ -278,6 +278,73 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 Currently only <code>ANDROID</code> with GCM as <code>key</code> is supported.
 
+### Friendships
+This app is meant to be social. It wouldn't be possible without friends. Making friends at Sailhero is very easy!
+
+#### Getting all your friendships
+
+##### Request
+```
+GET /api/v1/en/friendships HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  "friendships":[
+    {
+      "id":3,
+      "status":1,
+      "user":{
+        "id":"YOUR_ID",
+        "email":"YOUR_EMAIL",
+        "name":"YOUR_NAME",
+        "surname":"YOUR_SURNAME"
+      }
+      "friend":{
+        "id":"YOUR_FRIEND_ID",
+        "email":"YOUR_FRIEND_EMAIL",
+        "name":"YOUR_FRIEND_NAME",
+        "surname":"YOUR_FRIEND_SURNAME"
+      }
+      "created_at": "2014-11-23T11:26:13.725Z",
+      "updated_at": "2014-11-23T11:26:13.731Z"
+    },
+    {
+      "id":13,
+      "status":1,
+      "user":{
+        "id":"YOUR_FRIEND_ID",
+        "email":"YOUR_FRIEND_EMAIL",
+        "name":"YOUR_FRIEND_NAME",
+        "surname":"YOUR_FRIEND_SURNAME"
+      }
+      "friend":{
+        "id":"YOUR_ID",
+        "email":"YOUR_EMAIL",
+        "name":"YOUR_NAME",
+        "surname":"YOUR_SURNAME"
+      }
+      "created_at": "2014-11-23T11:26:13.725Z",
+      "updated_at": "2014-11-23T11:26:13.731Z"
+    }
+  ]
+}
+```
+
+**Important:** Please note that <code>friend</code> object is always a person who was invited. 
+
+#### Status codes
+There can be 3 status codes:
++ <code>0</code> - <code>PENDING</code> (default)
++ <code>1</code> - <code>ACCEPTED</code>
++ <code>2</code> - <code>BLOCKED</code>
+
+
 ### Regions
 Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
 
