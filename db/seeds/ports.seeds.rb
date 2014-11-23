@@ -1,4 +1,4 @@
-Port.find_or_create_by(
+Port.create(
   name: 'Stranda',
   latitude: 54.043302,
   longitude: 21.738819,
@@ -30,7 +30,7 @@ Port.find_or_create_by(
   has_washing_machine: true,
   has_fuel_station: false,
   has_emptying_chemical_toilet: true
-)
+) if Port.where(name: 'Stranda').first.nil?
 
 Port.find_or_create_by(
   name: 'Sztynort',
@@ -64,7 +64,7 @@ Port.find_or_create_by(
   has_washing_machine: true,
   has_fuel_station: true,
   has_emptying_chemical_toilet: true
-)
+) if Port.where(name: 'Sztynort').first.nil?
 
 Port.find_or_create_by(
   name: 'AZS Wilkasy',
@@ -98,4 +98,4 @@ Port.find_or_create_by(
   has_washing_machine: true,
   has_fuel_station: true,
   has_emptying_chemical_toilet: true
-)
+) if Port.where(name: 'AZS Wilkasy').first.nil?
