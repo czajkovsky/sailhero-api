@@ -338,12 +338,66 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 **Important:** Please note that <code>friend</code> object is always a person who was invited. 
 
-#### Status codes
+##### Possible status codes
+
+| Status | Description                                   |
+| ------ | --------------------------------------------- |
+| 200    | Everything went fine. Described above         |
+| 401    | Access token is invalid or revoked.           |
+
+#### Creating new friendship
+
+##### Request
+
+```
+POST /api/v1/en/friendships HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "friend_id":YOUR_FUTURE_FRIEND_ID
+}
+```
+
+##### Response
+```
+# STATUS 201 Created
+"friendship":{
+  "id":3,
+  "status":0,
+  "user":{
+    "id":"YOUR_ID",
+    "email":"YOUR_EMAIL",
+    "name":"YOUR_NAME",
+    "surname":"YOUR_SURNAME"
+  },
+  "friend":{
+    "id":"YOUR_FRIEND_ID",
+    "email":"YOUR_FRIEND_EMAIL",
+    "name":"YOUR_FRIEND_NAME",
+    "surname":"YOUR_FRIEND_SURNAME"
+  },
+  "created_at": "2014-11-23T11:26:13.725Z",
+  "updated_at": "2014-11-23T11:26:13.731Z"
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                                  |
+| ------ | ------------------------------------------------------------ |
+| 200    | Everything went fine. Described above                        |
+| 401    | Access token is invalid or revoked.                          |
+| 403    | Friendship already exists (any state allowed).               |
+| 462    | Forever alone - you're trying to make friends with yourself. |
+| 463    | You're trying to become friends with <code>nil</code>.       |
+
+#### Friendship status codes
 There can be 3 status codes:
 + <code>0</code> - <code>PENDING</code> (default)
 + <code>1</code> - <code>ACCEPTED</code>
 + <code>2</code> - <code>BLOCKED</code>
-
 
 ### Regions
 Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
