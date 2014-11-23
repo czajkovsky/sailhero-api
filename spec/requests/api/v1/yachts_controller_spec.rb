@@ -31,7 +31,7 @@ describe V1::YachtsController, type: :controller do
       end
 
       it 'creates yacht with wrong params' do
-        post :create,  yacht: wrong_yacht_params, access_token: token.token
+        post :create, yacht: wrong_yacht_params, access_token: token.token
         expect(response).to have_http_status(422)
         expect(response).not_to be_success
       end

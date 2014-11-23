@@ -120,5 +120,18 @@ describe V1::FriendshipsController, type: :controller do
         expect(body['friend']['id']).to eq(friend.id)
       end
     end
+
+    describe 'POST#deny' do
+      let(:friendship) do
+        create(:friendship, user_id: user.id, friend_id: friend.id)
+      end
+
+      it 'denies friendship' do
+        controller.stub(:doorkeeper_token) { token }
+        put :deny, id: friendship
+        expect(response).to have_http_status(200)
+        expect(user.friendships.count).to eq(0)
+      end
+    end
   end
 end
