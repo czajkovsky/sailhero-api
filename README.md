@@ -345,6 +345,30 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 | 200    | Everything went fine. Described above         |
 | 401    | Access token is invalid or revoked.           |
 
+#### Getting your pending friendships requests
+
+##### Request
+```
+GET /api/v1/en/friendships/pending HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+Response and possible status codes look very similar to **getting all friendships** - only difference: each friendship has <code>0</code> (<code>PENDING</code> status).
+
+#### Getting send friendships invites
+
+##### Request
+```
+GET /api/v1/en/friendships/sent HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+Response and possible status codes look very similar to **getting all friendships** - only difference: each friendship has <code>0</code> (<code>PENDING</code> status).
+
 #### Creating new friendship
 
 ##### Request
