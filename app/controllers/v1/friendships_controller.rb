@@ -5,6 +5,7 @@ module V1
     before_action :check_if_friendship_exists, only: :create
     before_action :check_if_friend_exists, only: :create
     before_action :prevent_self_friending, only: :create
+    before_action :check_if_is_pending, only: [:accept, :deny, :block]
 
     expose(:friendship)
     expose(:friend) { User.where(id: params[:friend_id]).first }
@@ -69,6 +70,10 @@ module V1
 
     def check_if_friend_exists
       render status: 463, nothing: true if friend.nil?
+    end
+
+    def check_if_is_pending
+      render status: 403, nothing: true if friendship.friend != current_user
     end
 
     def friendship_params
