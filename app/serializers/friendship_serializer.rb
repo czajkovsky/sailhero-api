@@ -1,5 +1,5 @@
 class FriendshipSerializer < ActiveModel::Serializer
-  attributes :id, :user, :friend, :created_at, :updated_at
+  attributes :id, :status, :user, :friend, :created_at, :updated_at
 
   def user
     side(object.user_id)
