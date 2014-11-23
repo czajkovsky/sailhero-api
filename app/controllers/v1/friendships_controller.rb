@@ -3,7 +3,7 @@ module V1
     doorkeeper_for :all
 
     before_action :check_if_friendship_exists, only: :create
-    before_action :check_if_friend_exists
+    before_action :check_if_friend_exists, only: :create
     before_action :prevent_self_friending, only: :create
 
     expose(:friendship, attributes: :permitted_params)
@@ -16,6 +16,12 @@ module V1
       else
         render status: 422, json: { errors: device.errors }
       end
+    end
+
+    def index
+      request = 'status = 1 and (user_id = ? or friend_id = ?)'
+      friendships = Friendship.where(request, current_user.id, current_user.id)
+      render json: friendships
     end
 
     private
