@@ -82,5 +82,28 @@ describe V1::FriendshipsController, type: :controller do
         expect(JSON.parse(response.body)['friendships'].count).to eq(0)
       end
     end
+
+    describe 'GET#sent' do
+      it 'resonds with sent friendships' do
+        post :create, friend_id: friend.id, access_token: token.token,
+                      friendship: { friend_id: friend.id }
+        get :sent, access_token: token.token
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      end
+    end
+
+    describe 'GET#pending' do
+      it 'resonds with sent friendships' do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :create, friend_id: user.id, friendship: { friend_id: user.id }
+        controller.stub(:doorkeeper_token) { token }
+        get :pending
+        expect(response).to be_success
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      end
+    end
   end
 end
