@@ -106,6 +106,28 @@ describe V1::FriendshipsController, type: :controller do
       end
     end
 
+    describe 'DELETE#destroy' do
+      let(:friendship) do
+        create(:friendship, user_id: user.id, friend_id: friend.id)
+      end
+      let(:third_user) { create(:user, email: 't3@example.com') }
+      let(:third_token) { access_token(app, third_user) }
+
+      it 'destroys friendship' do
+        controller.stub(:doorkeeper_token) { token }
+        delete :destroy, id: friendship
+        expect(response).to have_http_status(200)
+        expect(Friendship.count).to eq(0)
+      end
+
+      it 'only allows owners to destroy friendship' do
+        controller.stub(:doorkeeper_token) { third_token }
+        delete :destroy, id: friendship
+        expect(response).to have_http_status(403)
+        expect(Friendship.count).to eq(1)
+      end
+    end
+
     describe 'GET#show' do
       let(:friendship) do
         create(:friendship, user_id: user.id, friend_id: friend.id)

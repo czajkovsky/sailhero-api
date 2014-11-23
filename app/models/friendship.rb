@@ -15,4 +15,8 @@ class Friendship < ActiveRecord::Base
   def blocked?
     status == 2
   end
+
+  def owner?(user)
+    user.id == friend_id || user.id == user_id
+  end
 end
