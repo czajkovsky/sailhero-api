@@ -13,10 +13,7 @@ class User < ActiveRecord::Base
   validates :name, :surname, presence: true
   validates :surname, :name, length: { in: 2..128 }
 
-  has_many :messages
-  has_many :replies
   has_one :yacht
-  has_many :trainings
   has_many :alerts
   belongs_to :region
   has_many :devices

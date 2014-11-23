@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123105221) do
+ActiveRecord::Schema.define(version: 20141123154842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,16 +37,6 @@ ActiveRecord::Schema.define(version: 20141123105221) do
     t.integer  "region_id"
   end
 
-  create_table "checkpoints", force: true do |t|
-    t.decimal  "longitude",   precision: 10, scale: 6
-    t.decimal  "latitude",    precision: 10, scale: 6
-    t.integer  "training_id"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "timestamp"
-  end
-
   create_table "devices", force: true do |t|
     t.string   "device_type"
     t.string   "name"
@@ -63,15 +53,6 @@ ActiveRecord::Schema.define(version: 20141123105221) do
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "messages", force: true do |t|
-    t.string   "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-    t.string   "title"
-    t.boolean  "solved",     default: false
   end
 
   create_table "oauth_access_grants", force: true do |t|
@@ -158,23 +139,6 @@ ActiveRecord::Schema.define(version: 20141123105221) do
   create_table "regions", force: true do |t|
     t.string   "full_name"
     t.string   "code_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "replies", force: true do |t|
-    t.string   "body"
-    t.integer  "user_id"
-    t.integer  "message_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "trainings", force: true do |t|
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.float    "distance"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
