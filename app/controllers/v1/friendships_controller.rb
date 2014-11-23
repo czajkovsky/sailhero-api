@@ -29,6 +29,11 @@ module V1
       render json: sent
     end
 
+    def pending
+      pending = Friendship.where(status: 0, friend_id: current_user.id)
+      render json: pending
+    end
+
     private
 
     def check_if_friendship_exists

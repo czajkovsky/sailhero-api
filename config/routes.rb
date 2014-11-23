@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
         resources :friendships do
           get 'sent', on: :collection
+          get 'pending', on: :collection
         end
 
         resources :alerts, except: [:update, :edit, :destroy] do
