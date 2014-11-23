@@ -19,6 +19,13 @@ API for apps dedicated to sailors.
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
     + [Adding devices](#adding-devices)
+  + [Friendships](#friendships)
+    + [Getting all your friendships](#getting-all-your-friendships) 
+    + [Getting your pending friendships requests](#getting-your-pending-friendships-requests)
+    + [Getting sent friendships invites](#getting-sent-friendships-invites)
+    + [Creating new friendship](#creating-new-friendship)
+    + [Accepting/blocking/denying friendship request](#acceptingblockingdenying-friendship-request)
+    + [Friendship status codes](#friendship-status-codes)
   + [Regions](#regions)
     + [Getting available regions](#getting-available-regions)
     + [Selecting region](#selecting-region)
@@ -357,7 +364,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 Response and possible status codes look very similar to **getting all friendships** - only difference: each friendship has <code>0</code> (<code>PENDING</code> status).
 
-#### Getting send friendships invites
+#### Getting sent friendships invites
 
 ##### Request
 ```
