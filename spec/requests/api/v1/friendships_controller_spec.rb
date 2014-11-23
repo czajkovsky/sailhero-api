@@ -105,5 +105,20 @@ describe V1::FriendshipsController, type: :controller do
         expect(JSON.parse(response.body)['friendships'].count).to eq(1)
       end
     end
+
+    describe 'GET#show' do
+      let(:friendship) do
+        create(:friendship, user_id: user.id, friend_id: friend.id)
+      end
+
+      it 'responds with friendship' do
+        controller.stub(:doorkeeper_token) { token }
+        get :show, id: friendship
+        expect(response).to have_http_status(200)
+        body = JSON.parse(response.body)['friendship']
+        expect(body['user']['id']).to eq(user.id)
+        expect(body['friend']['id']).to eq(friend.id)
+      end
+    end
   end
 end
