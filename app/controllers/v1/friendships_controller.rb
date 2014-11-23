@@ -22,19 +22,15 @@ module V1
     end
 
     def index
-      request = 'status = 1 and (user_id = ? or friend_id = ?)'
-      accepted = Friendship.where(request, current_user.id, current_user.id)
-      render json: accepted
+      render json: Friendship.accepted(current_user)
     end
 
     def sent
-      sent = Friendship.where(status: 0, user_id: current_user.id)
-      render json: sent
+      render json: Friendship.sent(current_user)
     end
 
     def pending
-      pending = Friendship.where(status: 0, friend_id: current_user.id)
-      render json: pending
+      render json: Friendship.pending(current_user)
     end
 
     def show
@@ -42,12 +38,12 @@ module V1
     end
 
     def accept
-      friendship.update_attributes(status: 1)
+      friendship.accept!
       render json: friendship
     end
 
     def block
-      friendship.update_attributes(status: 2)
+      friendship.block!
       render json: friendship
     end
 
@@ -68,10 +64,8 @@ module V1
     end
 
     def check_if_friendship_exists
-      request = 'user_id = ? and friend_id = ? or user_id = ? and friend_id = ?'
-      count = Friendship.where(request, current_user.id, params[:friend_id],
-                               params[:friend_id], current_user.id).count
-      render status: 403, nothing: true unless count.zero?
+      existing = Friendship.between_users(current_user.id, params[:friend_id])
+      render status: 403, nothing: true unless existing.count.zero?
     end
 
     def prevent_self_friending
