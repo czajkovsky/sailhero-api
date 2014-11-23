@@ -5,6 +5,12 @@ module V1
     before_action :prevent_self_friending, only: :create
 
     def create
+      if friendship.save
+        friendship.update_attributes(user_id: current_user.id, status: 0)
+        render status: 201, json: friendship
+      else
+        render status: 422, json: { errors: device.errors }
+      end
     end
 
     private
