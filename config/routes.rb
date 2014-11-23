@@ -6,9 +6,11 @@ Rails.application.routes.draw do
       scope '(:locale)', locale: /en|pl/ do
 
         resources :users, except: :index do
-          get 'me', on: :collection
-          delete 'me', on: :collection, to: 'users#deactivate_profile'
-          post 'me/devices', on: :collection, to: 'devices#create'
+          collection do
+            get 'me'
+            delete 'me', to: 'users#deactivate_profile'
+            post 'me/devices', to: 'devices#create'
+          end
         end
 
         resources :regions, only: :index do
@@ -24,11 +26,15 @@ Rails.application.routes.draw do
         end
 
         resources :friendships do
-          get 'sent', on: :collection
-          get 'pending', on: :collection
-          post 'accept', on: :member
-          post 'block', on: :member
-          post 'deny', on: :member
+          collection do
+            get 'sent'
+            get 'pending'
+          end
+          member do
+            post 'accept'
+            post 'block'
+            post 'deny'
+          end
         end
 
         resources :alerts, except: [:update, :edit, :destroy] do
