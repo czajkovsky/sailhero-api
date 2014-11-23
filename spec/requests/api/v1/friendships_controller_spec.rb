@@ -28,6 +28,13 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).to be_success
         expect(response).to have_http_status(201)
       end
+
+      it 'prevents self friending' do
+        post :create, friend_id: user.id, access_token: token.token,
+                      friendship: { friend_id: user.id }
+        expect(response).not_to be_success
+        expect(response).to have_http_status(462)
+      end
     end
   end
 end

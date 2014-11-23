@@ -27,7 +27,7 @@ module V1
     end
 
     def prevent_self_friending
-      render status: 462, nothing: true if params[:friend_id] == current_user.id
+      render status: 462, nothing: true if friend == current_user
     end
 
     def check_if_friend_exists
