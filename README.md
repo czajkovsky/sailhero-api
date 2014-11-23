@@ -24,6 +24,7 @@ API for apps dedicated to sailors.
     + [Getting your pending friendships requests](#getting-your-pending-friendships-requests)
     + [Getting sent friendships invites](#getting-sent-friendships-invites)
     + [Creating new friendship](#creating-new-friendship)
+    + [Deleting friendship](#deleting-friendship)
     + [Accepting/blocking/denying friendship request](#acceptingblockingdenying-friendship-request)
     + [Friendship status codes](#friendship-status-codes)
   + [Regions](#regions)
@@ -423,6 +424,34 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 | 403    | Friendship already exists (any state allowed).               |
 | 462    | Forever alone - you're trying to make friends with yourself. |
 | 463    | You're trying to become friends with <code>nil</code>.       |
+
+
+#### Deleting friendship
+
+##### Request
+
+```
+DELETE /api/v1/en/friendships/:id HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+
+```
+# STATUS 200 OK
+{}
+```
+
+##### Possible status codes
+
+| Status | Description                                                  |
+| ------ | ------------------------------------------------------------ |
+| 200    | Everything went fine. Described above                        |
+| 401    | Access token is invalid or revoked.                          |
+| 403    | Your not either friend neither user in this friendship.      |
+| 404    | Friendship with given ID doesn't exist.                      |
 
 #### Accepting/blocking/denying friendship request
 
