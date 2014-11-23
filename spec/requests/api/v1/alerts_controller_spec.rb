@@ -4,7 +4,7 @@ describe V1::AlertsController, type: :controller do
 
   let(:region) { create(:region) }
   let(:user) { create(:user, region_id: region.id) }
-  let(:alert) { create(:alert, user_id: user.id) }
+  let(:alert) { create(:alert, user_id: user.id, region_id: region.id) }
 
   context 'for unauthenticated user' do
 
@@ -37,6 +37,14 @@ describe V1::AlertsController, type: :controller do
         expect(Alert.count).to eq(0)
         expect(response).not_to be_success
         expect(response).to have_http_status(422)
+      end
+    end
+
+    describe 'GET#show' do
+      it 'renders alert' do
+        get :show, id: alert, access_token: token.token
+        expect(JSON.parse(response.body)['alert']['id']).to eq(alert.id)
+        expect(response).to have_http_status(200)
       end
     end
 
