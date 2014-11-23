@@ -128,16 +128,103 @@ describe V1::FriendshipsController, type: :controller do
 
       it 'it denies access for user' do
         controller.stub(:doorkeeper_token) { token }
-        put :deny, id: friendship
+        post :deny, id: friendship
         expect(response).to have_http_status(403)
         expect(user.friendships.count).to eq(1)
       end
 
       it 'denies friendship' do
         controller.stub(:doorkeeper_token) { friend_token }
-        put :deny, id: friendship
+        post :deny, id: friendship
         expect(response).to have_http_status(200)
         expect(user.friendships.count).to eq(0)
+      end
+
+      it "doesn't include friendship in any list" do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :accept, id: friendship
+        get :pending
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+        controller.stub(:doorkeeper_token) { token }
+        get :sent
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      end
+    end
+
+    describe 'POST#accept' do
+      let(:friendship) do
+        create(:friendship, user_id: user.id, friend_id: friend.id)
+      end
+
+      it 'it denies access for user' do
+        controller.stub(:doorkeeper_token) { token }
+        post :accept, id: friendship
+        expect(response).to have_http_status(403)
+        expect(user.friendships.count).to eq(1)
+        friendship.reload
+        expect(friendship.pending?).to eq(true)
+        expect(friendship.accepted?).to eq(false)
+      end
+
+      it 'accepts friendship' do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :accept, id: friendship
+        expect(response).to have_http_status(200)
+        friendship.reload
+        expect(friendship.accepted?).to eq(true)
+      end
+
+      it 'includes friendship in list for both users' do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :accept, id: friendship
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+        controller.stub(:doorkeeper_token) { token }
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      end
+    end
+
+    describe 'POST#block' do
+      let(:friendship) do
+        create(:friendship, user_id: user.id, friend_id: friend.id)
+      end
+
+      it 'it denies access for user' do
+        controller.stub(:doorkeeper_token) { token }
+        post :block, id: friendship
+        expect(response).to have_http_status(403)
+        friendship.reload
+        expect(friendship.pending?).to eq(true)
+        expect(user.friendships.count).to eq(1)
+      end
+
+      it 'blocks friendship' do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :block, id: friendship
+        expect(response).to have_http_status(200)
+        friendship.reload
+        expect(friendship.accepted?).to eq(false)
+        expect(friendship.pending?).to eq(false)
+        expect(friendship.blocked?).to eq(true)
+      end
+
+      it "doesn't include friendship in any list" do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :block, id: friendship
+        get :pending
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+        controller.stub(:doorkeeper_token) { token }
+        get :sent
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+        get :index
+        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
       end
     end
   end
