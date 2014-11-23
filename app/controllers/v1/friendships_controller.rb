@@ -1,9 +1,13 @@
 module V1
   class FriendshipsController < VersionController
     doorkeeper_for :all
-    expose(:friendship, attributes: :permitted_params)
-    before_action :prevent_self_friending, only: :create
+
     before_action :check_if_friendship_exists, only: :create
+    before_action :prevent_self_friending, only: :create
+    before_action :check_if_friend_exists
+
+    expose(:friendship, attributes: :permitted_params)
+    expose(:friend) { User.where(id: params[:friend_id]).first }
 
     def create
       if friendship.save
@@ -24,6 +28,10 @@ module V1
 
     def prevent_self_friending
       render status: 462, nothing: true if params[:friend_id] == current_user.id
+    end
+
+    def check_if_friend_exists
+      render status: 463, nothing: true if friend.nil?
     end
 
     def permitted_params
