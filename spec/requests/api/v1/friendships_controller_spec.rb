@@ -42,6 +42,15 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).not_to be_success
         expect(response).to have_http_status(463)
       end
+
+      it "doesn't duplicate friendships" do
+        post :create, friend_id: friend.id, access_token: token.token,
+                      friendship: { friend_id: friend.id }
+        post :create, friend_id: friend.id, access_token: token.token,
+                      friendship: { friend_id: friend.id }
+        expect(response).not_to be_success
+        expect(response).to have_http_status(403)
+      end
     end
   end
 end
