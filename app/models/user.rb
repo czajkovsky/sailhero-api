@@ -23,11 +23,19 @@ class User < ActiveRecord::Base
   has_many :inv_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :inv_friends, through: :inv_friendships, source: :user
 
+  include PgSearch
+  pg_search_scope :search, against: [:name, :surname, :email]
+
   def self.authenticate!(email, password)
     user = User.where(email: email).first
     return nil if user.nil?
     bcrypted_hash = BCrypt::Engine.hash_secret(password, user.password_salt)
     user && user.password_hash == bcrypted_hash ? user : nil
+  end
+
+  def self.full_search(query)
+    return [] if key.nil?
+    search(query)
   end
 
   def encrypt_password

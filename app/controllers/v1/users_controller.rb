@@ -15,6 +15,11 @@ module V1
       render status: 200, json: current_resource_owner
     end
 
+    def index
+      users = User.search(params[:q])
+      render status: 200, json: users
+    end
+
     def deactivate_profile
       current_resource_owner.update_attributes(active: false)
       doorkeeper_token.update_attributes(revoked_at: Time.now)
