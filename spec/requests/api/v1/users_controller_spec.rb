@@ -36,6 +36,24 @@ describe V1::UsersController, type: :controller do
       end
     end
 
+    describe 'GET#index' do
+      let!(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
+      let!(:user3) { create(:user, user_params('Tom', 'Pink', 'pink@t.com')) }
+      let!(:user4) { create(:user, user_params('Tom', 'Red', 'blue@test.com')) }
+
+      it 'searches multiple users' do
+        get :index, q: 'tom', access_token: token.token
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['users'].count).to eq(2)
+      end
+
+      it 'return empty array when there are no users' do
+        get :index, q: 'tomisnotthename', access_token: token.token
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)['users'].count).to eq(0)
+      end
+    end
+
     describe 'DELETE#me' do
       it 'renders OK response' do
         delete :deactivate_profile, access_token: token.token

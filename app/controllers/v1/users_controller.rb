@@ -17,7 +17,7 @@ module V1
 
     def index
       users = User.search(params[:q])
-      render status: 200, json: users
+      render status: 200, json: users, each_serializer: UserSerializer
     end
 
     def deactivate_profile

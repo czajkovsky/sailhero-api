@@ -8,4 +8,8 @@ module RequestsHelper
     Doorkeeper::AccessToken.create!(application_id: app.id,
                                     resource_owner_id: user.id)
   end
+
+  def user_params(name, surname, email)
+    { name: name, surname: surname, email: email }
+  end
 end
