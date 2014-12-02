@@ -16,6 +16,7 @@ gem 'figaro'
 gem 'seedbank'
 gem 'capistrano', '~> 3.2.0'
 gem 'gcm'
+gem 'pg_search'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false
