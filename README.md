@@ -15,12 +15,13 @@ API for apps dedicated to sailors.
 + [Geolocation](#geolocation)
 + [API endpoints](#api-endpoints)
   + [Users](#users)
+    + [Searching users](#searching-users)
     + [Creating user](#creating-user)
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
     + [Adding devices](#adding-devices)
   + [Friendships](#friendships)
-    + [Getting all your friendships](#getting-all-your-friendships) 
+    + [Getting all your friendships](#getting-all-your-friendships)
     + [Getting your pending friendships requests](#getting-your-pending-friendships-requests)
     + [Getting sent friendships invites](#getting-sent-friendships-invites)
     + [Creating new friendship](#creating-new-friendship)
@@ -149,6 +150,46 @@ You can always check your last saved position at [your profile](https://github.c
 | <code>name</code>          | String  |                                                          | Beetween 2 and 128 characters                              |
 | <code>surname</code>       | String  |                                                          | Beetween 2 and 128 characters                              |
 | <code>active</code>        | Boolean | Default: <code>true</code>                               |                                                            |
+
+#### Searching users
+
+##### Request
+```
+GET /api/v1/en/users?q=scarlett HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  "users":[
+    {
+      "id":999,
+      "name":"Scarlett",
+      "surname":"Johansson",
+      "created_at":"2014-09-13T09:57:21.402Z",
+      "updated_at":"2014-09-13T09:57:21.402Z",
+      "email":"email@example.com",
+      "last_position":{
+        "latitude":null,
+        "longitude":null,
+        "updated_at":null
+      },
+      "region":null,
+      "yacht":null
+    }
+  ]
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                              |
+| ------ | -------------------------------------------------------- |
+| 200    | Everything went fine. Server responds with matched users |
+| 401    | Access token is invalid or revoked.                      |
 
 #### Creating user
 
@@ -344,7 +385,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 }
 ```
 
-**Important:** Please note that <code>friend</code> object is always a person who was invited. 
+**Important:** Please note that <code>friend</code> object is always a person who was invited.
 
 ##### Possible status codes
 
