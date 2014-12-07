@@ -866,6 +866,6 @@ You can make only one action per alert - confirming it means +1 to alert creadib
 | Status | Description                                                    |
 | ------ | -------------------------------------------------------------- |
 | 460    | Region ID is invalid.                                          |
-| 401    | User has already created yacht.                                |
+| 461    | User has already created yacht.                                |
 | 462    | Forever alone. You're trying to become a friend with yourself. |
 | 463    | You're trying to become a friend with nil.                     |
