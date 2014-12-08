@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  use_doorkeeper
 
   scope :api do
     namespace :v1 do
       scope '(:locale)', locale: /en|pl/ do
+        use_doorkeeper
 
         resources :users do
           collection do
