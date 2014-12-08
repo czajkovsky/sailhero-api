@@ -38,21 +38,29 @@ module V1
     end
 
     def accept
+      notify(friendship.user)
       friendship.accept!
       render json: friendship
     end
 
     def deny
+      notify(friendship.user)
       friendship.destroy
       render status: 200, nothing: true
     end
 
     def cancel
+      notify(friendship.friend)
       friendship.destroy
       render status: 200, nothing: true
     end
 
     private
+
+    def notify(folk)
+      GCMPusher.new(data: { message: 'sync_friends' }, collapse_key: 'friend',
+                    devices: folk.devices.android.map(&:key)).call
+    end
 
     def owner?
       render status: 403, nothing: true unless friendship.owner?(current_user)
