@@ -139,6 +139,7 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).to have_http_status(200)
         body = JSON.parse(response.body)['friendship']
         expect(body['friend']['id']).to eq(friend.id)
+        expect(body['invitor_id']).to eq(user.id)
       end
     end
 
