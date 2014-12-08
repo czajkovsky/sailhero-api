@@ -17,15 +17,15 @@ Rails.application.routes.draw do
           post 'select', on: :member, to: 'regions#select'
         end
 
-        resources :friendships do
+        resources :friendships, only: [:index, :show, :create] do
           collection do
             get 'sent'
             get 'pending'
           end
           member do
             post 'accept'
-            post 'block'
             post 'deny'
+            post 'cancel'
           end
         end
 

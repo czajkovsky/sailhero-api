@@ -2,11 +2,11 @@ module V1
   class FriendshipsController < VersionController
     doorkeeper_for :all
 
-    before_action :check_if_friendship_exists, only: :create
-    before_action :check_if_friend_exists, only: :create
+    before_action :friendship_exists?, only: :create
+    before_action :friend_exists?, only: :create
     before_action :prevent_self_friending, only: :create
-    before_action :check_if_is_pending, only: [:accept, :deny, :block]
-    before_action :check_if_is_owner, only: [:destroy]
+    before_action :pending?, only: [:accept, :deny]
+    before_action :owner?, only: [:cancel]
 
     expose(:friendship)
     expose(:friend) { User.where(id: params[:friend_id]).first }
@@ -42,28 +42,23 @@ module V1
       render json: friendship
     end
 
-    def block
-      friendship.block!
-      render json: friendship
-    end
-
     def deny
       friendship.destroy
       render status: 200, nothing: true
     end
 
-    def destroy
+    def cancel
       friendship.destroy
       render status: 200, nothing: true
     end
 
     private
 
-    def check_if_is_owner
+    def owner?
       render status: 403, nothing: true unless friendship.owner?(current_user)
     end
 
-    def check_if_friendship_exists
+    def friendship_exists?
       existing = Friendship.between_users(current_user.id, params[:friend_id])
       render status: 403, nothing: true unless existing.count.zero?
     end
@@ -72,11 +67,11 @@ module V1
       render status: 462, nothing: true if friend == current_user
     end
 
-    def check_if_friend_exists
+    def friend_exists?
       render status: 463, nothing: true if friend.nil?
     end
 
-    def check_if_is_pending
+    def pending?
       render status: 403, nothing: true if friendship.friend != current_user
     end
 

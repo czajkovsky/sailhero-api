@@ -106,23 +106,23 @@ describe V1::FriendshipsController, type: :controller do
       end
     end
 
-    describe 'DELETE#destroy' do
+    describe 'POST#cancel' do
       let(:friendship) do
         create(:friendship, user_id: user.id, friend_id: friend.id)
       end
       let(:third_user) { create(:user, email: 't3@example.com') }
       let(:third_token) { access_token(app, third_user) }
 
-      it 'destroys friendship' do
+      it 'cancels friendship' do
         controller.stub(:doorkeeper_token) { token }
-        delete :destroy, id: friendship
+        post :cancel, id: friendship
         expect(response).to have_http_status(200)
         expect(Friendship.count).to eq(0)
       end
 
       it 'only allows owners to destroy friendship' do
         controller.stub(:doorkeeper_token) { third_token }
-        delete :destroy, id: friendship
+        post :cancel, id: friendship
         expect(response).to have_http_status(403)
         expect(Friendship.count).to eq(1)
       end
@@ -214,45 +214,6 @@ describe V1::FriendshipsController, type: :controller do
         body = JSON.parse(response.body)['friendships']
         expect(body.count).to eq(1)
         expect(body[0]['friend']['id']).to eq(friend.id)
-      end
-    end
-
-    describe 'POST#block' do
-      let(:friendship) do
-        create(:friendship, user_id: user.id, friend_id: friend.id)
-      end
-
-      it 'it denies access for user' do
-        controller.stub(:doorkeeper_token) { token }
-        post :block, id: friendship
-        expect(response).to have_http_status(403)
-        friendship.reload
-        expect(friendship.pending?).to eq(true)
-        expect(user.friendships.count).to eq(1)
-      end
-
-      it 'blocks friendship' do
-        controller.stub(:doorkeeper_token) { friend_token }
-        post :block, id: friendship
-        expect(response).to have_http_status(200)
-        friendship.reload
-        expect(friendship.accepted?).to eq(false)
-        expect(friendship.pending?).to eq(false)
-        expect(friendship.blocked?).to eq(true)
-      end
-
-      it "doesn't include friendship in any list" do
-        controller.stub(:doorkeeper_token) { friend_token }
-        post :block, id: friendship
-        get :pending
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
-        get :index
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
-        controller.stub(:doorkeeper_token) { token }
-        get :sent
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
-        get :index
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
       end
     end
   end

@@ -33,19 +33,11 @@ class Friendship < ActiveRecord::Base
     status == 0
   end
 
-  def blocked?
-    status == 2
-  end
-
   def owner?(user)
     user.id == friend_id || user.id == user_id
   end
 
   def accept!
     update_attributes(status: 1)
-  end
-
-  def block!
-    update_attributes(status: 2)
   end
 end
