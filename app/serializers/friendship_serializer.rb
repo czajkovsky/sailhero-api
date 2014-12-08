@@ -1,12 +1,8 @@
 class FriendshipSerializer < ActiveModel::Serializer
-  attributes :id, :status, :user, :friend, :created_at, :updated_at
-
-  def user
-    side(object.user_id)
-  end
+  attributes :id, :status, :friend, :created_at, :updated_at
 
   def friend
-    side(object.friend_id)
+    object.invited ? side(object.user_id) : side(object.friend_id)
   end
 
   def side(id)

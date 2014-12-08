@@ -138,7 +138,6 @@ describe V1::FriendshipsController, type: :controller do
         get :show, id: friendship
         expect(response).to have_http_status(200)
         body = JSON.parse(response.body)['friendship']
-        expect(body['user']['id']).to eq(user.id)
         expect(body['friend']['id']).to eq(friend.id)
       end
     end
@@ -198,16 +197,22 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).to have_http_status(200)
         friendship.reload
         expect(friendship.accepted?).to eq(true)
+        body = JSON.parse(response.body)['friendship']
+        expect(body['friend']['id']).to eq(friend.id)
       end
 
       it 'includes friendship in list for both users' do
         controller.stub(:doorkeeper_token) { friend_token }
         post :accept, id: friendship
         get :index
-        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+        body = JSON.parse(response.body)['friendships']
+        expect(body[0]['friend']['id']).to eq(user.id)
+        expect(body.count).to eq(1)
         controller.stub(:doorkeeper_token) { token }
         get :index
-        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+        body = JSON.parse(response.body)['friendships']
+        expect(body.count).to eq(1)
+        expect(body[0]['friend']['id']).to eq(friend.id)
       end
     end
 
