@@ -348,12 +348,6 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
     {
       "id":3,
       "status":1,
-      "user":{
-        "id":"YOUR_ID",
-        "email":"YOUR_EMAIL",
-        "name":"YOUR_NAME",
-        "surname":"YOUR_SURNAME"
-      }
       "friend":{
         "id":"YOUR_FRIEND_ID",
         "email":"YOUR_FRIEND_EMAIL",
@@ -366,12 +360,6 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
     {
       "id":13,
       "status":1,
-      "user":{
-        "id":"YOUR_FRIEND_ID",
-        "email":"YOUR_FRIEND_EMAIL",
-        "name":"YOUR_FRIEND_NAME",
-        "surname":"YOUR_FRIEND_SURNAME"
-      }
       "friend":{
         "id":"YOUR_ID",
         "email":"YOUR_EMAIL",
@@ -439,12 +427,6 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 "friendship":{
   "id":3,
   "status":0,
-  "user":{
-    "id":"YOUR_ID",
-    "email":"YOUR_EMAIL",
-    "name":"YOUR_NAME",
-    "surname":"YOUR_SURNAME"
-  },
   "friend":{
     "id":"YOUR_FRIEND_ID",
     "email":"YOUR_FRIEND_EMAIL",
