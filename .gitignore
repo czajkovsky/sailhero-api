@@ -17,3 +17,5 @@
 /coverage
 config/application.yml
 /vendor/bundle
+
+public/uploads
