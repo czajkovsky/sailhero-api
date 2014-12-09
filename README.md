@@ -17,6 +17,7 @@ API for apps dedicated to sailors.
   + [Users](#users)
     + [Searching users](#searching-users)
     + [Creating user](#creating-user)
+    + [Editing user](#editing-user)
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
     + [Adding devices](#adding-devices)
@@ -205,7 +206,8 @@ Content-Type: application/json
     "password":"password_example",
     "password_confirmation":"password_example",
     "name":"Your Name",
-    "surname":"Your Surname"
+    "surname":"Your Surname",
+    "avatar_data":"data:image/jpg;base64,YOUR-AVATAR-BASE64-ENCODED"
   }
 }
 ```
@@ -225,10 +227,30 @@ Content-Type: application/json
       "updated_at":null
     },
     "region":null,
-    "yacht":null
+    "yacht":null,
+    "avatar_url":"AVATAR-URL"
   }
 }
 ```
+
+#### Editing user
+
+##### Request
+```
+PUT /api/v1/en/users/:id HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+
+{
+  "user":{
+    "email":"new-email@example.com",
+  }
+}
+```
+
+##### Response
+
+Same as for **creating user**.
 
 #### Authenticated user profile
 
