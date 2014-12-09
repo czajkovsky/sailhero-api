@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   has_many :inv_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :inv_friends, through: :inv_friendships, source: :user
 
+  mount_uploader :avatar, AvatarUploader
+
   include PgSearch
   pg_search_scope :search, against: [:name, :surname, :email]
 
