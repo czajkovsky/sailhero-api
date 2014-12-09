@@ -1,6 +1,7 @@
 module V1
   class UsersController < VersionController
-    before_action :authorize!, except: [:create]
+    before_action :authorize!, except: :create
+    before_action :self?, only: :update
     expose(:user, attributes: :permitted_params)
 
     def create
@@ -27,6 +28,11 @@ module V1
     end
 
     private
+
+    def self?
+      matches_user = (params[:id] == current_user.id.to_s)
+      render status: 403, nothing: true unless matches_user
+    end
 
     def save_user(status)
       if user.save

@@ -66,11 +66,21 @@ describe V1::UsersController, type: :controller do
     end
 
     describe 'PUT#update' do
+      let(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
+      let(:token2) { access_token(app, user2) }
+
       it 'updates user' do
         controller.stub(:doorkeeper_token) { token }
         put :update, id: user, user: { name: 'Tom' }
         user.reload
         expect(user.name).to eq('Tom')
+        expect(response).to have_http_status(200)
+      end
+
+      it 'denies access for different user' do
+        controller.stub(:doorkeeper_token) { token2 }
+        put :update, id: user, user: { name: 'Tom' }
+        expect(response).to have_http_status(403)
       end
     end
   end
