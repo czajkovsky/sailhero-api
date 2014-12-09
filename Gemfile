@@ -18,6 +18,7 @@ gem 'capistrano', '~> 3.2.0'
 gem 'gcm'
 gem 'pg_search'
 gem 'carrierwave'
+gem 'carrierwave-aws'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false

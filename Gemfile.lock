@@ -39,6 +39,11 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     ast (1.1.0)
+    aws-sdk (1.59.1)
+      aws-sdk-v1 (= 1.59.1)
+    aws-sdk-v1 (1.59.1)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -65,6 +70,9 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    carrierwave-aws (0.4.1)
+      aws-sdk (>= 1.29)
+      carrierwave (>= 0.7)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     codeclimate-test-reporter (0.3.0)
@@ -249,6 +257,7 @@ DEPENDENCIES
   capistrano (~> 3.2.0)
   capybara
   carrierwave
+  carrierwave-aws
   checker!
   codeclimate-test-reporter
   database_cleaner
