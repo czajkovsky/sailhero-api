@@ -64,6 +64,15 @@ describe V1::UsersController, type: :controller do
         expect(response).to have_http_status(200)
       end
     end
+
+    describe 'PUT#update' do
+      it 'updates user' do
+        controller.stub(:doorkeeper_token) { token }
+        put :update, id: user, user: { name: 'Tom' }
+        user.reload
+        expect(user.name).to eq('Tom')
+      end
+    end
   end
 
   describe 'POST#create' do
