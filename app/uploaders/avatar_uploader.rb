@@ -12,6 +12,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   def timestamp
     var = :"@#{mounted_as}_timestamp"
-    model.instance_variable_get(var) or model.instance_variable_set(var, Time.now.to_i)
+    t = Time.now.to_i
+    model.instance_variable_get(var) or model.instance_variable_set(var, t)
   end
 end
