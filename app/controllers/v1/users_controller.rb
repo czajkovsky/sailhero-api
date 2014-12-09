@@ -4,11 +4,11 @@ module V1
     expose(:user, attributes: :permitted_params)
 
     def create
-      if user.save
-        render status: 201, json: user
-      else
-        render status: 422, json: { errors: user.errors }
-      end
+      save_user(201)
+    end
+
+    def update
+      save_user(200)
     end
 
     def me
@@ -27,6 +27,14 @@ module V1
     end
 
     private
+
+    def save_user(status)
+      if user.save
+        render status: status, json: user
+      else
+        render status: 422, json: { errors: user.errors }
+      end
+    end
 
     def current_resource_owner
       User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
