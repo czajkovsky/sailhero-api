@@ -2,6 +2,7 @@ module V1
   class UsersController < VersionController
     before_action :authorize!, except: :create
     before_action :self?, only: :update
+    before_action :process_image!, only: [:create, :update]
     expose(:user, attributes: :permitted_params)
 
     def create
@@ -29,6 +30,13 @@ module V1
 
     private
 
+    def process_image!
+      return false unless params[:user][:avatar_data]
+      img = ::Base64Decoder.new(params[:user][:avatar_data]).call
+      params[:user][:avatar] = img
+      params[:user].delete(:avatar_data)
+    end
+
     def self?
       matches_user = (params[:id] == current_user.id.to_s)
       render status: 403, nothing: true unless matches_user
@@ -48,7 +56,7 @@ module V1
 
     def permitted_params
       params.require(:user).permit(:email, :password, :password_confirmation,
-                                   :name, :surname)
+                                   :name, :surname, :avatar)
     end
   end
 end
