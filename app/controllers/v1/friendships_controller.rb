@@ -10,6 +10,9 @@ module V1
 
     expose(:friendship)
     expose(:friend) { User.where(id: params[:friend_id]).first }
+    expose(:accepted_friendships) { Friendship.accepted(current_user) }
+    expose(:sent_friendships) { Friendship.sent(current_user) }
+    expose(:pending_friendships) { Friendship.pending(current_user) }
 
     def create
       new_friendship = Friendship.new(friendship_params)
@@ -21,16 +24,25 @@ module V1
       end
     end
 
+    def all
+      data = {
+        accepted: serialize_friendships_array(accepted_friendships),
+        sent: serialize_friendships_array(sent_friendships),
+        pending: serialize_friendships_array(pending_friendships)
+      }
+      render json: data
+    end
+
     def index
-      render json: Friendship.accepted(current_user)
+      render json: accepted_friendships
     end
 
     def sent
-      render json: Friendship.sent(current_user)
+      render json: sent_friendships
     end
 
     def pending
-      render json: Friendship.pending(current_user)
+      render json: pending_friendships
     end
 
     def show
@@ -85,6 +97,11 @@ module V1
 
     def friendship_params
       params.require(:friendship).permit(:friend_id)
+    end
+
+    def serialize_friendships_array(friendships_array)
+      ActiveModel::ArraySerializer.new(friendships_array,
+                                       each_serializer: FriendshipSerializer)
     end
   end
 end

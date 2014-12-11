@@ -21,6 +21,7 @@ Rails.application.routes.draw do
           collection do
             get 'sent'
             get 'pending'
+            get 'all'
           end
           member do
             post 'accept'
