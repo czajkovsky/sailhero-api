@@ -1,14 +1,9 @@
-class FriendshipRepository
+class FriendshipsRepository
   attr_accessor :user, :friendships
 
   def initialize(user)
     self.user = user
     self.friendships = []
-  end
-
-  def fetch(id)
-    self.friendships = Friendship.find(id)
-    self
   end
 
   def sent
@@ -27,20 +22,7 @@ class FriendshipRepository
     self
   end
 
-  def between(friend)
-    request = 'user_id = ? and friend_id = ? or user_id = ? and friend_id = ?'
-    Friendship.where(request, user.id, friend.id, friend.id, user.id)
-  end
-
   def serialize
-    friendships.respond_to?('each') ? serialize_array : serialize_item
-  end
-
-  def serialize_array
     friendships.map { |f| FriendshipRepositorySerializer.new(user, f).to_json }
-  end
-
-  def serialize_item
-    { friendship: FriendshipRepositorySerializer.new(user, friendships).to_json }
   end
 end
