@@ -8,11 +8,8 @@ module V1
     before_action :pending?, only: [:accept, :deny]
     before_action :owner?, only: [:cancel]
 
-    expose(:friendship)
     expose(:friend) { User.where(id: params[:friend_id]).first }
-    expose(:accepted_friendships) { Friendship.accepted(current_user) }
-    expose(:sent_friendships) { Friendship.sent(current_user) }
-    expose(:pending_friendships) { Friendship.pending(current_user) }
+    expose(:friendship) { repository.fetch(params[:id]) }
 
     def create
       new_friendship = Friendship.new(friendship_params)
@@ -26,44 +23,44 @@ module V1
 
     def all
       data = {
-        accepted: serialize_friendships_array(accepted_friendships),
-        sent: serialize_friendships_array(sent_friendships),
-        pending: serialize_friendships_array(pending_friendships)
+        accepted: repository.accepted.serialize,
+        sent: repository.sent.serialize,
+        pending: repository.pending.serialize
       }
       render json: data
     end
 
     def index
-      render json: accepted_friendships
+      render json: repository.accepted.serialize
     end
 
     def sent
-      render json: sent_friendships
+      render json: repository.sent.serialize
     end
 
     def pending
-      render json: pending_friendships
+      render json: repository.pending.serialize
     end
 
     def show
-      render json: friendship
+      render json: friendship.serialize
     end
 
     def accept
-      notify(friendship.user)
-      friendship.accept!
-      render json: friendship
+      notify(friendship.friendships.user)
+      friendship.friendships.accept!
+      render json: friendship.serialize
     end
 
     def deny
       notify(friendship.user)
-      friendship.destroy
+      friendship.friendships.destroy
       render status: 200, nothing: true
     end
 
     def cancel
-      notify(friendship.friend)
-      friendship.destroy
+      notify(friendship.friendships.friend)
+      friendship.friendships.destroy
       render status: 200, nothing: true
     end
 
@@ -74,8 +71,12 @@ module V1
                     devices: folk.devices.android.map(&:key)).call
     end
 
+    def repository
+      FriendshipRepository.new(current_user)
+    end
+
     def owner?
-      render status: 403, nothing: true unless friendship.owner?(current_user)
+      render status: 403, nothing: true unless friendship.friendships.owner?(current_user)
     end
 
     def friendship_exists?
@@ -92,7 +93,7 @@ module V1
     end
 
     def pending?
-      render status: 403, nothing: true if friendship.friend != current_user
+      render status: 403, nothing: true if friendship.friendships.friend != current_user
     end
 
     def friendship_params

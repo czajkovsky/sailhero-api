@@ -106,6 +106,19 @@ describe V1::FriendshipsController, type: :controller do
       end
     end
 
+    describe 'GET#all' do
+      it 'resonds with all friendships' do
+        controller.stub(:doorkeeper_token) { friend_token }
+        post :create, friend_id: user.id, friendship: { friend_id: user.id }
+        controller.stub(:doorkeeper_token) { token }
+        get :all
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['sent'].count).to eq(0)
+        expect(JSON.parse(response.body)['accepted'].count).to eq(0)
+        expect(JSON.parse(response.body)['pending'].count).to eq(1)
+      end
+    end
+
     describe 'POST#cancel' do
       let(:friendship) do
         create(:friendship, user_id: user.id, friend_id: friend.id)
@@ -139,7 +152,7 @@ describe V1::FriendshipsController, type: :controller do
         expect(response).to have_http_status(200)
         body = JSON.parse(response.body)['friendship']
         expect(body['friend']['id']).to eq(friend.id)
-        expect(body['invitor_id']).to eq(user.id)
+        expect(body['invited']).to eq(false)
       end
     end
 
@@ -199,7 +212,7 @@ describe V1::FriendshipsController, type: :controller do
         friendship.reload
         expect(friendship.accepted?).to eq(true)
         body = JSON.parse(response.body)['friendship']
-        expect(body['friend']['id']).to eq(friend.id)
+        expect(body['friend']['id']).to eq(user.id)
       end
 
       it 'includes friendship in list for both users' do
