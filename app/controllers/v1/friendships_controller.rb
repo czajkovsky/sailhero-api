@@ -30,7 +30,7 @@ module V1
     end
 
     %w(accepted sent pending).each do |state|
-      define_method state { render json: friendships.send(state).serialize }
+      define_method(state) { render json: friendships.send(state).serialize }
     end
 
     def show
