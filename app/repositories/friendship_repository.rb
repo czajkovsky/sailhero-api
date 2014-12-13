@@ -1,14 +1,9 @@
 class FriendshipRepository
   attr_accessor :user, :friendship
 
-  def initialize(user)
+  def initialize(user, id)
     self.user = user
-    self.friendship = nil
-  end
-
-  def fetch(id)
     self.friendship = Friendship.find(id)
-    self
   end
 
   def serialize

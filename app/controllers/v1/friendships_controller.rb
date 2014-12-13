@@ -62,7 +62,7 @@ module V1
     end
 
     def friendship
-      FriendshipRepository.new(current_user).fetch(params[:id])
+      FriendshipRepository.new(current_user, params[:id])
     end
 
     def owner?
