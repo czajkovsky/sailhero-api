@@ -34,19 +34,19 @@ module V1
 
     def accept
       notify(friendship.friendship.user)
-      friendship.friendship.accept!
+      friendship.accept!
       render json: friendship.serialize
     end
 
     def deny
       notify(friendship.user)
-      friendship.friendship.destroy
+      friendship.destroy!
       render status: 200, nothing: true
     end
 
     def cancel
       notify(friendship.friendship.friend)
-      friendship.friendship.destroy
+      friendship.destroy!
       render status: 200, nothing: true
     end
 
@@ -83,7 +83,7 @@ module V1
     end
 
     def pending?
-      render status: 403, nothing: true if friendship.friendship.friend != current_user
+      render status: 403, nothing: true unless friendship.waiting_for_user?
     end
 
     def friendship_params

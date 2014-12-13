@@ -14,8 +14,4 @@ class Friendship < ActiveRecord::Base
   def pending?
     status == 0
   end
-
-  def accept!
-    update_attributes(status: 1)
-  end
 end
