@@ -2,13 +2,9 @@ module V1
   class FriendshipsController < VersionController
     doorkeeper_for :all
 
-    before_action :friendship_exists?, only: :create
-    before_action :friend_exists?, only: :create
-    before_action :prevent_self_friending, only: :create
     before_action :pending?, only: [:accept, :deny]
-    before_action :owner?, only: [:cancel]
-
-    expose(:friend) { User.where(id: params[:friend_id]).first }
+    before_action :owner?, only: :cancel
+    before_action :createable?, only: :create
 
     def create
       new_friendship = Friendship.new(friendship_params)
@@ -57,6 +53,10 @@ module V1
                     devices: folk.devices.android.map(&:key)).call
     end
 
+    def friend
+      User.where(id: params[:friend_id]).first
+    end
+
     def friendships
       FriendshipsRepository.new(current_user)
     end
@@ -69,17 +69,9 @@ module V1
       render status: 403, nothing: true unless friendship.allowed?
     end
 
-    def friendship_exists?
-      existing = Friendship.between_users(current_user.id, params[:friend_id])
-      render status: 403, nothing: true unless existing.count.zero?
-    end
-
-    def prevent_self_friending
-      render status: 462, nothing: true if friend == current_user
-    end
-
-    def friend_exists?
-      render status: 463, nothing: true if friend.nil?
+    def createable?
+      validator = FriendshipRepositoryValidator.new(current_user, friend).call
+      render status: validator.status, nothing: true unless validator.valid?
     end
 
     def pending?
