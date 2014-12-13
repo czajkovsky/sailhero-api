@@ -7,12 +7,12 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{timestamp}-#{super}"
+    "#{timestamp}-#{super}" unless original_filename.nil?
   end
 
   def timestamp
     var = :"@#{mounted_as}_timestamp"
     t = Time.now.to_i
-    model.instance_variable_get(var) or model.instance_variable_set(var, t)
+    model.instance_variable_get(var) || model.instance_variable_set(var, t)
   end
 end
