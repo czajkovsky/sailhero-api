@@ -26,7 +26,6 @@ API for apps dedicated to sailors.
     + [Getting your pending friendships requests](#getting-your-pending-friendships-requests)
     + [Getting sent friendships invites](#getting-sent-friendships-invites)
     + [Creating new friendship](#creating-new-friendship)
-    + [Deleting friendship](#deleting-friendship)
     + [Accepting/blocking/denying friendship request](#acceptingblockingdenying-friendship-request)
     + [Friendship status codes](#friendship-status-codes)
   + [Regions](#regions)
@@ -352,11 +351,11 @@ Currently only <code>ANDROID</code> with GCM as <code>key</code> is supported.
 ### Friendships
 This app is meant to be social. It wouldn't be possible without friends. Making friends at Sailhero is very easy!
 
-#### Getting all your friendships
+#### Getting all your friendships (accepted)
 
 ##### Request
 ```
-GET /api/v1/en/friendships HTTP/1.1
+GET /api/v1/en/friendships/accepted HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
 Authorization: Bearer YOUR_ACCESS_TOKEN
@@ -370,6 +369,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
     {
       "id":3,
       "status":1,
+      "invited":true,
       "friend":{
         "id":"YOUR_FRIEND_ID",
         "email":"YOUR_FRIEND_EMAIL",
@@ -382,6 +382,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
     {
       "id":13,
       "status":1,
+      "invited":false,
       "friend":{
         "id":"YOUR_ID",
         "email":"YOUR_EMAIL",
@@ -394,8 +395,6 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
   ]
 }
 ```
-
-**Important:** Please note that <code>friend</code> object is always a person who was invited.
 
 ##### Possible status codes
 
@@ -428,6 +427,29 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 Response and possible status codes look very similar to **getting all friendships** - only difference: each friendship has <code>0</code> (<code>PENDING</code> status).
 
+#### Getting full friendships list in one request (accepted, sent and pending)
+
+##### Request
+```
+GET /api/v1/en/friendships HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+##### Response
+```
+"accepted":[
+  # ... list of accepted friendships
+],
+"pending":[
+  # ... list of pending friendships requests
+],
+"sent":[
+  # ... list of sent friendships requests
+]
+```
+
 #### Creating new friendship
 
 ##### Request
@@ -449,6 +471,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 "friendship":{
   "id":3,
   "status":0,
+  "invited":false,
   "friend":{
     "id":"YOUR_FRIEND_ID",
     "email":"YOUR_FRIEND_EMAIL",
@@ -498,21 +521,12 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 | 403    | Your not either friend neither user in this friendship.      |
 | 404    | Friendship with given ID doesn't exist.                      |
 
-#### Accepting/blocking/denying friendship request
+#### Accepting/denying friendship request
 
 ##### Accepting
 
 ```
 POST /api/v1/en/friendships/:id/accept HTTP/1.1
-Host: sail-hero.dev
-Content-Type: application/json
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-##### Blocking
-
-```
-POST /api/v1/en/friendships/:id/block HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
 Authorization: Bearer YOUR_ACCESS_TOKEN
@@ -527,10 +541,19 @@ Content-Type: application/json
 Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 
+##### Canceling
+
+```
+POST /api/v1/en/friendships/:id/cancel HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
 ##### Response
 
-For **accepting** and **blocking** - standard friendship response (see creating new friendship).
-For **denying**:
+For **accepting** - standard friendship response (see creating new friendship).
+For **denying** and **canceling**:
 ```
 # STATUS 200 OK
 {}
@@ -546,10 +569,9 @@ For **denying**:
 | 404    | Friendship with given id doesn't exist.                                     |
 
 #### Friendship status codes
-There can be 3 status codes:
+There can be 2 status codes:
 + <code>0</code> - <code>PENDING</code> (default)
 + <code>1</code> - <code>ACCEPTED</code>
-+ <code>2</code> - <code>BLOCKED</code>
 
 ### Regions
 Most of the actions (except editing user profile) require selected region. If you try to access protected resource you'll run into <code>460</code> error code.
