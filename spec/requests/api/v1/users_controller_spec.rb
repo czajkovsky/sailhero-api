@@ -2,37 +2,36 @@ require 'spec_helper'
 
 describe V1::UsersController, type: :controller do
 
-  context 'for unauthenticated user' do
-
+  context 'when logged out' do
     describe 'GET#me' do
-      it 'denies access with 401 status code' do
-        get :me
-        expect(response).not_to be_success
-        expect(response).to have_http_status(401)
-      end
+      before { get :me }
+      it_behaves_like 'an unauthorized request'
     end
   end
 
-  context 'user is authenticated' do
+  context 'when logged in' do
 
     let(:app) { create_client_app }
     let(:user) { create(:user) }
     let(:token) { access_token(app, user) }
 
     describe 'GET#me' do
-      it 'renders OK response' do
-        get :me, access_token: token.token
-        expect(response).to have_http_status(200)
-        expect(response.body).to include(user.email)
+      context 'has valid token' do
+        before { get :me, access_token: token.token }
+        it_behaves_like 'a successful request'
+
+        it 'includes email in response' do
+          expect(json.user.email).to eq(user.email)
+        end
       end
 
       context 'token is revoked' do
-        it 'denies access with 401 status code' do
+        before do
           token.revoke
           get :me, access_token: token.token
-          expect(response).not_to be_success
-          expect(response).to have_http_status(401)
         end
+
+        it_behaves_like 'an unauthorized request'
       end
     end
 
@@ -41,53 +40,78 @@ describe V1::UsersController, type: :controller do
       let!(:user3) { create(:user, user_params('Tom', 'Pink', 'pink@t.com')) }
       let!(:user4) { create(:user, user_params('Tom', 'Red', 'blue@test.com')) }
 
-      it 'searches multiple users' do
-        get :index, q: 'tom', access_token: token.token
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['users'].count).to eq(2)
+      context 'search has results' do
+        before { get :index, q: 'tom', access_token: token.token }
+        it_behaves_like 'a successful request'
+        it 'responds with users' do
+          expect(json.users.count).to eq(2)
+        end
       end
 
-      it 'return empty array when there are no users' do
-        get :index, q: 'tomisnotthename', access_token: token.token
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['users'].count).to eq(0)
+      context 'search has no results' do
+        before { get :index, q: 'tomisnotthename', access_token: token.token }
+        it_behaves_like 'a successful request'
+        it 'responds with users' do
+          expect(json.users.count).to eq(0)
+        end
       end
     end
 
     describe 'DELETE#me' do
-      it 'renders OK response' do
-        delete :deactivate_profile, access_token: token.token
+      before { delete :deactivate_profile, access_token: token.token }
+
+      it 'revokes token' do
         token.reload
+        expect(token.revoked?).to eq(true)
+      end
+
+      it 'deactivates user' do
         user.reload
         expect(user.active).to eq(false)
-        expect(token.revoked?).to eq(true)
-        expect(response).to have_http_status(200)
       end
+
+      it_behaves_like 'a successful request'
     end
 
     describe 'PUT#update' do
       let(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
       let(:token2) { access_token(app, user2) }
 
-      it 'updates user' do
-        controller.stub(:doorkeeper_token) { token }
-        put :update, id: user, user: { name: 'Tom' }
-        user.reload
-        expect(user.name).to eq('Tom')
-        expect(response).to have_http_status(200)
+      context 'user tries to change profile with valid data' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          put :update, id: user, user: { name: 'Tom' }
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'updates user data' do
+          user.reload
+          expect(user.name).to eq('Tom')
+        end
+
+        it 'includes updated data in response' do
+          expect(json.user.name).to eq('Tom')
+        end
       end
 
-      it 'requires password confirmation' do
-        controller.stub(:doorkeeper_token) { token }
-        params = { password: 'P@ssw0rd1', password_confirmation: 'P@ssw0rd2' }
-        put :update, id: user, user: params
-        expect(response).to have_http_status(422)
+      context 'user tries to change profile with invalid data' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          params = { password: 'P@ssw0rd1', password_confirmation: 'P@ssw0rd2' }
+          put :update, id: user, user: params
+        end
+
+        it_behaves_like 'a failed create/update'
       end
 
-      it 'denies access for different user' do
-        controller.stub(:doorkeeper_token) { token2 }
-        put :update, id: user, user: { name: 'Tom' }
-        expect(response).to have_http_status(403)
+      context 'invalid users tries to change data' do
+        before do
+          controller.stub(:doorkeeper_token) { token2 }
+          put :update, id: user, user: { name: 'Tom' }
+        end
+
+        it_behaves_like 'a forbidden request'
       end
     end
   end
