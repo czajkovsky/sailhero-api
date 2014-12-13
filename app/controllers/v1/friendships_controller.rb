@@ -35,13 +35,13 @@ module V1
     end
 
     def deny
-      notify(friendship.user)
+      FriendshipNotifier.new(friendship.user).call
       friendship.destroy!
       render status: 200, nothing: true
     end
 
     def cancel
-      notify(friendship.friendship.friend)
+      FriendshipNotifier.new(friendship.friendship.friend).call
       friendship.destroy!
       render status: 200, nothing: true
     end
