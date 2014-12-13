@@ -113,6 +113,11 @@ describe V1::UsersController, type: :controller do
       expect(User.count).to eq(0)
     end
 
+    it 'sets null for avatar as default' do
+      post :create, user: user_params
+      expect(json.user.avatar).to eq(nil)
+    end
+
     it 'does not create user because of wrong params' do
       post :create, user: wrong_user_params
       expect(response).to have_http_status(422)
