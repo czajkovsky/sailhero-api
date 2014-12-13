@@ -24,9 +24,9 @@ class FriendshipsRepository
 
   def all
     {
+      accepted: accepted.serialize,
       pending: pending.serialize,
-      sent: sent.serialize,
-      accepted: accepted.serialize
+      sent: sent.serialize
     }
   end
 
