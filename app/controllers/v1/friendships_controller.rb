@@ -44,12 +44,6 @@ module V1
 
     private
 
-    def destroy_friendship(args)
-      FriendshipNotifier.new(args[:notify]).call
-      friendship.destroy!
-      render status: 200, nothing: true
-    end
-
     def friend
       User.where(id: params[:friend_id]).first
     end
@@ -60,6 +54,12 @@ module V1
 
     def friendship
       FriendshipRepository.new(current_user, params[:id])
+    end
+
+    def destroy_friendship(args)
+      FriendshipNotifier.new(args[:notify]).call
+      friendship.destroy!
+      render status: 200, nothing: true
     end
 
     def owner?
