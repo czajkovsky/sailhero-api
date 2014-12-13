@@ -47,7 +47,7 @@ module V1
 
     def remove_alert
       alert.update_attributes(active: false)
-      AlertNotifier.new(current_user).call
+      AlertNotifier.new(user: current_user).call
     end
   end
 end

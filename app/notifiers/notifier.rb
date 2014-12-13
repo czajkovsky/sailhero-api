@@ -1,8 +1,8 @@
 class Notifier
   attr_accessor :message, :key, :user
 
-  def initialize(user)
-    self.user = user
+  def initialize(params = {})
+    self.user = params[:user]
   end
 
   def notify_single_user

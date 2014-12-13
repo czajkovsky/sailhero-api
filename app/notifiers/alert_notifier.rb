@@ -1,7 +1,7 @@
 class AlertNotifier < Notifier
-  def initialize(params = nil)
-    self.key = 'alert'
-    self.message = 'sync_alerts'
+  def initialize(params = {})
+    self.message = 'alert'
+    self.key = 'sync_alerts'
     super(params)
   end
 

@@ -1,7 +1,7 @@
-class FriendshipNotifier < Notifier
+class ProfileUpdateNotifier < Notifier
   def initialize(params = {})
-    self.message = 'friends'
-    self.key = 'sync_friends'
+    self.message = 'profile'
+    self.key = 'sync_profile'
     super(params)
   end
 

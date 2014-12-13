@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe V1::UsersController, type: :controller do
-
   context 'when logged out' do
     describe 'GET#me' do
       before { get :me }

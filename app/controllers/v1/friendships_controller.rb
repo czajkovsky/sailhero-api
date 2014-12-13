@@ -29,7 +29,7 @@ module V1
     end
 
     def accept
-      FriendshipNotifier.new(friendship.user).call
+      FriendshipNotifier.new(user: friendship.user).call
       friendship.accept!
       render json: friendship.serialize
     end
@@ -57,7 +57,7 @@ module V1
     end
 
     def destroy_friendship(args)
-      FriendshipNotifier.new(args[:notify]).call
+      FriendshipNotifier.new(user: args[:notify]).call
       friendship.destroy!
       render status: 200, nothing: true
     end
