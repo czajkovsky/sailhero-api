@@ -29,16 +29,8 @@ module V1
       render json: data
     end
 
-    def accepted
-      render json: friendships.accepted.serialize
-    end
-
-    def sent
-      render json: friendships.sent.serialize
-    end
-
-    def pending
-      render json: friendships.pending.serialize
+    %w(accepted sent pending).each do |state|
+      define_method state { render json: friendships.send(state).serialize }
     end
 
     def show
