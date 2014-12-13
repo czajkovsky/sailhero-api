@@ -20,7 +20,7 @@ module V1
       end
     end
 
-    def all
+    def index
       data = {
         accepted: friendships.accepted.serialize,
         sent: friendships.sent.serialize,
@@ -29,7 +29,7 @@ module V1
       render json: data
     end
 
-    def index
+    def accepted
       render json: friendships.accepted.serialize
     end
 
@@ -101,11 +101,6 @@ module V1
 
     def friendship_params
       params.require(:friendship).permit(:friend_id)
-    end
-
-    def serialize_friendships_array(friendships_array)
-      ActiveModel::ArraySerializer.new(friendships_array,
-                                       each_serializer: FriendshipSerializer)
     end
   end
 end

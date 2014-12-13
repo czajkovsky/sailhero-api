@@ -63,11 +63,11 @@ describe V1::FriendshipsController, type: :controller do
       end
     end
 
-    describe 'GET#index' do
+    describe 'GET#accepted' do
       it "doesn't include sent requests" do
         post :create, friend_id: friend.id, access_token: token.token,
                       friendship: { friend_id: friend.id }
-        get :index, access_token: token.token
+        get :accepted, access_token: token.token
         expect(response).to be_success
         expect(response).to have_http_status(200)
         expect(JSON.parse(response.body)['friendships'].count).to eq(0)
@@ -76,7 +76,7 @@ describe V1::FriendshipsController, type: :controller do
       it "doesn't include pending requests" do
         controller.stub(:doorkeeper_token) { friend_token }
         post :create, friend_id: user.id, friendship: { friend_id: user.id }
-        get :index, access_token: token.token
+        get :accepted, access_token: token.token
         expect(response).to be_success
         expect(response).to have_http_status(200)
         expect(JSON.parse(response.body)['friendships'].count).to eq(0)
@@ -106,12 +106,12 @@ describe V1::FriendshipsController, type: :controller do
       end
     end
 
-    describe 'GET#all' do
+    describe 'GET#index' do
       it 'resonds with all friendships' do
         controller.stub(:doorkeeper_token) { friend_token }
         post :create, friend_id: user.id, friendship: { friend_id: user.id }
         controller.stub(:doorkeeper_token) { token }
-        get :all
+        get :index
         expect(response).to be_success
         expect(JSON.parse(response.body)['sent'].count).to eq(0)
         expect(JSON.parse(response.body)['accepted'].count).to eq(0)
@@ -180,12 +180,12 @@ describe V1::FriendshipsController, type: :controller do
         post :accept, id: friendship
         get :pending
         expect(JSON.parse(response.body)['friendships'].count).to eq(0)
-        get :index
+        get :accepted
         expect(JSON.parse(response.body)['friendships'].count).to eq(1)
         controller.stub(:doorkeeper_token) { token }
         get :sent
         expect(JSON.parse(response.body)['friendships'].count).to eq(0)
-        get :index
+        get :accepted
         expect(JSON.parse(response.body)['friendships'].count).to eq(1)
       end
     end
@@ -218,12 +218,12 @@ describe V1::FriendshipsController, type: :controller do
       it 'includes friendship in list for both users' do
         controller.stub(:doorkeeper_token) { friend_token }
         post :accept, id: friendship
-        get :index
+        get :accepted
         body = JSON.parse(response.body)['friendships']
         expect(body[0]['friend']['id']).to eq(user.id)
         expect(body.count).to eq(1)
         controller.stub(:doorkeeper_token) { token }
-        get :index
+        get :accepted
         body = JSON.parse(response.body)['friendships']
         expect(body.count).to eq(1)
         expect(body[0]['friend']['id']).to eq(friend.id)
