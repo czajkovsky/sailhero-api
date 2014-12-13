@@ -66,7 +66,7 @@ module V1
     end
 
     def owner?
-      render status: 403, nothing: true unless friendship.friendship.owner?(current_user)
+      render status: 403, nothing: true unless friendship.allowed?
     end
 
     def friendship_exists?

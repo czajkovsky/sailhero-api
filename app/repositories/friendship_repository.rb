@@ -14,4 +14,8 @@ class FriendshipRepository
   def serialize
     { friendship: FriendshipRepositorySerializer.new(user, friendship).to_json }
   end
+
+  def allowed?
+    user.id == friendship.friend_id || user.id == friendship.user_id
+  end
 end
