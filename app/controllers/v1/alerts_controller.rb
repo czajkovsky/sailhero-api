@@ -14,7 +14,7 @@ module V1
     def create
       if alert.save
         alert.update_attributes(user: current_user, region: current_user.region)
-        notify_all_users_in_region('sync_alerts', 'alert')
+        AlertNotifier.new(current_user).call
         render status: 201, json: alert
       else
         render status: 422, json: alert.errors

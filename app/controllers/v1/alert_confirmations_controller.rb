@@ -47,7 +47,7 @@ module V1
 
     def remove_alert
       alert.update_attributes(active: false)
-      notify_all_users_in_region('sync_alerts', 'alert')
+      AlertNotifier.new(current_user).call
     end
   end
 end
