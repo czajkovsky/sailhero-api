@@ -1,10 +1,10 @@
 module V1
   class AlertsController < RegionRestrictedController
-    expose(:alerts) { current_user.region.alerts.active }
+    expose(:alerts_repository) { AlertsRepository.new(current_user) }
     expose(:alert, attributes: :permitted_params)
 
     def index
-      render json: alerts
+      render json: alerts_repository.alerts
     end
 
     def show
