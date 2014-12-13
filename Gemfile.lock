@@ -108,6 +108,7 @@ GEM
       httparty
       json
     geocoder (1.2.1)
+    hashie (2.1.2)
     hike (1.2.3)
     httparty (0.13.1)
       json (~> 1.8)
@@ -269,6 +270,7 @@ DEPENDENCIES
   figaro
   gcm
   geocoder
+  hashie
   jbuilder (~> 2.0)
   konacha
   pg
