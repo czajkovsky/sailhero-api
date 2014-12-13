@@ -29,27 +29,25 @@ module V1
     end
 
     def accept
-      notify(friendship.friendship.user)
+      FriendshipNotifier.new(friendship.user).call
       friendship.accept!
       render json: friendship.serialize
     end
 
     def deny
-      FriendshipNotifier.new(friendship.user).call
-      friendship.destroy!
-      render status: 200, nothing: true
+      destroy_friendship(notify: friendship.user)
     end
 
     def cancel
-      FriendshipNotifier.new(friendship.friendship.friend).call
-      friendship.destroy!
-      render status: 200, nothing: true
+      destroy_friendship(notify: friendship.friend)
     end
 
     private
 
-    def notify(folk)
-      FriendshipNotifier.new(folk).call
+    def destroy_friendship(args)
+      FriendshipNotifier.new(args[:notify]).call
+      friendship.destroy!
+      render status: 200, nothing: true
     end
 
     def friend
