@@ -77,6 +77,13 @@ describe V1::UsersController, type: :controller do
         expect(response).to have_http_status(200)
       end
 
+      it 'requires password confirmation' do
+        controller.stub(:doorkeeper_token) { token }
+        params = { password: 'P@ssw0rd1', password_confirmation: 'P@ssw0rd2' }
+        put :update, id: user, user: params
+        expect(response).to have_http_status(422)
+      end
+
       it 'denies access for different user' do
         controller.stub(:doorkeeper_token) { token2 }
         put :update, id: user, user: { name: 'Tom' }
@@ -90,11 +97,20 @@ describe V1::UsersController, type: :controller do
     let(:wrong_user_params) do
       FactoryGirl.attributes_for(:user, email: 'wrong@te')
     end
+    let(:without_pass) do
+      FactoryGirl.attributes_for(:user, password: '', password_confirmation: '')
+    end
 
     it 'creates user with 201 status' do
       post :create, user: user_params
       expect(response).to have_http_status(201)
       expect(User.last.email).to eq(user_params[:email])
+    end
+
+    it 'requires password' do
+      post :create, user: without_pass
+      expect(response).to have_http_status(422)
+      expect(User.count).to eq(0)
     end
 
     it 'does not create user because of wrong params' do
