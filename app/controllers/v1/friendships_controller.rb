@@ -21,12 +21,7 @@ module V1
     end
 
     def index
-      data = {
-        accepted: friendships.accepted.serialize,
-        sent: friendships.sent.serialize,
-        pending: friendships.pending.serialize
-      }
-      render json: data
+      render json: friendships.all
     end
 
     %w(accepted sent pending).each do |state|

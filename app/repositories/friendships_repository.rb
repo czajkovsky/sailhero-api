@@ -22,6 +22,14 @@ class FriendshipsRepository
     self
   end
 
+  def all
+    {
+      pending: pending.serialize,
+      sent: sent.serialize,
+      accepted: accepted.serialize
+    }
+  end
+
   def serialize
     friendships.map { |f| FriendshipRepositorySerializer.new(user, f).to_json }
   end
