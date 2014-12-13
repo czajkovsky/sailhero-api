@@ -44,6 +44,7 @@ module V1
 
     def save_user(status)
       if user.save
+        ProfileNotifier.new(user: user).call
         render status: status, json: user
       else
         render status: 422, json: { errors: user.errors }

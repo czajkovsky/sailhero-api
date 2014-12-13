@@ -1,4 +1,4 @@
-class ProfileUpdateNotifier < Notifier
+class ProfileNotifier < Notifier
   def initialize(params = {})
     self.message = 'profile'
     self.key = 'sync_profile'
