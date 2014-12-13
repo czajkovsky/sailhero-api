@@ -125,27 +125,42 @@ describe V1::UsersController, type: :controller do
       FactoryGirl.attributes_for(:user, password: '', password_confirmation: '')
     end
 
-    it 'creates user with 201 status' do
-      post :create, user: user_params
-      expect(response).to have_http_status(201)
-      expect(User.last.email).to eq(user_params[:email])
+    context 'submits valid params' do
+      before { post :create, user: user_params }
+
+      it 'creates user' do
+        expect(User.last.email).to eq(user_params[:email])
+      end
+
+      it 'responds with user data' do
+        expect(json.user.email).to eq(user_params[:email])
+      end
+
+      it 'sets null for avatar as default' do
+        expect(json.user.avatar).to eq(nil)
+      end
+
+      it_behaves_like 'a successful create'
     end
 
-    it 'requires password' do
-      post :create, user: without_pass
-      expect(response).to have_http_status(422)
-      expect(User.count).to eq(0)
+    context "doesn't submit passowrd" do
+      before { post :create, user: without_pass }
+
+      it_behaves_like 'a failed create/update'
+
+      it "doesn't create user" do
+        expect(User.count).to eq(0)
+      end
     end
 
-    it 'sets null for avatar as default' do
-      post :create, user: user_params
-      expect(json.user.avatar).to eq(nil)
-    end
+    context 'submits wrong params' do
+      before { post :create, user: wrong_user_params }
 
-    it 'does not create user because of wrong params' do
-      post :create, user: wrong_user_params
-      expect(response).to have_http_status(422)
-      expect(User.count).to eq(0)
+      it_behaves_like 'a failed create/update'
+
+      it "doesn't create user" do
+        expect(User.count).to eq(0)
+      end
     end
   end
 end

@@ -8,6 +8,16 @@ shared_context 'a successful request' do
   end
 end
 
+shared_context 'a successful create' do
+  it 'returns an OK (201) status code' do
+    expect(response.status).to eq(201)
+  end
+
+  it 'is an successful response' do
+    expect(response).to be_success
+  end
+end
+
 shared_context 'an unauthorized request' do
   it 'returns an OK (401) status code' do
     expect(response.status).to eq(401)
