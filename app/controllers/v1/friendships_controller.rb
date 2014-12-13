@@ -49,8 +49,7 @@ module V1
     private
 
     def notify(folk)
-      GCMPusher.new(data: { message: 'sync_friends' }, collapse_key: 'friend',
-                    devices: folk.devices.android.map(&:key)).call
+      FriendshipNotifier.new(folk).call
     end
 
     def friend
