@@ -771,7 +771,8 @@ Latitude: YOUR_LATITUDE
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
     "credibility":0,
-    "active":true
+    "active":true,
+    "user_vote":0,
   }
 }
 ```
@@ -811,7 +812,8 @@ Latitude: YOUR_LATITUDE
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
     "credibility":0,
-    "active":true
+    "active":true,
+    "user_vote:0
   }
 }
 ```
@@ -864,7 +866,8 @@ Latitude: YOUR_LATITUDE
     "created_at":"2014-10-19T16:06:25.422Z",
     "user_id":22,
     "credibility":-5,
-    "active":false
+    "active":false,
+    "user_vote":1
   }
 }
 ```
@@ -882,6 +885,11 @@ Latitude: YOUR_LATITUDE
 ##### Credibility rules
 
 You can make only one action per alert - confirming it means +1 to alert creadibilty. If you change your mind and decline alert your +1 is changed for -1.
+
+##### User vote values
++ <code>0</code> - user has not confirmed/denied this alert yet
++ <code>1</code> - user has confirmed this alert
++ <code>-1</code> - user has denied this alert
 
 #### Allowed alert types
 
