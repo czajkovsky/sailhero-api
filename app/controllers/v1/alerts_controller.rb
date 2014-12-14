@@ -8,12 +8,14 @@ module V1
     end
 
     def show
-      render json: alert
+      alert_repository = AlertRepository.new(current_user, params[:id])
+      render json: alert_repository.alert
     end
 
     def create
       if alert.save
         alert.update_attributes(user: current_user, region: current_user.region)
+        alert.user_vote = 0
         AlertNotifier.new(current_user).call
         render status: 201, json: alert
       else

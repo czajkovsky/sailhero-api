@@ -30,6 +30,10 @@ describe V1::AlertsController, type: :controller do
           expect(json.alert.user_id).to eq(user.id)
         end
 
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(0)
+        end
+
         it 'creates new alert' do
           expect(Alert.first.user_id).to eq(user.id)
         end
@@ -55,6 +59,32 @@ describe V1::AlertsController, type: :controller do
         it 'includes alert in response' do
           expect(json.alert.id).to eq(alert.id)
         end
+
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(0)
+        end
+      end
+
+      context 'it is up voted by user' do
+        let!(:confirmation) do
+          create(:alert_up_confirmation, user_id: user.id, alert_id: alert.id)
+        end
+        before { get :show, id: alert, access_token: token.token }
+
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(1)
+        end
+      end
+
+      context 'it is down voted by user' do
+        let!(:confirmation) do
+          create(:alert_down_confirmation, user_id: user.id, alert_id: alert.id)
+        end
+        before { get :show, id: alert, access_token: token.token }
+
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(-1)
+        end
       end
     end
 
@@ -65,10 +95,12 @@ describe V1::AlertsController, type: :controller do
       end
       let(:second_token) { access_token(app, second_user) }
       let(:alert_params) { FactoryGirl.attributes_for(:alert) }
+      let!(:confirmation) do
+        alert.confirmations.create(user_id: user.id, up: true)
+      end
 
       before do
         controller.stub(:doorkeeper_token) { token }
-        post :create, alert: alert_params
         get :index
       end
 
@@ -85,6 +117,13 @@ describe V1::AlertsController, type: :controller do
           post :create, alert: alert_params, access_token: second_token.token
           get :index
           expect(json.alerts.count).to eq(1)
+        end
+      end
+
+      context 'user has up voted alert' do
+        it 'includes user vote in response' do
+          get :index, access_token: token.token
+          expect(json.alerts.first.user_vote).to eq(1)
         end
       end
     end

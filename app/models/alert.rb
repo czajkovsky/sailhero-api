@@ -15,7 +15,7 @@ class Alert < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   def assign_user_vote(confirmation)
-    (self.user_vote = 0 && return) if confirmation.nil?
-    self.user_vote = (confirmation.up ? 1 : -1)
+    self.user_vote = 0 if confirmation.nil?
+    self.user_vote = (confirmation.up ? 1 : -1) if confirmation.present?
   end
 end
