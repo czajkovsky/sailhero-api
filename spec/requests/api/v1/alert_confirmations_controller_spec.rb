@@ -41,6 +41,16 @@ describe V1::AlertConfirmationsController, type: :controller do
         it_behaves_like 'a forbidden request'
       end
 
+      context 'regions are different' do
+        let(:region2) { create(:region) }
+        let(:user2) { create(:user, region_id: region2.id, email: 'c@t.co') }
+        let(:user2_token) { access_token(app, user2) }
+
+        before { post :create, id: alert, access_token: user2_token.token }
+
+        it_behaves_like 'a forbidden request'
+      end
+
       context 'confirming alert' do
         before do
           controller.stub(:doorkeeper_token) { confirmer_token }
