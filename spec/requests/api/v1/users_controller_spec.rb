@@ -152,6 +152,17 @@ describe V1::UsersController, type: :controller do
       end
     end
 
+    context 'creates user with avatar' do
+      let(:with_avatar_params) { FactoryGirl.attributes_for(:user_with_avatar) }
+      before { post :create, user: with_avatar_params }
+
+      it_behaves_like 'a successful create'
+
+      it 'responds with avatar url' do
+        expect(json.user.avatar_url).not_to eq(nil)
+      end
+    end
+
     context 'submits wrong params' do
       before { post :create, user: wrong_user_params }
 

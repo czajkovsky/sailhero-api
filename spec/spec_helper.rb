@@ -33,4 +33,8 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.order = 'random'
+
+  config.after(:each) do
+    FileUtils.rm_rf(Dir["#{Rails.root}/spec/uploads"]) if Rails.env.test?
+  end
 end
