@@ -6,6 +6,7 @@ class Alert < ActiveRecord::Base
 
   LAT_LANG_FORMAT = /\A[0-9]+\.[0-9]+\Z/i
   ALERT_TYPES = %w( BAD_WEATHER_CONDITIONS CLOSED_AREA YACHT_FAILURE ).freeze
+  INACTIVE_TRESHOLD = 0
 
   validates :latitude, :longitude, format: { with: LAT_LANG_FORMAT }
   validates :latitude, :longitude, :alert_type, presence: true
