@@ -24,6 +24,10 @@ describe V1::FriendshipsController, type: :controller do
                         friendship: { friend_id: friend.id }
         end
         it_behaves_like 'a successful create'
+
+        it 'includes friend in response' do
+          expect(json.friendship.friend.email).to eq(friend.email)
+        end
       end
 
       context 'is forever alone' do
@@ -211,7 +215,7 @@ describe V1::FriendshipsController, type: :controller do
         it_behaves_like 'a successful request'
 
         it 'responds with correct friend' do
-          expect(json.friendship.friend.id).to eq(friend.id)
+          expect(json.friendship.friend.email).to eq(friend.email)
         end
 
         it 'sets user as inviter' do
