@@ -891,6 +891,9 @@ You can make only one action per alert - confirming it means +1 to alert creadib
 + <code>1</code> - user has confirmed this alert
 + <code>-1</code> - user has denied this alert
 
+##### Archiving task
+Each alert is archived due to <code>check_tasks<code> rake task after 4 hours with no activity. Task is launched every hour.
+
 #### Allowed alert types
 
 + <code>BAD_WEATHER_CONDITIONS</code>
