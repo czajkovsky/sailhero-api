@@ -52,6 +52,10 @@ describe V1::DevicesController, type: :controller do
           it 'overrides user' do
             expect(Device.first.user_id).to eq(user.id)
           end
+
+          it 'responds with new token' do
+            expect(json.device.id).to eq(Device.first.id)
+          end
         end
       end
 
