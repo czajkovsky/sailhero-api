@@ -6,103 +6,135 @@ describe V1::FriendshipsController, type: :controller do
   let(:friend) { create(:user, email: 'another@email.com') }
 
   context 'for unauthenticated user' do
-
     describe 'POST#create' do
-      it 'denies access with 401 status code' do
-        post :create, friend_id: friend.id
-        expect(response).not_to be_success
-        expect(response).to have_http_status(401)
-      end
+      before { post :create, friend_id: friend.id }
+      it_behaves_like 'an unauthorized request'
     end
   end
 
   context 'user is authenticated' do
-
     let(:app) { create_client_app }
     let(:token) { access_token(app, user) }
     let(:friend_token) { access_token(app, friend) }
 
     describe 'POST#create' do
-      it 'renders OK response' do
-        post :create, friend_id: friend.id, access_token: token.token,
-                      friendship: { friend_id: friend.id }
-        expect(response).to be_success
-        expect(response).to have_http_status(201)
+      context 'sends valid params' do
+        before do
+          post :create, friend_id: friend.id, access_token: token.token,
+                        friendship: { friend_id: friend.id }
+        end
+        it_behaves_like 'a successful create'
       end
 
-      it 'prevents self friending' do
-        post :create, friend_id: user.id, access_token: token.token,
-                      friendship: { friend_id: user.id }
-        expect(response).not_to be_success
-        expect(response).to have_http_status(462)
+      context 'is forever alone' do
+        before do
+          post :create, friend_id: user.id, access_token: token.token,
+                        friendship: { friend_id: user.id }
+        end
+        it_behaves_like 'a not successful request'
+
+        it 'responds with 462 status code' do
+          expect(response).to have_http_status(462)
+        end
       end
 
-      it 'checks if friend exists' do
-        post :create, friend_id: 1000, access_token: token.token,
-                      friendship: { friend_id: 1000 }
-        expect(response).not_to be_success
-        expect(response).to have_http_status(463)
+      context 'friend does not exist' do
+        before do
+          post :create, friend_id: 1000, access_token: token.token,
+                        friendship: { friend_id: 1000 }
+        end
+
+        it_behaves_like 'a not successful request'
+
+        it 'responds with 463 status code' do
+          expect(response).to have_http_status(463)
+        end
       end
 
-      it "doesn't duplicate friendships" do
-        post :create, friend_id: friend.id, access_token: token.token,
-                      friendship: { friend_id: friend.id }
-        post :create, friend_id: friend.id, access_token: token.token,
-                      friendship: { friend_id: friend.id }
-        expect(response).not_to be_success
-        expect(response).to have_http_status(403)
+      context 'tries to duplicate friends' do
+        before do
+          post :create, friend_id: friend.id, access_token: token.token,
+                        friendship: { friend_id: friend.id }
+          post :create, friend_id: friend.id, access_token: token.token,
+                        friendship: { friend_id: friend.id }
+        end
+
+        it_behaves_like 'a forbidden request'
       end
 
-      it "doesn't duplicate inv friendships" do
-        controller.stub(:doorkeeper_token) { token }
-        post :create, friend_id: friend.id, friendship: { friend_id: friend.id }
-        controller.stub(:doorkeeper_token) { friend_token }
-        post :create, friend_id: user.id, friendship: { friend_id: user.id }
-        expect(response).not_to be_success
-        expect(response).to have_http_status(403)
+      context 'tries to duplicate inv friends' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          post :create, friend_id: friend.id,
+                        friendship: { friend_id: friend.id }
+          controller.stub(:doorkeeper_token) { friend_token }
+          post :create, friend_id: user.id, friendship: { friend_id: user.id }
+        end
+
+        it_behaves_like 'a forbidden request'
       end
     end
 
     describe 'GET#accepted' do
-      it "doesn't include sent requests" do
-        post :create, friend_id: friend.id, access_token: token.token,
-                      friendship: { friend_id: friend.id }
-        get :accepted, access_token: token.token
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+      context 'has some sent invites' do
+        before do
+          post :create, friend_id: friend.id, access_token: token.token,
+                        friendship: { friend_id: friend.id }
+          get :accepted, access_token: token.token
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'does not include sent in friendships' do
+          expect(json.friendships.count).to eq(0)
+        end
       end
 
-      it "doesn't include pending requests" do
-        controller.stub(:doorkeeper_token) { friend_token }
-        post :create, friend_id: user.id, friendship: { friend_id: user.id }
-        get :accepted, access_token: token.token
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['friendships'].count).to eq(0)
+      context 'has pending invites' do
+        before do
+          controller.stub(:doorkeeper_token) { friend_token }
+          post :create, friend_id: user.id, friendship: { friend_id: user.id }
+          get :accepted, access_token: token.token
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'does not include pending in friendships' do
+          expect(json.friendships.count).to eq(0)
+        end
       end
     end
 
     describe 'GET#sent' do
-      it 'resonds with sent friendships' do
-        post :create, friend_id: friend.id, access_token: token.token,
-                      friendship: { friend_id: friend.id }
-        get :sent, access_token: token.token
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      context 'has sent invites' do
+        before do
+          post :create, friend_id: friend.id, access_token: token.token,
+                        friendship: { friend_id: friend.id }
+          get :sent, access_token: token.token
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'responds with sent invites' do
+          expect(json.friendships.count).to eq(1)
+        end
       end
     end
 
     describe 'GET#pending' do
-      it 'resonds with sent friendships' do
-        controller.stub(:doorkeeper_token) { friend_token }
-        post :create, friend_id: user.id, friendship: { friend_id: user.id }
-        controller.stub(:doorkeeper_token) { token }
-        get :pending
-        expect(response).to be_success
-        expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)['friendships'].count).to eq(1)
+      context 'sent are pending for friend' do
+        before do
+          controller.stub(:doorkeeper_token) { friend_token }
+          post :create, friend_id: user.id, friendship: { friend_id: user.id }
+          controller.stub(:doorkeeper_token) { token }
+          get :pending
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes invite in list' do
+          expect(json.friendships.count).to eq(1)
+        end
       end
     end
 
