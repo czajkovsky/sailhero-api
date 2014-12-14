@@ -1,7 +1,6 @@
 module V1
   class AlertsController < RegionRestrictedController
     expose(:alerts_repository) { AlertsRepository.new(current_user) }
-    expose(:alert, attributes: :permitted_params)
 
     def index
       render json: alerts_repository.alerts
@@ -13,6 +12,7 @@ module V1
     end
 
     def create
+      alert = Alert.new(permitted_params)
       if alert.save
         alert.update_attributes(user: current_user, region: current_user.region)
         alert.user_vote = 0
