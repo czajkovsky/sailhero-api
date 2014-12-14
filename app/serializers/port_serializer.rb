@@ -8,5 +8,5 @@ class PortSerializer < ActiveModel::Serializer
              :price_per_person, :price_power_connection, :price_wc,
              :price_shower, :price_washbasin, :price_dishes, :price_wifi,
              :price_washing_machine, :price_emptying_chemical_toilet,
-             :price_parking
+             :price_parking, :currency
 end

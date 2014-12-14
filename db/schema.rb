@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209180437) do
+ActiveRecord::Schema.define(version: 20141214194449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20141209180437) do
     t.boolean  "has_fuel_station",                                        default: false
     t.boolean  "has_emptying_chemical_toilet",                            default: true
     t.float    "price_parking",                                           default: 0.0
+    t.string   "currency",                                                default: "EUR"
   end
 
   create_table "regions", force: true do |t|
