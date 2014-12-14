@@ -6,7 +6,7 @@ describe V1::AlertConfirmationsController, type: :controller do
   let(:reporter) { create(:user, region_id: region.id) }
   let(:confirmer) { create(:user, region_id: region.id, email: 'b@test.com') }
   let(:confirmer2) { create(:user, region_id: region.id, email: 'c@test.com') }
-  let(:alert) { create(:alert, user_id: reporter.id) }
+  let(:alert) { create(:alert, user_id: reporter.id, region_id: region.id) }
 
   context 'when logged out' do
     describe 'POST#create' do
@@ -56,6 +56,10 @@ describe V1::AlertConfirmationsController, type: :controller do
           expect(json.alert.credibility).to eq(2)
         end
 
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(1)
+        end
+
         it 'changes alert credibility' do
           expect(alert.credibility).to eq(2)
         end
@@ -93,6 +97,10 @@ describe V1::AlertConfirmationsController, type: :controller do
 
         it 'includes alert credibility in response' do
           expect(json.alert.credibility).to eq(-1)
+        end
+
+        it 'includes user vote in response' do
+          expect(json.alert.user_vote).to eq(-1)
         end
       end
 
