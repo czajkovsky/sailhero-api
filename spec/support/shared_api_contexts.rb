@@ -28,6 +28,16 @@ shared_context 'an unauthorized request' do
   end
 end
 
+shared_context 'a not found request' do
+  it 'returns an OK (404) status code' do
+    expect(response.status).to eq(404)
+  end
+
+  it 'is not an successful response' do
+    expect(response).not_to be_success
+  end
+end
+
 shared_context 'a forbidden request' do
   it 'returns an OK (403) status code' do
     expect(response.status).to eq(403)

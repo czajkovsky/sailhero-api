@@ -8,74 +8,114 @@ describe V1::AlertConfirmationsController, type: :controller do
   let(:confirmer2) { create(:user, region_id: region.id, email: 'c@test.com') }
   let(:alert) { create(:alert, user_id: reporter.id) }
 
-  context 'for unauthenticated user' do
-
+  context 'when logged out' do
     describe 'POST#create' do
-      it 'denies access with 401 status code' do
-        post :create, id: alert
-        expect(response).to have_http_status(401)
-      end
+      before { post :create, id: alert }
+      it_behaves_like 'an unauthorized request'
     end
 
     describe 'DELETE#destroy' do
-      it 'denies access with 401 status code' do
-        delete :destroy, id: alert
-        expect(response).to have_http_status(401)
-      end
+      before { delete :destroy, id: alert }
+      it_behaves_like 'an unauthorized request'
     end
   end
 
-  context 'user is authenticated' do
-
+  context 'when logged in' do
     let(:app) { create_client_app }
     let(:reporter_token) { access_token(app, reporter) }
     let(:confirmer_token) { access_token(app, confirmer) }
     let(:confirmer2_token) { access_token(app, confirmer2) }
 
     describe 'POST#create' do
+      context 'tries self confirm alert' do
+        before do
+          controller.stub(:doorkeeper_token) { reporter_token }
+          post :create, id: alert, access_token: reporter_token.token
+          alert.reload
+        end
 
-      it 'blocks self confirmation with 403 status code' do
-        post :create, id: alert, access_token: reporter_token.token
-        alert.reload
-        expect(alert.credibility).to eq(0)
-        expect(response).to have_http_status(403)
+        it "doesn't change alert credibility" do
+          expect(alert.credibility).to eq(0)
+        end
+
+        it_behaves_like 'a forbidden request'
       end
 
-      it 'up votes alert' do
-        controller.stub(:doorkeeper_token) { confirmer_token }
-        post :create, id: alert
-        controller.stub(:doorkeeper_token) { confirmer2_token }
-        post :create, id: alert
-        alert.reload
-        expect(alert.credibility).to eq(2)
-        expect(response).to have_http_status(200)
+      context 'confirming alert' do
+        before do
+          controller.stub(:doorkeeper_token) { confirmer_token }
+          post :create, id: alert
+          controller.stub(:doorkeeper_token) { confirmer2_token }
+          post :create, id: alert
+          alert.reload
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes alert credibility in response' do
+          expect(json.alert.credibility).to eq(2)
+        end
+
+        it 'changes alert credibility' do
+          expect(alert.credibility).to eq(2)
+        end
       end
     end
 
     describe 'DELETE#destroy' do
+      context 'tries self deny alert' do
+        before do
+          delete :destroy, id: alert, access_token: reporter_token.token
+          alert.reload
+        end
 
-      it 'blocks self confirmation with 403 status code' do
-        delete :destroy, id: alert, access_token: reporter_token.token
-        alert.reload
-        expect(alert.credibility).to eq(0)
-        expect(response).to have_http_status(403)
+        it "doesn't change alert credibility" do
+          expect(alert.credibility).to eq(0)
+        end
+
+        it_behaves_like 'a forbidden request'
       end
 
-      it 'down votes alert' do
-        delete :destroy, id: alert, access_token: confirmer_token.token
-        alert.reload
-        expect(alert.credibility).to eq(-1)
-        expect(alert.active).to eq(false)
-        expect(Alert.active.count).to eq(0)
+      context 'down votes alert' do
+        before do
+          delete :destroy, id: alert, access_token: confirmer_token.token
+          alert.reload
+        end
+
+        it 'changes alert credibility' do
+          expect(alert.credibility).to eq(-1)
+        end
+
+        it 'switches alert to inactive' do
+          expect(alert.active).to eq(false)
+          expect(Alert.active.count).to eq(0)
+        end
+
+        it 'includes alert credibility in response' do
+          expect(json.alert.credibility).to eq(-1)
+        end
       end
 
-      it 'down removes previous vote for alert' do
-        controller.stub(:doorkeeper_token) { confirmer_token }
-        post :create, id: alert # 1
-        delete :destroy, id: alert # -1
-        controller.stub(:doorkeeper_token) { confirmer2_token }
-        post :create, id: alert
-        expect(response).to have_http_status(404)
+      context 'votes two times' do
+        before do
+          controller.stub(:doorkeeper_token) { confirmer_token }
+          post :create, id: alert # 1
+          delete :destroy, id: alert # -1
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes alert credibility in response' do
+          expect(json.alert.credibility).to eq(-1)
+        end
+
+        context 'votes on inactive alert' do
+          before  do
+            controller.stub(:doorkeeper_token) { confirmer2_token }
+            post :create, id: alert
+          end
+          it_behaves_like 'a not found request'
+        end
       end
     end
   end
