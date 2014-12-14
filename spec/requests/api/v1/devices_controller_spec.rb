@@ -9,46 +9,59 @@ describe V1::DevicesController, type: :controller do
   end
 
   context 'for unauthenticated user' do
-
     describe 'POST#create' do
-      it 'denies access with 401 status code' do
-        post :create, id: device_params
-        expect(response).not_to be_success
-        expect(response).to have_http_status(401)
-      end
+      before { post :create, id: device_params }
+      it_behaves_like 'an unauthorized request'
     end
   end
 
   context 'user is authenticated' do
-
     let(:app) { create_client_app }
     let(:token) { access_token(app, user) }
     let(:token2) { access_token(app, user) }
 
     describe 'POST#create' do
-      it 'renders OK response' do
-        post :create, device: device_params, access_token: token.token
-        device = Device.first
-        expect(device.user_id).to eq(user.id)
-        expect(device.token_id).to eq(token.id)
-        expect(response).to be_success
-        expect(response).to have_http_status(201)
+      context 'has valid params' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          post :create, device: device_params
+        end
+
+        it_behaves_like 'a successful create'
+
+        it 'connects device with user' do
+          expect(Device.first.user_id).to eq(user.id)
+        end
+
+        it 'connects device with token' do
+          expect(Device.first.token_id).to eq(token.id)
+        end
+
+        context 'overrides device' do
+          before do
+            controller.stub(:doorkeeper_token) { token2 }
+            post :create, device: device_params
+          end
+
+          it_behaves_like 'a successful create'
+
+          it 'overrides token' do
+            expect(Device.first.token_id).to eq(token2.id)
+          end
+
+          it 'overrides user' do
+            expect(Device.first.user_id).to eq(user.id)
+          end
+        end
       end
 
-      it 'overrides existing device' do
-        controller.stub(:doorkeeper_token) { token }
-        post :create, device: device_params
-        controller.stub(:doorkeeper_token) { token2 }
-        post :create, device: device_params
-        device = Device.first
-        expect(device.user_id).to eq(user.id)
-        expect(device.token_id).to eq(token2.id)
-      end
+      context 'tries to set invalid device' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          post :create, device: wrong_device_params
+        end
 
-      it 'it allows only android device' do
-        post :create, device: wrong_device_params, access_token: token.token
-        expect(response).not_to be_success
-        expect(response).to have_http_status(422)
+        it_behaves_like 'a failed create/update'
       end
     end
   end
