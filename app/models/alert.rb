@@ -18,4 +18,9 @@ class Alert < ActiveRecord::Base
     self.user_vote = 0 if confirmation.nil?
     self.user_vote = (confirmation.up ? 1 : -1) if confirmation.present?
   end
+
+  def archive!
+    update_attributes(active: false)
+    AlertNotifier.new(alert: self).call
+  end
 end

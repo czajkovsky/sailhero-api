@@ -11,7 +11,7 @@ class AlertRepository
     diff = confirmation ? update_confirmation(up) : create_confirmation(up)
     alert.update_attributes(credibility: alert.credibility += diff)
     alert.user_vote = (up ? 1 : -1)
-    remove_alert if alert.credibility < Alert::INACTIVE_TRESHOLD
+    alert.archive! if alert.credibility < Alert::INACTIVE_TRESHOLD
   end
 
   private
@@ -30,10 +30,5 @@ class AlertRepository
     return 0 if confirmation.up == up
     confirmation.update_attributes(up: up)
     up ? 2 : -2
-  end
-
-  def remove_alert
-    alert.update_attributes(active: false)
-    AlertNotifier.new(user: user).call
   end
 end
