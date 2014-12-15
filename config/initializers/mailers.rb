@@ -7,7 +7,6 @@ ActionMailer::Base.smtp_settings = {
   authentication:       'plain'
 }
 
-ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.perform_deliveries = true
 ActionMailer::Base.raise_delivery_errors = true
 ActionMailer::Base.default_url_options[:host] = ENV['MAIL_HOST']
