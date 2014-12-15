@@ -17,6 +17,8 @@ Rails.application.routes.draw do
           post 'select', on: :member, to: 'regions#select'
         end
 
+        resources :messages, except: [:edit, :destroy, :update]
+
         resources :friendships, only: [:index, :show, :create] do
           collection do
             get 'sent'
