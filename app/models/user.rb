@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   before_save :encrypt_password
-  before_save :generate_activation_token
+  before_create :generate_activation_token
 
   EMAIL_FORMAT = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
@@ -47,6 +47,10 @@ class User < ActiveRecord::Base
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def activate!
+    update_attributes(active: true, activation_token: '')
   end
 
   def generate_activation_token
