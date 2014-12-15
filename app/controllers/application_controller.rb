@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token
 
   helper_method :current_user
+  helper_method :current_region
 
   decent_configuration do
     strategy DecentExposure::StrongParametersStrategy
@@ -35,6 +36,10 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user = valid_token? ? find_current_user : nil
+  end
+
+  def current_region
+    @current_region = current_user ? current_user.region : nil
   end
 
   def valid_token?
