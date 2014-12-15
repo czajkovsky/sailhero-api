@@ -9,8 +9,8 @@ module V1
 
     def create
       if message.save
-        message.update_attributes(user: current_user,
-                                  region_id: current_user.region.id)
+        save_additional_data(current_user, current_user.region_id,
+                             params[:latitude], params[:longitude])
         render status: 201, json: message
       else
         render status: 422, json: { errors: message.errors }
@@ -25,6 +25,11 @@ module V1
 
     def permitted_params
       params.require(:message).permit(:body, :latitude, :longitude)
+    end
+
+    def save_additional_data(user, region_id, latitude, longitude)
+      message.update_attributes(user: user, region_id: region_id,
+                                latitude: latitude, longitude: longitude)
     end
   end
 end

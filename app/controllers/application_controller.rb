@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
     return false if latitude.nil? || longitude.nil? || current_user.nil?
     current_user.update_attributes(latitude: latitude, longitude: longitude,
                                    position_updated_at: Time.now)
+    params[:latitude] = latitude
+    params[:longitude] = longitude
   end
 
   private
