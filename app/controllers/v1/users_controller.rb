@@ -22,12 +22,6 @@ module V1
       render status: 200, json: users, each_serializer: UserSerializer
     end
 
-    def deactivate_profile
-      current_resource_owner.update_attributes(active: false)
-      doorkeeper_token.update_attributes(revoked_at: Time.now)
-      render nothing: true, status: 200
-    end
-
     private
 
     def process_image!

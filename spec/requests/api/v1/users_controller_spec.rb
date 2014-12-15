@@ -56,22 +56,6 @@ describe V1::UsersController, type: :controller do
       end
     end
 
-    describe 'DELETE#me' do
-      before { delete :deactivate_profile, access_token: token.token }
-
-      it 'revokes token' do
-        token.reload
-        expect(token.revoked?).to eq(true)
-      end
-
-      it 'deactivates user' do
-        user.reload
-        expect(user.active).to eq(false)
-      end
-
-      it_behaves_like 'a successful request'
-    end
-
     describe 'PUT#update' do
       let(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
       let(:token2) { access_token(app, user2) }
