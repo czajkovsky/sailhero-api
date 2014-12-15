@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'activate', to: 'activations#activate'
 
   scope :api do
     namespace :v1 do
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
         resources :users do
           collection do
             get 'me'
-            delete 'me', to: 'users#deactivate_profile'
             post 'me/devices', to: 'devices#create'
           end
         end
@@ -45,9 +45,7 @@ Rails.application.routes.draw do
           resources :ports, only: [:index, :show] do
             get 'calculate', on: :member
           end
-          resources :channels, only: [:index, :show]
           resources :routes, only: [:index, :show]
-          resources :dangers, only: [:index, :show]
         end
       end
     end
