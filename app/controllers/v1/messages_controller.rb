@@ -9,8 +9,8 @@ module V1
 
     def create
       if message.save
-        message.update_attributes(user: currrent_user,
-                                  region_id: currrent_user.region.id)
+        message.update_attributes(user: current_user,
+                                  region_id: current_user.region.id)
         render status: 201, json: message
       else
         render status: 422, json: { errors: message.errors }
