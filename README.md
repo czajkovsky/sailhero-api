@@ -21,6 +21,10 @@ API for apps dedicated to sailors.
     + [Authenticated user profile](#authenticated-user-profile)
     + [Deactivating account](#deactivating-account)
     + [Adding devices](#adding-devices)
+  + [Messages](#messages)
+    + [Sending message](#sending-message)
+    + [Fetching messages](#fetching-messages)
+    + [Fetching single message](#fetching-single-message)
   + [Friendships](#friendships)
     + [Getting all your friendships (accepted)](#getting-all-your-friendships-accepted)
     + [Getting your pending friendships requests](#getting-your-pending-friendships-requests)
@@ -348,6 +352,127 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ##### Device types
 
 Currently only <code>ANDROID</code> with GCM as <code>key</code> is supported.
+
+### Messages
+
+#### Sending message
+
+##### Request
+```
+POST /api/v1/en/messages HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Latitude: YOUR-LATITUDE
+Longitude: YOUR-LONGITUDE
+Authorization: Bearer YOUR-TOKEN
+
+{
+  "message":{
+    "body":"YOUR-MESSAGE"
+  }
+}
+```
+
+##### Response
+```
+# STATUS: 201 Created
+{
+  "message":{
+    "id":999,
+    "body":"YOUR-MESSAGE",
+    "created_at":"2014-09-13T09:57:21.402Z",
+    "user_id":"YOUR-ID",
+    "latitude":"YOUR-LATITUDE",
+    "longitude":"YOUR-LONGITUDE"
+  }
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                     |
+| ------ | ----------------------------------------------- |
+| 201    | Everything went fine. Described above           |
+| 401    | Access token is invalid or revoked.             |
+| 460    | Your current <code>region_id</code> is invalid. |
+
+#### Fetching messages
+
+##### Request
+```
+GET /api/v1/en/messages/ HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Latitude: YOUR-LATITUDE
+Longitude: YOUR-LONGITUDE
+Authorization: Bearer YOUR-TOKEN
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  "messages":[
+    {
+      "id":999,
+      "body","MESSAGE-BODY",
+      "created_at":"2014-09-13T09:57:21.402Z",
+      "user_id":"AUTHOR-ID",
+      "latitude":"MESSAGE-LATITUDE",
+      "longitude":"MESSAGE-LONGITUDE"
+    }
+    # ...
+  ]
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                     |
+| ------ | ----------------------------------------------- |
+| 200    | Everything went fine. Described above           |
+| 401    | Access token is invalid or revoked.             |
+| 460    | Your current <code>region_id</code> is invalid. |
+
+#### Fetching single message
+
+##### Request
+```
+GET /api/v1/en/messages/:id HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Latitude: YOUR-LATITUDE
+Longitude: YOUR-LONGITUDE
+Authorization: Bearer YOUR-TOKEN
+```
+
+##### Response
+```
+# STATUS: 200 OK
+{
+  "message":{
+    "id":999,
+    "body","YOUR-MESSAGE",
+    "created_at":"2014-09-13T09:57:21.402Z",
+    "user_id":"AUTHOR-ID",
+    "latitude":"MESSAGE-LATITUDE",
+    "longitude":"MESSAGE-LONGITUDE"
+  }
+}
+```
+
+##### Possible status codes
+
+| Status | Description                                                                    |
+| ------ | ------------------------------------------------------------------------------ |
+| 200    | Everything went fine. Described above                                          |
+| 401    | Access token is invalid or revoked.                                            |
+| 404    | Message with given id was not found.                                           |
+| 460    | Your current <code>region_id</code> is invalid or doesn't match message region |
+
+#### Message latitude and longitude
+
+If user allows position tracking and sends his position in headers message sent position is saved as well. Otherwise it's casted to <code>nil</code>.
 
 ### Friendships
 This app is meant to be social. It wouldn't be possible without friends. Making friends at Sailhero is very easy!
