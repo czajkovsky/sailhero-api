@@ -1,11 +1,10 @@
 module V1
   class MessagesController < RegionRestrictedController
+    before_filter :check_region, only: :show
     expose(:message, attributes: :permitted_params)
-    expose(:messages)
-
-    before_filter :check_region, only: [:index, :show]
 
     def index
+      messages = Message.where(region_id: current_region.id)
       render json: messages
     end
 
@@ -26,11 +25,11 @@ module V1
     private
 
     def check_region
-      render status: 460, nothing: true if message.region != current_user.region
+      render status: 460, nothing: true unless message.region == current_region
     end
 
     def permitted_params
-      params.require(:message).permit(:body, :latitude, :longitude)
+      params.require(:message).permit(:body)
     end
 
     def save_additional_data(user, region_id, latitude, longitude)
