@@ -3,6 +3,8 @@ module V1
     expose(:message, attributes: :permitted_params)
     expose(:messages)
 
+    before_filter :check_region, only: [:index, :show]
+
     def index
       render json: messages
     end
@@ -22,6 +24,10 @@ module V1
     end
 
     private
+
+    def check_region
+      render status: 460, nothing: true if message.region != current_user.region
+    end
 
     def permitted_params
       params.require(:message).permit(:body, :latitude, :longitude)

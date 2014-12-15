@@ -16,6 +16,7 @@ describe V1::MessagesController, type: :controller do
     let(:token) { access_token(app, user) }
     let(:token_without_region) { access_token(app, user_without_region) }
     let(:message_params) { FactoryGirl.attributes_for(:message) }
+    let(:message) { create(:message, region: region, user: user) }
 
     describe 'POST#create' do
       context 'has valid token' do
@@ -59,6 +60,31 @@ describe V1::MessagesController, type: :controller do
         it 'saves latitude and longitude' do
           expect(json.message.latitude).to eq(12.0.to_s)
           expect(json.message.longitude).to eq(10.0.to_s)
+        end
+      end
+    end
+
+    describe 'GET#show' do
+      context 'same region' do
+        before { get :show, id: message, access_token: token.token }
+        it_behaves_like 'a successful request'
+
+        it 'includes message in response' do
+          expect(json.message.id).to eq(message.id)
+        end
+      end
+
+      context 'different region' do
+        let(:region2) { create(:region) }
+        let(:user2) { create(:user, region: region2, email: 'b@test.com') }
+        let(:token2) { access_token(app, user2) }
+
+        before { get :show, id: message, access_token: token2.token }
+
+        it_behaves_like 'a not successful request'
+
+        it 'responds with (460) no region selected code' do
+          expect(response.status).to eq(460)
         end
       end
     end
