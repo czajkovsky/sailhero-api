@@ -108,6 +108,8 @@ GEM
       httparty
       json
     geocoder (1.2.1)
+    haml (4.0.5)
+      tilt
     hashie (2.1.2)
     hike (1.2.3)
     httparty (0.13.1)
@@ -273,6 +275,7 @@ DEPENDENCIES
   figaro
   gcm
   geocoder
+  haml
   hashie
   jbuilder (~> 2.0)
   kaminari
