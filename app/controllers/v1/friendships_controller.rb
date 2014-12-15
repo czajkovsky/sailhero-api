@@ -30,13 +30,13 @@ module V1
     end
 
     def accept
-      FriendshipNotifier.new(user: friendship.user).call
+      FriendshipNotifier.new(user: friendship.friend).call
       friendship.accept!
       render json: friendship.serialize
     end
 
     def deny
-      destroy_friendship(notify: friendship.user)
+      destroy_friendship(notify: friendship.friend)
     end
 
     def cancel
