@@ -461,6 +461,9 @@ Authorization: Bearer YOUR-TOKEN
 }
 ```
 
+##### Pagination
+Messages are paginated - you can switch <code>page</code> (by default <code>0</code>) and <code>per</code> (by default <code>25</code>).
+
 ##### Possible status codes
 
 | Status | Description                                                                    |
