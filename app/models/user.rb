@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :alerts
   belongs_to :region
   has_many :devices
+  has_many :messages
 
   has_many :friendships
   has_many :friends, through: :friendships
