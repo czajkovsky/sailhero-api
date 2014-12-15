@@ -41,6 +41,22 @@ describe V1::MessagesController, type: :controller do
           expect(response.status).to eq(460)
         end
       end
+
+      context 'with shared position' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          post :create, { message: message_params }
+          request.headers['HTTP_Longitude'] = 10.0
+          request.headers['HTTP_Latitude'] = 12.0
+        end
+
+        it_behaves_like 'a successful create'
+
+        it 'saves latitude and longitude' do
+          expect(json.message.latitude).to eq(12.0)
+          expect(json.message.longitude).to eq(10.0)
+        end
+      end
     end
   end
 end
