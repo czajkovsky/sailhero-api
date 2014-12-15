@@ -45,16 +45,16 @@ describe V1::MessagesController, type: :controller do
       context 'with shared position' do
         before do
           controller.stub(:doorkeeper_token) { token }
+          request.env['HTTP_LONGITUDE'] = 10.0
+          request.env['HTTP_LATITUDE'] = 12.0
           post :create, message: message_params
-          request.headers['HTTP_Longitude'] = 10.0
-          request.headers['HTTP_Latitude'] = 12.0
         end
 
         it_behaves_like 'a successful create'
 
         it 'saves latitude and longitude' do
-          expect(json.message.latitude).to eq(12.0)
-          expect(json.message.longitude).to eq(10.0)
+          expect(json.message.latitude).to eq(12.0.to_s)
+          expect(json.message.longitude).to eq(10.0.to_s)
         end
       end
     end
