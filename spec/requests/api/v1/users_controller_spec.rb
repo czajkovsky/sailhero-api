@@ -115,6 +115,10 @@ describe V1::UsersController, type: :controller do
         expect(User.last.email).to eq(user_params[:email])
       end
 
+      it 'user has not active' do
+        expect(User.last.active).to eq(false)
+      end
+
       it 'responds with user data' do
         expect(json.user.email).to eq(user_params[:email])
       end
