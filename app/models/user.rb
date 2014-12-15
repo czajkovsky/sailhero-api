@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   before_save :encrypt_password
+  before_save :generate_activation_token
 
   EMAIL_FORMAT = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
@@ -45,6 +46,13 @@ class User < ActiveRecord::Base
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+    end
+  end
+
+  def generate_activation_token
+    self.activation_token = loop do
+      random = Digest::SHA1.hexdigest([Time.now, rand].join)
+      break random unless User.exists?(activation_token: random)
     end
   end
 end
