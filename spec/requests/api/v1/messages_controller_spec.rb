@@ -45,7 +45,7 @@ describe V1::MessagesController, type: :controller do
       context 'with shared position' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          post :create, { message: message_params }
+          post :create, message: message_params
           request.headers['HTTP_Longitude'] = 10.0
           request.headers['HTTP_Latitude'] = 12.0
         end
