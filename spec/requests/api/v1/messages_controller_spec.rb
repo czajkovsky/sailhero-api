@@ -101,6 +101,20 @@ describe V1::MessagesController, type: :controller do
       it 'includes only region messages' do
         expect(json.messages.count).to eq(3)
       end
+
+      context 'has changed per param' do
+        before { get :index, page: 2, per: 1, access_token: token.token }
+
+        it_behaves_like 'a successful request'
+
+        it 'includes proper messages count' do
+          expect(json.messages.count).to eq(1)
+        end
+
+        it 'includes proper message' do
+          expect(json.messages.first.body).to eq(m2.body)
+        end
+      end
     end
   end
 end

@@ -119,6 +119,9 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.1)
+    kaminari (0.15.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     konacha (3.2.3)
       actionpack (>= 3.1, < 5)
       capybara
@@ -272,6 +275,7 @@ DEPENDENCIES
   geocoder
   hashie
   jbuilder (~> 2.0)
+  kaminari
   konacha
   pg
   pg_search

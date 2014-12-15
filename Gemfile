@@ -20,6 +20,7 @@ gem 'pg_search'
 gem 'carrierwave'
 gem 'carrierwave-aws'
 gem 'hashie'
+gem 'kaminari'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false

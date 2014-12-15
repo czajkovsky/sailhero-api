@@ -4,7 +4,6 @@ module V1
     expose(:message, attributes: :permitted_params)
 
     def index
-      messages = Message.where(region_id: current_region.id)
       render json: messages
     end
 
@@ -26,6 +25,11 @@ module V1
 
     def check_region
       render status: 460, nothing: true unless message.region == current_region
+    end
+
+    def messages
+      region_id = current_region.id
+      Message.where(region_id: region_id).page(params[:page]).per(params[:per])
     end
 
     def permitted_params
