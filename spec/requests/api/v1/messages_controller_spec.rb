@@ -27,6 +27,10 @@ describe V1::MessagesController, type: :controller do
         it 'includes current user id in response' do
           expect(json.message.user_id).to eq(user.id)
         end
+
+        it 'creates message' do
+          expect(Message.last.body).to eq(message_params[:body])
+        end
       end
 
       context 'user without region' do
