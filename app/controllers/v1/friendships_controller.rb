@@ -8,13 +8,9 @@ module V1
 
     def create
       new_friendship = Friendship.new(friendship_params)
-      if new_friendship.save
-        new_friendship.update_attributes(user_id: current_user.id, status: 0)
-        repository = FriendshipRepository.new(current_user, new_friendship.id)
-        render status: 201, json: repository.serialize
-      else
-        render status: 422, json: { errors: new_friendship.errors }
-      end
+      new_friendship.update_attributes(user_id: current_user.id, status: 0)
+      repository = FriendshipRepository.new(current_user, new_friendship.id)
+      render status: 201, json: repository.serialize
     end
 
     def index
