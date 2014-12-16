@@ -5,7 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   has_one :region, include: :true
 
   def last_position
-    { latitude: object.latitude, longitude: object.latitude,
+    { latitude: object.latitude, longitude: object.longitude,
       updated_at: object.position_updated_at }
   end
 

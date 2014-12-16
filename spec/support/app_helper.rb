@@ -23,5 +23,9 @@ module Requests
         password: user.password
       }
     end
+
+    def create_friendship(user, friend)
+      create(:friendship, user_id: user.id, friend_id: friend.id, status: 1)
+    end
   end
 end

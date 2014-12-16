@@ -5,6 +5,9 @@ FactoryGirl.define do
     email 'john.doe@example.com'
     password 'password1'
     password_confirmation 'password1'
+    latitude 10.0
+    longitude 12.0
+    position_updated_at '2014-12-16 22:33:02'
     active true
   end
 
