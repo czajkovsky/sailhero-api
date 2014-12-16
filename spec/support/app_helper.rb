@@ -10,8 +10,8 @@ module Requests
                                       resource_owner_id: user.id)
     end
 
-    def user_params(name, surname, email)
-      { name: name, surname: surname, email: email }
+    def user_params(name, surname, email, active = true)
+      { name: name, surname: surname, email: email, active: active }
     end
   end
 end

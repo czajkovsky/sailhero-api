@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
+  scope :active, -> { where(active: true) }
+
   include PgSearch
   pg_search_scope :search, against: [:name, :surname, :email]
 

@@ -18,7 +18,7 @@ module V1
     end
 
     def index
-      users = User.search(params[:q])
+      users = User.active.search(params[:q])
       render status: 200, json: users, each_serializer: UserSerializer
     end
 

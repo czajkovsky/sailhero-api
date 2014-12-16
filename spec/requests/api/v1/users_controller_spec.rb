@@ -36,14 +36,16 @@ describe V1::UsersController, type: :controller do
 
     describe 'GET#index' do
       let!(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
-      let!(:user3) { create(:user, user_params('Tom', 'Pink', 'pink@t.com')) }
+      let!(:user3) do
+        create(:user, user_params('Tom', 'Pink', 'pink@t.com', false))
+      end
       let!(:user4) { create(:user, user_params('Tom', 'Red', 'blue@test.com')) }
 
       context 'search has results' do
         before { get :index, q: 'tom', access_token: token.token }
         it_behaves_like 'a successful request'
-        it 'responds with users' do
-          expect(json.users.count).to eq(2)
+        it 'responds only with active users' do
+          expect(json.users.count).to eq(1)
         end
       end
 
