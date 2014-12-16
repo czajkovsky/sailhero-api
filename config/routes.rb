@@ -45,6 +45,7 @@ Rails.application.routes.draw do
           resources :ports, only: [:index, :show] do
             get 'calculate', on: :member
           end
+          resources :friends, only: [:index]
           resources :routes, only: [:index, :show]
         end
       end
