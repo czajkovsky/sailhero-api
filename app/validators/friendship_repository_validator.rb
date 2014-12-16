@@ -21,7 +21,7 @@ class FriendshipRepositoryValidator
   private
 
   def friend_exists?
-    self.status = 463 if potential_friend.nil?
+    self.status = 463 if potential_friend.nil? || !potential_friend.active
   end
 
   def forever_alone?

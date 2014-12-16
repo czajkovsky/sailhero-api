@@ -3,7 +3,8 @@ require 'spec_helper'
 describe V1::FriendshipsController, type: :controller do
 
   let(:user) { create(:user) }
-  let(:friend) { create(:user, email: 'another@email.com') }
+  let(:friend) { create(:user, email: 'b@email.com') }
+  let(:inactive_friend) { create(:user, email: 'c@email.com', active: false) }
 
   context 'for unauthenticated user' do
     describe 'POST#create' do
@@ -18,11 +19,26 @@ describe V1::FriendshipsController, type: :controller do
     let(:friend_token) { access_token(app, friend) }
 
     describe 'POST#create' do
-      context 'sends valid params' do
+      context 'friends account is not activated' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          post :create, friend_id: inactive_friend.id,
+                        access_token: token.token
+        end
+
+        it_behaves_like 'a not successful request'
+
+        it 'responds with 463 status' do
+          expect(response.status).to eq(463)
+        end
+      end
+
+      context 'friend is activated' do
         before do
           post :create, friend_id: friend.id, access_token: token.token,
                         friendship: { friend_id: friend.id }
         end
+
         it_behaves_like 'a successful create'
 
         it 'includes friend in response' do
