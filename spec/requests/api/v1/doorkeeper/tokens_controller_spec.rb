@@ -24,7 +24,7 @@ describe V1::Doorkeeper::TokensController, type: :controller do
 
       it_behaves_like 'an unauthorized request'
 
-      it "doesn't logs in user" do
+      it "doesn't log in user" do
         expect(json.include?('access_token')).to eq(false)
       end
     end

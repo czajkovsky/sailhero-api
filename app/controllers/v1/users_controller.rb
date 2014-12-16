@@ -14,7 +14,8 @@ module V1
     end
 
     def me
-      render status: 200, json: current_resource_owner
+      render status: 200, json: current_resource_owner,
+             serializer: Users::ProfileSerializer
     end
 
     def index
