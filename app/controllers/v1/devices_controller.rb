@@ -21,7 +21,7 @@ module V1
     end
 
     def device_exists?
-      user_device = Device.where(key: params[:key]).first
+      user_device = Device.where(key: params[:device][:key]).first
       return unless user_device
       user_device.update_attributes(token_id: doorkeeper_token.id)
       render status: 201, json: user_device
