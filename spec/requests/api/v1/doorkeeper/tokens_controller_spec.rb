@@ -29,4 +29,20 @@ describe V1::Doorkeeper::TokensController, type: :controller do
       end
     end
   end
+
+  describe 'POST#revoke' do
+    let(:token) { access_token(app, active_user) }
+    let!(:device) { create(:device, token_id: token.id) }
+
+    before do
+      controller.stub(:doorkeeper_token) { token }
+      post :revoke
+    end
+
+    it_behaves_like 'a successful request'
+
+    it 'removes device' do
+      expect(Device.count).to eq(0)
+    end
+  end
 end
