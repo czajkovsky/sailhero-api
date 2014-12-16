@@ -28,6 +28,10 @@ describe V1::Map::FriendsController, type: :controller do
         expect(scope.latitude).to eq(friend.latitude.to_s)
         expect(scope.longitude).to eq(friend.longitude.to_s)
       end
+
+      it "doesn't includes extended data in response" do
+        expect(json.friends.first.created_at).to eq(nil)
+      end
     end
 
     context 'is logged out' do

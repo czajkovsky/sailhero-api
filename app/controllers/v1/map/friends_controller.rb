@@ -4,7 +4,7 @@ module V1
       doorkeeper_for :all
 
       def index
-        render json: friends
+        render json: friends, each_serializer: Users::NeighbourSerializer
       end
 
       private

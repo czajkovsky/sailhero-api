@@ -22,6 +22,11 @@ describe V1::UsersController, type: :controller do
         it 'includes email in response' do
           expect(json.user.email).to eq(user.email)
         end
+
+        it 'includes extended data in response' do
+          expect(json.user.created_at).not_to eq(nil)
+          expect(json.user.share_position).not_to eq(nil)
+        end
       end
 
       context 'token is revoked' do
@@ -46,6 +51,10 @@ describe V1::UsersController, type: :controller do
         it_behaves_like 'a successful request'
         it 'responds only with active users' do
           expect(json.users.count).to eq(1)
+        end
+
+        it "doesn't includes extended data in response" do
+          expect(json.users.first.created_at).to eq(nil)
         end
       end
 

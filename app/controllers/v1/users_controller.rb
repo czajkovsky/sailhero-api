@@ -20,7 +20,7 @@ module V1
 
     def index
       users = User.active.search(params[:q])
-      render status: 200, json: users, each_serializer: UserSerializer
+      render status: 200, json: users, each_serializer: Users::FriendSerializer
     end
 
     private
@@ -41,7 +41,7 @@ module V1
       if user.save
         ProfileNotifier.new(user: user).call
         ActivationMailer.confirm_account(user).deliver if status == 201
-        render status: status, json: user
+        render status: status, json: user, serializer: Users::ProfileSerializer
       else
         render status: 422, json: { errors: user.errors }
       end

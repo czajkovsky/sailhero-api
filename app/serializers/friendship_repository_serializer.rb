@@ -11,7 +11,7 @@ class FriendshipRepositorySerializer
       id: friendship.id,
       status: friendship.status,
       invited: (friendship.friend_id == user.id),
-      friend: UserSerializer.new(friend).attributes
+      friend: Users::FriendSerializer.new(friend).attributes
     }
   end
 
