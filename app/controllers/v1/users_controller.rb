@@ -52,7 +52,7 @@ module V1
 
     def permitted_params
       params.require(:user).permit(:email, :password, :password_confirmation,
-                                   :name, :surname, :avatar)
+                                   :name, :surname, :avatar, :share_position)
     end
   end
 end
