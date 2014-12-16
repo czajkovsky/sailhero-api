@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       scope '(:locale)', locale: /en|pl/ do
         use_doorkeeper
 
-        resources :users do
+        resources :users, only: [:update, :index, :create] do
           collection do
             get 'me'
             post 'me/devices', to: 'devices#create'
