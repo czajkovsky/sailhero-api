@@ -13,5 +13,15 @@ module Requests
     def user_params(name, surname, email, active = true)
       { name: name, surname: surname, email: email, active: active }
     end
+
+    def create_login_params(user, app)
+      {
+        client_id: app.uid,
+        client_secret: app.secret,
+        username: user.email,
+        grant_type: 'password',
+        password: user.password
+      }
+    end
   end
 end

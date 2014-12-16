@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
     user = User.where(email: email).first
     return nil if user.nil?
     bcrypted_hash = BCrypt::Engine.hash_secret(password, user.password_salt)
-    user && user.password_hash == bcrypted_hash ? user : nil
+    user && user.active && user.password_hash == bcrypted_hash ? user : nil
   end
 
   def self.full_search(query)
