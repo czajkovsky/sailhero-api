@@ -16,7 +16,7 @@ describe V1::MessagesController, type: :controller do
     let(:token) { access_token(app, user) }
     let(:token_without_region) { access_token(app, user_without_region) }
     let(:message_params) { FactoryGirl.attributes_for(:message) }
-    let(:inv_message_params) { FactoryGirl.attributes_for(:message, body: '') }
+    let(:inv_message_params) { FactoryGirl.attributes_for(:message, body: nil) }
     let(:message) { create(:message, region: region, user: user) }
     let(:region2) { create(:region) }
     let(:user2) { create(:user, region: region2, email: 'b@test.com') }
@@ -36,13 +36,13 @@ describe V1::MessagesController, type: :controller do
         it 'creates message' do
           expect(Message.last.body).to eq(message_params[:body])
         end
+      end
 
-        context 'message has no body' do
-          before do
-            post :create, access_token: token.token, message: inv_message_params
-          end
-          it_behaves_like 'a failed create/update'
+      context 'message has no body' do
+        before do
+          post :create, access_token: token.token, message: inv_message_params
         end
+        it_behaves_like 'a failed create/update'
       end
 
       context 'user without region' do
