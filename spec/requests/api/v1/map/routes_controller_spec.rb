@@ -50,4 +50,32 @@ describe V1::Map::RoutesController, type: :controller do
       it_behaves_like 'an unauthorized request'
     end
   end
+
+  describe 'GET#show' do
+    context 'same region for route and user' do
+      before do
+        controller.stub(:doorkeeper_token) { token }
+        get :show, id: route1
+      end
+
+      it_behaves_like 'a successful request'
+
+      it 'responds with region' do
+        expect(json.route.id).to eq(route1.id)
+      end
+
+      it 'includes pins' do
+        expect(json.route.pins.count).to eq(2)
+      end
+    end
+
+    context 'different region for route and user' do
+      before do
+        controller.stub(:doorkeeper_token) { token }
+        get :show, id: route2
+      end
+
+      it_behaves_like 'a not found request'
+    end
+  end
 end
