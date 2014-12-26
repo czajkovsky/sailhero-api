@@ -48,6 +48,9 @@ API for apps dedicated to sailors.
     + [Getting all ports](#getting-all-ports)
     + [Getting single ports](#getting-all-ports)
     + [Calculating port cost](#calculating-port-cost)
+  + [Routes](#routes)
+    + [Getting all routes](#getting-all-routes)
+    + [Getting single route](#getting-single-route)
 + [Custom API status codes](#custom-api-status-codes)
 
 
@@ -1289,7 +1292,110 @@ Latitude: YOUR_LATITUDE
 | 464    | There is no spot for your yacht (is too big or too small).  |
 | 465    | You're trying to calculate port cost with no yacht.         |
 
+### Routes
+| Field                                       | Type     | Comments                                  |
+| ------------------------------------------- | -------- | ----------------------------------------- |
+| <code>id</code>                             | Integer  |                                           |
+| <code>name</code>                           | String   |                                           |
+| <code>created_at</code>                     | DateTime |                                           |
+| <code>updated_at</code>                     | DateTime |                                           |
+
+Each route can have mutiple **pins**:
+
+| Field                   | Type     |
+| ----------------------- | -------- |
+| <code>id</code>         | Integer  |
+| <code>route_id</code>   | Integer  |
+| <code>longitude</code>  | Decimal  |
+| <code>latitude</code>   | Decimal  |
+| <code>created_at</code> | DateTime |
+| <code>updated_at</code> | DateTime |
+
+#### Getting all routes
+
+##### Request
+
+```
+GET /api/v1/en/map/routes HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Sucessful response
+
+```
+# STATUS: 200 OK
+{
+  "routes":[
+    {
+      "id": 17,
+      "name": "Wielki Szlak Mazurski",
+      "pins":[
+        {
+          "latitude": "54.130976",
+          "longitude": "21.682389"
+        },
+      ]
+    },
+    ...
+  ]
+}
+```
+
+##### Possible responses
+
+| Status | Description                         |
+| ------ | ----------------------------------- |
+| 200    | Everything went fine                |
+| 401    | Access token is invalid or revoked. |
+| 460    | Region id is invalid                |
+
+#### Getting single route
+
+##### Request
+
+```
+GET /api/v1/en/map/routes/:id HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Sucessful response
+
+```
+# STATUS: 200 OK
+{
+  "route":{
+    "id": 17,
+    "name": "Wielki Szlak Mazurski",
+    "pins":[
+      {
+        "latitude": "54.130976",
+        "longitude": "21.682389"
+      },
+      ...
+    ]
+  }
+}
+```
+
+##### Possible responses
+
+| Status | Description                         |
+| ------ | ----------------------------------- |
+| 200    | Everything went fine                |
+| 401    | Access token is invalid or revoked. |
+| 404    | Route not found.                    |
+| 460    | Region id is invalid                |
+
 ## Custom API status codes
+
 | Status | Description                                                    |
 | ------ | -------------------------------------------------------------- |
 | 460    | Region ID is invalid.                                          |
