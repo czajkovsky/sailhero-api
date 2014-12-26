@@ -140,6 +140,19 @@ describe V1::MessagesController, type: :controller do
           expect(json.messages.count).to eq(10)
         end
       end
+
+      context 'no limit is set' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, since: messages_list.first.id, order: 'DESC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes 10 messages' do
+          expect(json.messages.count).to eq(10)
+        end
+      end
     end
   end
 end
