@@ -53,7 +53,6 @@ API for apps dedicated to sailors.
     + [Getting single route](#getting-single-route)
 + [Custom API status codes](#custom-api-status-codes)
 
-
 ## Host
 
 ```
@@ -151,17 +150,21 @@ You can always check your last saved position at [your profile](https://github.c
 ## API endpoints
 
 ### Users
-| Field                      | Type    | Comments                                                 | Validations                                                |
-| -------------------------- | ------- | -------------------------------------------------------- | ---------------------------------------------------------- |
-| <code>id</code>            | Integer |                                                          |                                                            |
-| <code>email</code>         | String  |                                                          | <code>/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i</code> |
-| <code>password_hash</code> | String  | Based on password which is beetween 4 and 128 characters |                                                            |
-| <code>password_salt</code> | String  |                                                          |                                                            |
-| <code>created_at</code>    | String  |                                                          |                                                            |
-| <code>updated_at</code>    | String  |                                                          |                                                            |
-| <code>name</code>          | String  |                                                          | Beetween 2 and 128 characters                              |
-| <code>surname</code>       | String  |                                                          | Beetween 2 and 128 characters                              |
-| <code>active</code>        | Boolean | Default: <code>true</code>                               |                                                            |
+| Field                            | Type     | Comments                    | Validations                   |
+| -------------------------------- | -------- | ----------------------------| ----------------------------- |
+| <code>id</code>                  | Integer  |                             |                               |
+| <code>email</code>               | String   |                             |                               |
+| <code>activation_token</code>    | String   |                             |                               |
+| <code>password</code>            | String   |                             | Beetween 4 and 128 characters |
+| <code>created_at</code>          | DateTime |                             |                               |
+| <code>created_at</code>          | DateTime |                             |                               |
+| <code>position_updated_at</code> | DateTime |                             |                               |
+| <code>name</code>                | String   |                             | Beetween 2 and 128 characters |
+| <code>surname</code>             | String   |                             | Beetween 2 and 128 characters |
+| <code>regio_id</code>            | Integer  |                             |                               |
+| <code>active</code>              | Boolean  | Default: <code>false</code> |                               |
+| <code>avatar_url</code>          | Boolean  | Default: <code>true</code>  |                               |
+| <code>share_position</code>      | Boolean  | Default: <code>true</code>  |                               |
 
 #### Searching users
 
