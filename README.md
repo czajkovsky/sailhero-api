@@ -1092,6 +1092,7 @@ Each alert is archived due to <code>check_tasks</code> rake task after 4 hours w
 | <code>has_parking</code>                    | Boolean  | Default: <code>true</code>                |
 
 Each port can have different prices depending on boat size. Sailhero handles it by **Yacht Size Range Price** model:
+
 | Field                   | Type     | Comments      |
 | ----------------------- | -------- | ------------- |
 | <code>id</code>         | Integer  |               |
