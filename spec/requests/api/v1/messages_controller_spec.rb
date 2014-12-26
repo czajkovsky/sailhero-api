@@ -98,7 +98,7 @@ describe V1::MessagesController, type: :controller do
 
     describe 'GET#index' do
       let!(:messages_list) do
-        FactoryGirl.create_list(:message, 100, region: region, user_id: user.id)
+        FactoryGirl.create_list(:message, 200, region: region, user_id: user.id)
       end
       let!(:m2) { create(:message, region: region2, user: user, body: 'm3') }
 
@@ -123,12 +123,12 @@ describe V1::MessagesController, type: :controller do
 
         it_behaves_like 'a successful request'
 
-        it 'includes only 50 messages' do
-          expect(json.messages.count).to eq(50)
+        it 'includes only 100 messages' do
+          expect(json.messages.count).to eq(100)
         end
 
         it 'sets next message id' do
-          expect(json.next).to eq(messages_list[50].id)
+          expect(json.next).to eq(messages_list[100].id)
         end
       end
 
@@ -141,11 +141,11 @@ describe V1::MessagesController, type: :controller do
         it_behaves_like 'a successful request'
 
         it 'includes 10 messages' do
-          expect(json.messages.count).to eq(10)
+          expect(json.messages.count).to eq(25)
         end
 
         it 'sets next message id' do
-          expect(json.next).to eq(messages_list[10].id)
+          expect(json.next).to eq(messages_list[25].id)
         end
       end
 
@@ -158,11 +158,11 @@ describe V1::MessagesController, type: :controller do
         it_behaves_like 'a successful request'
 
         it 'includes 10 messages' do
-          expect(json.messages.count).to eq(10)
+          expect(json.messages.count).to eq(25)
         end
 
         it 'sets next message id' do
-          expect(json.next).to eq(messages_list[10].id)
+          expect(json.next).to eq(messages_list[25].id)
         end
       end
 
