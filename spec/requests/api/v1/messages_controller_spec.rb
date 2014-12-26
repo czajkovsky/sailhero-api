@@ -97,31 +97,20 @@ describe V1::MessagesController, type: :controller do
     end
 
     describe 'GET#index' do
-      let!(:m1) { create(:message, region: region, user: user, body: 'm1') }
-      let!(:m2) { create(:message, region: region, user: user, body: 'm2') }
-      let!(:m3) { create(:message, region: region2, user: user, body: 'm3') }
-      let!(:m4) { create(:message, region: region, user: user, body: 'm4') }
+      let!(:messages_list) do
+        FactoryGirl.create_list(:message, 6, region: region, user_id: user.id)
+      end
+      let!(:m2) { create(:message, region: region2, user: user, body: 'm3') }
 
-      before { get :index, access_token: token.token }
+      before do
+        get :index, access_token: token.token, limit: 3,
+                    since: messages_list[3].id
+      end
 
       it_behaves_like 'a successful request'
 
       it 'includes only region messages' do
         expect(json.messages.count).to eq(3)
-      end
-
-      context 'has changed per param' do
-        before { get :index, page: 2, per: 1, access_token: token.token }
-
-        it_behaves_like 'a successful request'
-
-        it 'includes proper messages count' do
-          expect(json.messages.count).to eq(1)
-        end
-
-        it 'includes proper message' do
-          expect(json.messages.first.body).to eq(m2.body)
-        end
       end
     end
   end
