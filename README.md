@@ -1172,6 +1172,112 @@ Latitude: YOUR_LATITUDE
 | 401    | Access token is invalid or revoked. |
 | 460    | Region id is invalid                |
 
+#### Getting single port
+
+##### Request
+
+```
+GET /api/v1/en/map/ports/:id HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Sucessful response
+
+```
+# STATUS: 200 OK
+{
+  "port": {
+    "id": 17,
+    "name": "Sztynort",
+    "latitude": "54.130976",
+    "longitude": "21.682389",
+    "website": "http://www.tiga-yacht.com.pl/",
+    "city": "Wegorzewo",
+    "street": "Sztynort 11",
+    "photo_url": null,
+    "telephone": "+48 87 427 51 80",
+    "additional_info": "Showers for 10 minutes, restaurant available",
+    "spots": 120,
+    "depth": 100,
+    "has_power_connection": true,
+    "has_wc": true,
+    "has_shower": true,
+    "has_washbasin": true,
+    "has_dishes": true,
+    "has_wifi": true,
+    "has_parking": true,
+    "has_slip": false,
+    "has_washing_machine": true,
+    "has_fuel_station": true,
+    "has_emptying_chemical_toilet": true,
+    "price_per_person": 15,
+    "price_power_connection": 0,
+    "price_wc": 0,
+    "price_shower": 15,
+    "price_washbasin": 0,
+    "price_dishes": 0,
+    "price_wifi": 0,
+    "price_washing_machine": 15,
+    "price_emptying_chemical_toilet": 0,
+    "price_parking": 0,
+    "currency": "EUR"
+  }
+}
+```
+
+#### Calculating port cost
+
+##### Request
+
+```
+GET /api/v1/en/map/ports/:id/calculate HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Sucessful response
+
+```
+# STATUS: 200 OK
+{
+  "port": {
+    "cost": 135,
+    "currency": "EUR",
+    "included": [
+      {
+        name: "wc",
+        price: 0
+      },
+      ...
+    ],
+    "optional": [
+      {
+        name: "power_connection",
+        price: 10
+      },
+      ...
+    ]
+    "additional_info": "Lorem ipsum dolores..."
+  }
+}
+```
+
+##### Possible responses
+
+| Status | Description                                                 |
+| ------ | ----------------------------------------------------------- |
+| 200    | Everything went fine                                        |
+| 401    | Access token is invalid or revoked.                         |
+| 404    | Port with given id was not found or is in different region. |
+| 460    | Region id is invalid                                        |
+
 ## Custom API status codes
 | Status | Description                                                    |
 | ------ | -------------------------------------------------------------- |
@@ -1179,3 +1285,5 @@ Latitude: YOUR_LATITUDE
 | 461    | User has already created yacht.                                |
 | 462    | Forever alone. You're trying to become a friend with yourself. |
 | 463    | You're trying to become a friend with nil.                     |
+| 464    | There is no spot for your yacht (is too big or too small)      |
+| 465    | You're trying to calculate port cost with no yacht.            |
