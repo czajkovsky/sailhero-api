@@ -399,7 +399,7 @@ Authorization: Bearer YOUR-TOKEN
 #### Fetching messages
 
 Fetching messages is cursor style - we have three parameters:
-* <code>order</code> - <code>DESC</code> (default) and <code>ASC</code> allowed. <code>DESC</code> fetches previous messages.
+* <code>order</code> - <code>ASC</code> (default) and <code>DESC</code> allowed. <code>DESC</code> fetches previous messages.
 * <code>since</code> - id of first message that will be included in response
 * <code>limit</code> - how many messages will be included, <code>25</code> by default, <code>100</code> is maximum, can't be less then <code>1</code>
 
@@ -440,8 +440,8 @@ Let't assume we have 6 messages with ID's <code>1</code>, <code>2</code>, <code>
 | Since | Limit | Order | IDs included     | Next message id |
 | ----- | ----- | ----- | ---------------- | --------------- |
 | 4     | 2     | DESC  | 4, 3             | 2               |
-| 4     | 2     | ASC   | 4, 5             | 6               |
-| 4     | 10    | ASC   | 4, 5, 6          | nil             |
+| 4     | 2     | -     | 4, 5             | 6               |
+| 4     | 10    | -     | 4, 5, 6          | nil             |
 | -     | -     | -     | 6, 5, 4, 3, 2, 1 | nil             |
 
 ##### Possible status codes
