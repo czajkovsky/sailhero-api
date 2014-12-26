@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141226135944) do
+ActiveRecord::Schema.define(version: 20141226170301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 20141226135944) do
     t.float    "price_parking",                                           default: 0.0
     t.string   "currency",                                                default: "EUR"
     t.string   "photo_url"
+    t.integer  "region_id"
   end
 
   create_table "regions", force: true do |t|

@@ -2,10 +2,13 @@ require 'spec_helper'
 
 describe V1::Map::PortsController, type: :controller do
 
-  let!(:port) { create(:port) }
+  let(:region) { create(:region) }
+  let(:region2) { create(:region) }
+  let!(:port) { create(:port, region: region) }
+  let!(:port_in_different_region) { create(:port, region: region2) }
   let(:yacht) { create(:yacht) }
-  let(:user) { create(:user, yacht: yacht) }
-  let(:user_without_yacht) { create(:user, email: 'b@test.com') }
+  let(:user) { create(:user, yacht: yacht, region: region) }
+  let(:user_without_yacht) { create(:user, email: 'b@t.com', region: region) }
   let(:app) { create_client_app }
   let(:token) { access_token(app, user) }
   let(:token2) { access_token(app, user_without_yacht) }
@@ -48,15 +51,26 @@ describe V1::Map::PortsController, type: :controller do
   end
 
   describe 'GET#show' do
-    before do
-      controller.stub(:doorkeeper_token) { token }
-      get :show, id: port
+    context 'same region' do
+      before do
+        controller.stub(:doorkeeper_token) { token }
+        get :show, id: port
+      end
+
+      it_behaves_like 'a successful request'
+
+      it 'includes port' do
+        expect(json.port.id).to eq(port.id)
+      end
     end
 
-    it_behaves_like 'a successful request'
+    context 'has different region' do
+      before do
+        controller.stub(:doorkeeper_token) { token }
+        get :show, id: port_in_different_region
+      end
 
-    it 'includes port' do
-      expect(json.port.id).to eq(port.id)
+      it_behaves_like 'a not found request'
     end
   end
 

@@ -1,12 +1,11 @@
 module V1
   module Map
-    class PortsController < VersionController
-      doorkeeper_for :all
-      expose(:ports)
+    class PortsController < RegionRestrictedController
       expose(:port)
+      before_action :check_port, only: :show
 
       def index
-        render json: ports
+        render json: current_region.ports
       end
 
       def show
@@ -17,6 +16,12 @@ module V1
         calculator = PortCostCalculator.new(yacht: current_user.yacht,
                                             port: port).call
         render status: calculator.status, json: { port: calculator }
+      end
+
+      private
+
+      def check_port
+        render status: 404, nothing: true if port.region_id != current_region.id
       end
     end
   end
