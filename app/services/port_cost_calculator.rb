@@ -18,7 +18,6 @@ class PortCostCalculator < OpenStruct
 
   def as_json(_ = {})
     {
-      status: status,
       cost: cost,
       currency: port.currency,
       included: included,
