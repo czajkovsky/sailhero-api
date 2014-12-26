@@ -1051,45 +1051,125 @@ Each alert is archived due to <code>check_tasks</code> rake task after 4 hours w
 + <code>YACHT_FAILURE</code>
 
 ### Ports
-| Field                                       | Type    | Comments                                  |
-| ------------------------------------------- | ------- | ----------------------------------------- |
-| <code>id</code>                             | Integer |                                           |
-| <code>name</code>                           | String  |                                           |
-| <code>longitude</code>                      | Decimal | Default: <code>0.0</code>                 |
-| <code>latitude</code>                       | Decimal | Default: <code>0.0</code>                 |
-| <code>created_at</code>                     | String  |                                           |
-| <code>updated_at</code>                     | String  |                                           |
-| <code>photo_url</code>                      | String  |                                           |
-| <code>website</code>                        | String  |                                           |
-| <code>city</code>                           | String  |                                           |
-| <code>street</code>                         | String  |                                           |
-| <code>telephone</code>                      | String  | Default: <code>true</code>                |
-| <code>additional_info</code>                | String  | Default: <code>true</code>                |
-| <code>currency</code>                       | String  | Default: <code>EUR</code>                 |
-| <code>spots</code>                          | Integer | Default: <code>true</code>                |
-| <code>depth</code>                          | Integer | In centemeters, Default: <code>100</code> |
-| <code>price_per_person</code>               | String  | Default: <code>0.0</code>                 |
-| <code>price_power_connection</code>         | String  | Default: <code>0.0</code>                 |
-| <code>price_wc</code>                       | String  | Default: <code>0.0</code>                 |
-| <code>price_shower</code>                   | String  | Default: <code>0.0</code>                 |
-| <code>price_washbasin</code>                | String  | Default: <code>0.0</code>                 |
-| <code>price_dishes</code>                   | String  | Default: <code>0.0</code>                 |
-| <code>price_parking</code>                  | String  | Default: <code>0.0</code>                 |
-| <code>price_wifi</code>                     | String  | Default: <code>0.0</code>                 |
-| <code>price_washing_machine</code>          | String  | Default: <code>0.0</code>                 |
-| <code>price_emptying_chemical_toilet</code> | String  | Default: <code>0.0</code>                 |
-| <code>has_power_connection</code>           | Boolean | Default: <code>true</code>                |
-| <code>has_wc</code>                         | Boolean | Default: <code>true</code>                |
-| <code>has_shower</code>                     | Boolean | Default: <code>true</code>                |
-| <code>has_parking</code>                    | Boolean | Default: <code>true</code>                |
-| <code>has_washbasin</code>                  | Boolean | Default: <code>true</code>                |
-| <code>has_dishes</code>                     | Boolean | Default: <code>true</code>                |
-| <code>has_wifi</code>                       | Boolean | Default: <code>true</code>                |
-| <code>has_slip</code>                       | Boolean | Default: <code>false</code>               |
-| <code>has_washing_machine</code>            | Boolean | Default: <code>true</code>                |
-| <code>has_fuel_station</code>               | Boolean | Default: <code>false</code>               |
-| <code>has_parking</code>                    | Boolean | Default: <code>true</code>                |
+| Field                                       | Type     | Comments                                  |
+| ------------------------------------------- | -------- | ----------------------------------------- |
+| <code>id</code>                             | Integer  |                                           |
+| <code>region_id</code>                      | Integer  |                                           |
+| <code>name</code>                           | String   |                                           |
+| <code>longitude</code>                      | Decimal  | Default: <code>0.0</code>                 |
+| <code>latitude</code>                       | Decimal  | Default: <code>0.0</code>                 |
+| <code>created_at</code>                     | DateTime |                                           |
+| <code>updated_at</code>                     | DateTime |                                           |
+| <code>photo_url</code>                      | String   |                                           |
+| <code>website</code>                        | String   |                                           |
+| <code>city</code>                           | String   |                                           |
+| <code>street</code>                         | String   |                                           |
+| <code>telephone</code>                      | String   | Default: <code>true</code>                |
+| <code>additional_info</code>                | String   | Default: <code>true</code>                |
+| <code>currency</code>                       | String   | Default: <code>EUR</code>                 |
+| <code>spots</code>                          | Integer  | Default: <code>true</code>                |
+| <code>depth</code>                          | Integer  | In centemeters, Default: <code>100</code> |
+| <code>price_per_person</code>               | String   | Default: <code>0.0</code>                 |
+| <code>price_power_connection</code>         | String   | Default: <code>0.0</code>                 |
+| <code>price_wc</code>                       | String   | Default: <code>0.0</code>                 |
+| <code>price_shower</code>                   | String   | Default: <code>0.0</code>                 |
+| <code>price_washbasin</code>                | String   | Default: <code>0.0</code>                 |
+| <code>price_dishes</code>                   | String   | Default: <code>0.0</code>                 |
+| <code>price_parking</code>                  | String   | Default: <code>0.0</code>                 |
+| <code>price_wifi</code>                     | String   | Default: <code>0.0</code>                 |
+| <code>price_washing_machine</code>          | String   | Default: <code>0.0</code>                 |
+| <code>price_emptying_chemical_toilet</code> | String   | Default: <code>0.0</code>                 |
+| <code>has_power_connection</code>           | Boolean  | Default: <code>true</code>                |
+| <code>has_wc</code>                         | Boolean  | Default: <code>true</code>                |
+| <code>has_shower</code>                     | Boolean  | Default: <code>true</code>                |
+| <code>has_parking</code>                    | Boolean  | Default: <code>true</code>                |
+| <code>has_washbasin</code>                  | Boolean  | Default: <code>true</code>                |
+| <code>has_dishes</code>                     | Boolean  | Default: <code>true</code>                |
+| <code>has_wifi</code>                       | Boolean  | Default: <code>true</code>                |
+| <code>has_slip</code>                       | Boolean  | Default: <code>false</code>               |
+| <code>has_washing_machine</code>            | Boolean  | Default: <code>true</code>                |
+| <code>has_fuel_station</code>               | Boolean  | Default: <code>false</code>               |
+| <code>has_parking</code>                    | Boolean  | Default: <code>true</code>                |
 
+Each port can have different prices depending on boat size. Sailhero handles it by **Yacht Size Range Price** model:
+| Field                   | Type     | Comments      |
+| ----------------------- | -------- | ------------- |
+| <code>id</code>         | Integer  |               |
+| <code>port_id</code>    | Integer  |               |
+| <code>min_length</code> | Integer  | In centemetrs |
+| <code>max_length</code> | Integer  | In centemetrs |
+| <code>max_width</code>  | Integer  | In centemetrs |
+| <code>created_at</code> | DateTime |               |
+| <code>updated_at</code> | DateTime |               |
+| <code>price</code>      | Float    |               |
+
+#### Getting all ports
+
+##### Request
+
+```
+GET /api/v1/en/map/ports HTTP/1.1
+Host: sail-hero.dev
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Longitude: YOUR_LONGITUDE
+Latitude: YOUR_LATITUDE
+```
+
+##### Sucessful response
+
+```
+# STATUS: 200 OK
+{
+  "ports":[
+    {
+      "id": 17,
+      "name": "Sztynort",
+      "latitude": "54.130976",
+      "longitude": "21.682389",
+      "website": "http://www.tiga-yacht.com.pl/",
+      "city": "Wegorzewo",
+      "street": "Sztynort 11",
+      "photo_url": null,
+      "telephone": "+48 87 427 51 80",
+      "additional_info": "Showers for 10 minutes, restaurant available",
+      "spots": 120,
+      "depth": 100,
+      "has_power_connection": true,
+      "has_wc": true,
+      "has_shower": true,
+      "has_washbasin": true,
+      "has_dishes": true,
+      "has_wifi": true,
+      "has_parking": true,
+      "has_slip": false,
+      "has_washing_machine": true,
+      "has_fuel_station": true,
+      "has_emptying_chemical_toilet": true,
+      "price_per_person": 15,
+      "price_power_connection": 0,
+      "price_wc": 0,
+      "price_shower": 15,
+      "price_washbasin": 0,
+      "price_dishes": 0,
+      "price_wifi": 0,
+      "price_washing_machine": 15,
+      "price_emptying_chemical_toilet": 0,
+      "price_parking": 0,
+      "currency": "EUR"
+    },
+    ...
+  ]
+}
+```
+
+##### Possible responses
+
+| Status | Description                         |
+| ------ | ----------------------------------- |
+| 200    | Everything went fine                |
+| 401    | Access token is invalid or revoked. |
+| 460    | Region id is invalid                |
 
 ## Custom API status codes
 | Status | Description                                                    |
