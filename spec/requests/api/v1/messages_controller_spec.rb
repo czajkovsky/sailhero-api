@@ -98,19 +98,34 @@ describe V1::MessagesController, type: :controller do
 
     describe 'GET#index' do
       let!(:messages_list) do
-        FactoryGirl.create_list(:message, 6, region: region, user_id: user.id)
+        FactoryGirl.create_list(:message, 100, region: region, user_id: user.id)
       end
       let!(:m2) { create(:message, region: region2, user: user, body: 'm3') }
 
-      before do
-        get :index, access_token: token.token, limit: 3,
-                    since: messages_list[3].id
+      context 'different region' do
+        before do
+          controller.stub(:doorkeeper_token) { token2 }
+          get :index, limit: 30, since: m2.id, order: 'DESC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes only region messages' do
+          expect(json.messages.count).to eq(1)
+        end
       end
 
-      it_behaves_like 'a successful request'
+      context 'maximum limit exceeded' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 300, since: messages_list.first.id, order: 'DESC'
+        end
 
-      it 'includes only region messages' do
-        expect(json.messages.count).to eq(3)
+        it_behaves_like 'a successful request'
+
+        it 'includes only 50 messages' do
+          expect(json.messages.count).to eq(50)
+        end
       end
     end
   end
