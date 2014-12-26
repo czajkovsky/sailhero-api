@@ -14,8 +14,8 @@ module V1
       end
 
       def calculate
-        pc = PortCostCalculator.new(yacht: current_user.yacht, port: port).call
-        render json: pc.to_json
+        render json: PortCostCalculator.new(yacht: current_user.yacht,
+                                            port: port).call
       end
     end
   end
