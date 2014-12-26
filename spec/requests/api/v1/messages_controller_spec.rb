@@ -105,7 +105,7 @@ describe V1::MessagesController, type: :controller do
       context 'different region' do
         before do
           controller.stub(:doorkeeper_token) { token2 }
-          get :index, limit: 30, since: m2.id, order: 'DESC'
+          get :index, limit: 30, since: m2.id
         end
 
         it_behaves_like 'a successful request'
@@ -118,7 +118,7 @@ describe V1::MessagesController, type: :controller do
       context 'maximum limit exceeded' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 300, since: messages_list.first.id, order: 'DESC'
+          get :index, limit: 300, since: messages_list.first.id
         end
 
         it_behaves_like 'a successful request'
@@ -135,7 +135,7 @@ describe V1::MessagesController, type: :controller do
       context 'limit is invalid' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 0, since: messages_list.first.id, order: 'DESC'
+          get :index, limit: 0, since: messages_list.first.id
         end
 
         it_behaves_like 'a successful request'
@@ -152,7 +152,7 @@ describe V1::MessagesController, type: :controller do
       context 'no limit is set' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, since: messages_list.first.id, order: 'DESC'
+          get :index, since: messages_list.first.id
         end
 
         it_behaves_like 'a successful request'
@@ -169,7 +169,7 @@ describe V1::MessagesController, type: :controller do
       context 'proper limit is set' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 14, since: messages_list.first.id, order: 'DESC'
+          get :index, limit: 14, since: messages_list.first.id
         end
 
         it_behaves_like 'a successful request'
@@ -186,7 +186,7 @@ describe V1::MessagesController, type: :controller do
       context 'fetches previous messages' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 3, since: messages_list[5].id, order: 'ASC'
+          get :index, limit: 3, since: messages_list[5].id, order: 'DESC'
         end
 
         it_behaves_like 'a successful request'
@@ -205,7 +205,7 @@ describe V1::MessagesController, type: :controller do
       context 'fetches next messages' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 3, since: messages_list[5].id, order: 'DESC'
+          get :index, limit: 3, since: messages_list[5].id
         end
 
         it_behaves_like 'a successful request'
@@ -224,7 +224,7 @@ describe V1::MessagesController, type: :controller do
       context 'fetches maximum range' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 3, since: messages_list[2].id, order: 'ASC'
+          get :index, limit: 3, since: messages_list[2].id, order: 'DESC'
         end
 
         it_behaves_like 'a successful request'
@@ -243,7 +243,7 @@ describe V1::MessagesController, type: :controller do
       context 'limit is too big' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          get :index, limit: 4, since: messages_list[2].id, order: 'ASC'
+          get :index, limit: 4, since: messages_list[2].id, order: 'DESC'
         end
 
         it_behaves_like 'a successful request'
@@ -254,6 +254,23 @@ describe V1::MessagesController, type: :controller do
 
         it 'sets next message id' do
           expect(json.next).to eq(nil)
+        end
+      end
+
+      context 'no params provided' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes last message as first' do
+          expect(json.messages.first.id).to eq(messages_list.last.id)
+        end
+
+        it 'includes proper messages count' do
+          expect(json.messages.count).to eq(25)
         end
       end
     end

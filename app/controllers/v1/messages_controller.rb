@@ -1,6 +1,7 @@
 module V1
   class MessagesController < RegionRestrictedController
     before_filter :check_region, only: :show
+    before_filter :check_since_param, only: :index
     expose(:message, attributes: :permitted_params)
 
     def index
@@ -22,6 +23,12 @@ module V1
     end
 
     private
+
+    def check_since_param
+      return unless params[:since].nil?
+      params[:since] = current_region.messages.last.id
+      params[:order] = 'DESC'
+    end
 
     def check_region
       render status: 460, nothing: true unless message.region == current_region

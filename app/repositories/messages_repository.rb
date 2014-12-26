@@ -1,7 +1,7 @@
 class MessagesRepository < OpenStruct
   def initialize(params)
     params[:order] = 'ASC' unless %w(ASC DESC).include?(params[:order])
-    params[:sign] = (params[:order] == 'DESC' ? '>=' : '<=')
+    params[:sign] = (params[:order] == 'DESC' ? '<=' : '>=')
     params[:messages] = []
     params[:limit] = normalize_limits(params[:limit])
     super params
@@ -18,17 +18,16 @@ class MessagesRepository < OpenStruct
   private
 
   def normalize_limits(limit)
-    limit = [limit.to_is, 100].min
-    return 25 if limit < 25
-    limits
+    limit = [limit.to_i, 100].min
+    return 25 if limit < 1
+    limit
   end
 
   def fetch_messages
-    reversed_order = (order == 'ASC' ? 'DESC' : 'ASC')
     Message.where("id #{sign} ?", since)
            .where(region_id: region_id)
            .limit(limit + 1)
-           .order("created_at #{reversed_order}")
+           .order("created_at #{order}")
   end
 
   def messages_array
