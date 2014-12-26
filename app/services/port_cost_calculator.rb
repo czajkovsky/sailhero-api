@@ -1,19 +1,40 @@
-class PortCostCalculator < Response
-  attr_reader :yacht, :port
-  attr_accessor :total_cost, :included, :optional, :messages, :available
-
+class PortCostCalculator < OpenStruct
   def initialize(params = {})
-    super
-    @yacht = params.fetch(:yacht)
-    @port = params.fetch(:port)
-    calculate
+    [[:status, 200], [:cost, nil]].each { |p, v| params[p] = v }
+    [:included, :optional].each { |p| params[p] = [] }
+    super(params)
+  end
+
+  def call
+    validate
+    calculate if valid?
+    prepare_options if valid?
+    self
+  end
+
+  def valid?
+    status == 200
+  end
+
+  def to_json
+    {
+      status: status,
+      cost: cost,
+      included: included,
+      optional: optional
+    }
+  end
+
+  private
+
+  def validate
+    self.status = 465 if yacht.nil?
   end
 
   def calculate
-    @included, @optional = [], []
-    @available = true
-    set_options
-    @total_cost = calculate_crew_cost + calculate_yacht_cost
+    yacht_cost = calculate_yacht_cost
+    crew_cost = calculate_crew_cost
+    self.cost = yacht_cost + crew_cost unless yacht_cost.nil?
   end
 
   def calculate_crew_cost
@@ -24,9 +45,8 @@ class PortCostCalculator < Response
     port.yacht_size_range_prices.each do |range|
       return range.price if proper_length?(range) && proper_width?(range)
     end
-    add_message('pc501_no_place_available')
-    @available = false
-    0
+    self.status = 464
+    nil
   end
 
   def proper_length?(range)
@@ -37,7 +57,7 @@ class PortCostCalculator < Response
     yacht.width < range.max_width
   end
 
-  def set_options
+  def prepare_options
     %w(power_connection wc shower washbasin dishes wifi parking
        emptying_chemical_toilet).each do |opt|
       add_option(opt) if port.public_send("has_#{opt}")
@@ -45,23 +65,7 @@ class PortCostCalculator < Response
   end
 
   def add_option(opt)
-    if port.public_send("price_#{opt}").zero?
-      included << opt
-    else
-      optional << { name: opt, price: port.public_send("price_#{opt}") }
-    end
-  end
-
-  def serialize
-    available ? available_hash : unavailable_hash
-  end
-
-  def available_hash
-    { cost: total_cost, messages: messages, included: included,
-      optional: optional }
-  end
-
-  def unavailable_hash
-    { cost: '---', messages: messages }
+    container = (port.public_send("price_#{opt}").zero? ? included : optional)
+    container << { name: opt, price: port.public_send("price_#{opt}") }
   end
 end
