@@ -44,6 +44,10 @@ API for apps dedicated to sailors.
     + [Geting single alert](#geting-single-alert)
     + [Confirming/canceling alert](#confirmingcanceling-alert)
     + [Possible alert types](#possible-alert-types)
+  + [Ports](#ports)
+    + [Getting all ports](#getting-all-ports)
+    + [Getting single ports](#getting-all-ports)
+    + [Calculating port cost](#calculating-port-cost)
 + [Custom API status codes](#custom-api-status-codes)
 
 
@@ -1045,6 +1049,47 @@ Each alert is archived due to <code>check_tasks</code> rake task after 4 hours w
 + <code>BAD_WEATHER_CONDITIONS</code>
 + <code>CLOSED_AREA</code>
 + <code>YACHT_FAILURE</code>
+
+### Ports
+| Field                                       | Type    | Comments                                  |
+| ------------------------------------------- | ------- | ----------------------------------------- |
+| <code>id</code>                             | Integer |                                           |
+| <code>name</code>                           | String  |                                           |
+| <code>longitude</code>                      | Decimal | Default: <code>0.0</code>                 |
+| <code>latitude</code>                       | Decimal | Default: <code>0.0</code>                 |
+| <code>created_at</code>                     | String  |                                           |
+| <code>updated_at</code>                     | String  |                                           |
+| <code>photo_url</code>                      | String  |                                           |
+| <code>website</code>                        | String  |                                           |
+| <code>city</code>                           | String  |                                           |
+| <code>street</code>                         | String  |                                           |
+| <code>telephone</code>                      | String  | Default: <code>true</code>                |
+| <code>additional_info</code>                | String  | Default: <code>true</code>                |
+| <code>currency</code>                       | String  | Default: <code>EUR</code>                 |
+| <code>spots</code>                          | Integer | Default: <code>true</code>                |
+| <code>depth</code>                          | Integer | In centemeters, Default: <code>100</code> |
+| <code>price_per_person</code>               | String  | Default: <code>0.0</code>                 |
+| <code>price_power_connection</code>         | String  | Default: <code>0.0</code>                 |
+| <code>price_wc</code>                       | String  | Default: <code>0.0</code>                 |
+| <code>price_shower</code>                   | String  | Default: <code>0.0</code>                 |
+| <code>price_washbasin</code>                | String  | Default: <code>0.0</code>                 |
+| <code>price_dishes</code>                   | String  | Default: <code>0.0</code>                 |
+| <code>price_parking</code>                  | String  | Default: <code>0.0</code>                 |
+| <code>price_wifi</code>                     | String  | Default: <code>0.0</code>                 |
+| <code>price_washing_machine</code>          | String  | Default: <code>0.0</code>                 |
+| <code>price_emptying_chemical_toilet</code> | String  | Default: <code>0.0</code>                 |
+| <code>has_power_connection</code>           | Boolean | Default: <code>true</code>                |
+| <code>has_wc</code>                         | Boolean | Default: <code>true</code>                |
+| <code>has_shower</code>                     | Boolean | Default: <code>true</code>                |
+| <code>has_parking</code>                    | Boolean | Default: <code>true</code>                |
+| <code>has_washbasin</code>                  | Boolean | Default: <code>true</code>                |
+| <code>has_dishes</code>                     | Boolean | Default: <code>true</code>                |
+| <code>has_wifi</code>                       | Boolean | Default: <code>true</code>                |
+| <code>has_slip</code>                       | Boolean | Default: <code>false</code>               |
+| <code>has_washing_machine</code>            | Boolean | Default: <code>true</code>                |
+| <code>has_fuel_station</code>               | Boolean | Default: <code>false</code>               |
+| <code>has_parking</code>                    | Boolean | Default: <code>true</code>                |
+
 
 ## Custom API status codes
 | Status | Description                                                    |
