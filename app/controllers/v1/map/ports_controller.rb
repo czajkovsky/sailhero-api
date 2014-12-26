@@ -14,8 +14,9 @@ module V1
       end
 
       def calculate
-        render json: PortCostCalculator.new(yacht: current_user.yacht,
+        calculator = PortCostCalculator.new(yacht: current_user.yacht,
                                             port: port).call
+        render status: calculator.status, json: { port: calculator }
       end
     end
   end

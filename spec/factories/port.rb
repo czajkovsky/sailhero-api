@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :yacht_size_range_price do
     min_length 0
-    max_length 800
+    max_length 900
     price 40
     max_width 2_000
   end
