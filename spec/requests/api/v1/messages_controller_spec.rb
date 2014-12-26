@@ -127,6 +127,19 @@ describe V1::MessagesController, type: :controller do
           expect(json.messages.count).to eq(50)
         end
       end
+
+      context 'limit is invalid' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 0, since: messages_list.first.id, order: 'DESC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes 10 messages' do
+          expect(json.messages.count).to eq(10)
+        end
+      end
     end
   end
 end

@@ -3,7 +3,8 @@ class MessagesRepository < OpenStruct
     params[:order] = 'ASC' unless %w(ASC DESC).include?(params[:order])
     params[:sign] = (params[:order] == 'DESC' ? '>=' : '<=')
     params[:messages] = []
-    params[:limit] = [1, [params[:limit].to_i, 50].min].max
+    params[:limit] = [params[:limit].to_i, 50].min
+    params[:limit] = 10 if params[:limit] < 1
     super params
     self.messages = fetch_messages
   end
