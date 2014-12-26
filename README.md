@@ -1229,6 +1229,15 @@ Latitude: YOUR_LATITUDE
 }
 ```
 
+##### Possible responses
+
+| Status | Description                                                 |
+| ------ | ----------------------------------------------------------- |
+| 200    | Everything went fine                                        |
+| 401    | Access token is invalid or revoked.                         |
+| 404    | Port with given id was not found or is in different region. |
+| 460    | Region id is invalid                                        |
+
 #### Calculating port cost
 
 ##### Request
@@ -1277,6 +1286,8 @@ Latitude: YOUR_LATITUDE
 | 401    | Access token is invalid or revoked.                         |
 | 404    | Port with given id was not found or is in different region. |
 | 460    | Region id is invalid                                        |
+| 464    | There is no spot for your yacht (is too big or too small).  |
+| 465    | You're trying to calculate port cost with no yacht.         |
 
 ## Custom API status codes
 | Status | Description                                                    |
