@@ -220,6 +220,42 @@ describe V1::MessagesController, type: :controller do
           expect(json.next).to eq(messages_list[8].id)
         end
       end
+
+      context 'fetches maximum range' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 3, since: messages_list[2].id, order: 'ASC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes proper messages' do
+          expect(json.messages.first.id).to eq(messages_list[2].id)
+          expect(json.messages.second.id).to eq(messages_list[1].id)
+          expect(json.messages.third.id).to eq(messages_list[0].id)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(nil)
+        end
+      end
+
+      context 'limit is too big' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 4, since: messages_list[2].id, order: 'ASC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes proper messages' do
+          expect(json.messages.count).to eq(3)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(nil)
+        end
+      end
     end
   end
 end
