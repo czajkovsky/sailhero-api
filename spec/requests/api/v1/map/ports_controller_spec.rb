@@ -46,4 +46,30 @@ describe V1::Map::PortsController, type: :controller do
       it_behaves_like 'an unauthorized request'
     end
   end
+
+  describe 'GET#show' do
+    before do
+      controller.stub(:doorkeeper_token) { token }
+      get :show, id: port
+    end
+
+    it_behaves_like 'a successful request'
+
+    it 'includes port' do
+      expect(json.port.id).to eq(port.id)
+    end
+  end
+
+  describe 'GET#index' do
+    before do
+      controller.stub(:doorkeeper_token) { token }
+      get :index
+    end
+
+    it_behaves_like 'a successful request'
+
+    it 'includes ports' do
+      expect(json.ports.count).to eq(1)
+    end
+  end
 end
