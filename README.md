@@ -1293,12 +1293,12 @@ Latitude: YOUR_LATITUDE
 | 465    | You're trying to calculate port cost with no yacht.         |
 
 ### Routes
-| Field                                       | Type     |
-| ------------------------------------------- | -------- |
-| <code>id</code>                             | Integer  |
-| <code>name</code>                           | String   |
-| <code>created_at</code>                     | DateTime |
-| <code>updated_at</code>                     | DateTime |
+| Field                   | Type     |
+| ----------------------- | -------- |
+| <code>id</code>         | Integer  |
+| <code>name</code>       | String   |
+| <code>created_at</code> | DateTime |
+| <code>updated_at</code> | DateTime |
 
 Each route can have mutiple **pins**:
 
