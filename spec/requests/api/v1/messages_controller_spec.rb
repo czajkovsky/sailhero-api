@@ -126,6 +126,10 @@ describe V1::MessagesController, type: :controller do
         it 'includes only 50 messages' do
           expect(json.messages.count).to eq(50)
         end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[50].id)
+        end
       end
 
       context 'limit is invalid' do
@@ -139,6 +143,10 @@ describe V1::MessagesController, type: :controller do
         it 'includes 10 messages' do
           expect(json.messages.count).to eq(10)
         end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[10].id)
+        end
       end
 
       context 'no limit is set' do
@@ -151,6 +159,65 @@ describe V1::MessagesController, type: :controller do
 
         it 'includes 10 messages' do
           expect(json.messages.count).to eq(10)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[10].id)
+        end
+      end
+
+      context 'proper limit is set' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 14, since: messages_list.first.id, order: 'DESC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes 10 messages' do
+          expect(json.messages.count).to eq(14)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[14].id)
+        end
+      end
+
+      context 'fetches previous messages' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 3, since: messages_list[5].id, order: 'ASC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes proper messages' do
+          expect(json.messages.first.id).to eq(messages_list[5].id)
+          expect(json.messages.second.id).to eq(messages_list[4].id)
+          expect(json.messages.third.id).to eq(messages_list[3].id)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[2].id)
+        end
+      end
+
+      context 'fetches next messages' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          get :index, limit: 3, since: messages_list[5].id, order: 'DESC'
+        end
+
+        it_behaves_like 'a successful request'
+
+        it 'includes proper messages' do
+          expect(json.messages.first.id).to eq(messages_list[5].id)
+          expect(json.messages.second.id).to eq(messages_list[6].id)
+          expect(json.messages.third.id).to eq(messages_list[7].id)
+        end
+
+        it 'sets next message id' do
+          expect(json.next).to eq(messages_list[8].id)
         end
       end
     end
