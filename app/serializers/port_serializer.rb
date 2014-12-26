@@ -1,6 +1,6 @@
 class PortSerializer < ActiveModel::Serializer
   attributes :id, :name, :latitude, :longitude, :website, :city, :street,
-             :telephone, :additional_info, :spots, :depth,
+             :photo_url, :telephone, :additional_info, :spots, :depth,
              :has_power_connection, :has_wc, :has_shower, :has_washbasin,
              :has_dishes, :has_wifi, :has_parking, :has_slip,
              :has_washing_machine, :has_fuel_station,
