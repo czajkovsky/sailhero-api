@@ -3,23 +3,26 @@ class MessagesRepository < OpenStruct
     params[:order] = 'ASC' unless %w(ASC DESC).include?(params[:order])
     params[:sign] = (params[:order] == 'DESC' ? '>=' : '<=')
     params[:messages] = []
+    params[:limit] = [1, [params[:limit].to_i, 50].min].max
     super params
-  end
-
-  def call
-    reversed_order = (order == 'ASC' ? 'DESC' : 'ASC')
-    self.messages = Message.where("id #{sign} ?", since)
-                           .where(region_id: region_id)
-                           .limit(limit + 1)
-                           .order("created_at #{reversed_order}")
-    self
+    self.messages = fetch_messages
   end
 
   def all
     {
-      messages: messages_array,
+      messages: messages_array.map { |m| MessageSerializer.new(m).attributes },
       next: next_message_id
     }
+  end
+
+  private
+
+  def fetch_messages
+    reversed_order = (order == 'ASC' ? 'DESC' : 'ASC')
+    Message.where("id #{sign} ?", since)
+           .where(region_id: region_id)
+           .limit(limit + 1)
+           .order("created_at #{reversed_order}")
   end
 
   def messages_array

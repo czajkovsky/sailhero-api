@@ -4,7 +4,7 @@ module V1
     expose(:message, attributes: :permitted_params)
 
     def index
-      render json: messages
+      render json: messages_repository.all
     end
 
     def create
@@ -27,9 +27,10 @@ module V1
       render status: 460, nothing: true unless message.region == current_region
     end
 
-    def messages
+    def messages_repository
       region_id = current_region.id
-      Message.where(region_id: region_id).page(params[:page]).per(params[:per])
+      MessagesRepository.new(region_id: region_id, limit: params[:limit],
+                             order: params[:order], since: params[:since])
     end
 
     def permitted_params
