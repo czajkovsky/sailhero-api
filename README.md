@@ -398,9 +398,16 @@ Authorization: Bearer YOUR-TOKEN
 
 #### Fetching messages
 
+Fetching messages is cursor style - we have three parameters:
+* <code>order</code> - <code>DESC</code> (default) and <code>ASC</code> allowed. <code>DESC</code> fetches previous messages.
+* <code>since</code> - id of first message that will be included in response
+* <code>limit</code> - how many messages will be included, <code>25</code> by default, <code>100</code> is maximum, can't be less then <code>1</code>
+
+If you don't provide any of the paramters API will respond with **25 last messages**.
+
 ##### Request
 ```
-GET /api/v1/en/messages/ HTTP/1.1
+GET /api/v1/en/messages/limit=5&since=15&order=ASC HTTP/1.1
 Host: sail-hero.dev
 Content-Type: application/json
 Latitude: YOUR-LATITUDE
@@ -414,7 +421,7 @@ Authorization: Bearer YOUR-TOKEN
 {
   "messages":[
     {
-      "id":999,
+      "id":5,
       "body","MESSAGE-BODY",
       "created_at":"2014-09-13T09:57:21.402Z",
       "user_id":"AUTHOR-ID",
@@ -422,9 +429,20 @@ Authorization: Bearer YOUR-TOKEN
       "longitude":"MESSAGE-LONGITUDE"
     }
     # ...
-  ]
+  ],
+  next: NEXT-MESSAGE-ID
 }
 ```
+
+##### Examples
+Let't assume we have 6 messages with ID's <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code> and <code>6</code>.
+
+| Since | Limit | Order | IDs included     | Next message id |
+| ----- | ----- | ----- | ---------------- | --------------- |
+| 4     | 2     | DESC  | 4, 3             | 2               |
+| 4     | 2     | ASC   | 4, 5             | 6               |
+| 4     | 10    | ASC   | 4, 5, 6          | nil             |
+| -     | -     | -     | 6, 5, 4, 3, 2, 1 | nil             |
 
 ##### Possible status codes
 
