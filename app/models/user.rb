@@ -31,7 +31,8 @@ class User < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   include PgSearch
-  pg_search_scope :search, against: [:name, :surname, :email]
+  pg_search_scope :search, against: [:name, :surname, :email],
+                           using: { tsearch: { prefix: true } }
 
   def self.authenticate!(email, password)
     user = User.where(email: email).first
