@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
     search(query)
   end
 
+  def activate!
+    update_attributes(active: true, activation_token: '')
+  end
+
   private
 
   def encrypt_password
@@ -60,10 +64,6 @@ class User < ActiveRecord::Base
   def add_email_change_error
     errors.add(:email, :immutable)
     false
-  end
-
-  def activate!
-    update_attributes(active: true, activation_token: '')
   end
 
   def generate_activation_token
