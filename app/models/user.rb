@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   end
 
   def add_email_change_error
-    errors.add(:base, 'Email is immutable')
+    errors.add(:email, :immutable)
     false
   end
 

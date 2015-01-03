@@ -2,7 +2,10 @@ en:
   port_cost_calculator:
     errors:
       no_place_available: 'Oooops, it looks like there is no place available for your yacht'
-  active_record:
-    training:
-      errors:
-        already_in_progress: "Sorry, you already have one training in progress"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              immutable: "You can't change your email address"
