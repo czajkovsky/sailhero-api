@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ActivationsController, type: :controller do
+  render_views
 
   let(:user) { create(:user) }
 
@@ -12,6 +13,10 @@ describe ActivationsController, type: :controller do
 
     it 'activates user' do
       expect(user.active).to eq(true)
+    end
+
+    it 'includes message' do
+      expect(response.body).to include('Your account is now activated.')
     end
 
     it 'removes confirmation token' do
