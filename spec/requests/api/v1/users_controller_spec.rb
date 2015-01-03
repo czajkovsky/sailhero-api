@@ -58,6 +58,16 @@ describe V1::UsersController, type: :controller do
         end
       end
 
+      context 'substring search' do
+        before { get :index, q: 'blue', access_token: token.token }
+
+        it_behaves_like 'a successful request'
+
+        it 'responds with users' do
+          expect(json.users.count).to eq(1)
+        end
+      end
+
       context 'search has no results' do
         before { get :index, q: 'tomisnotthename', access_token: token.token }
         it_behaves_like 'a successful request'
