@@ -99,6 +99,15 @@ describe V1::UsersController, type: :controller do
         it_behaves_like 'a failed create/update'
       end
 
+      context 'user tries to change email' do
+        before do
+          controller.stub(:doorkeeper_token) { token }
+          put :update, id: user, user: { email: 'b@test.com' }
+        end
+
+        it_behaves_like 'a failed create/update'
+      end
+
       context 'invalid users tries to change data' do
         before do
           controller.stub(:doorkeeper_token) { token2 }

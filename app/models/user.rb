@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create :generate_activation_token
+  before_save :immutable_email
 
   EMAIL_FORMAT = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
@@ -44,11 +45,22 @@ class User < ActiveRecord::Base
     search(query)
   end
 
+  private
+
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def immutable_email
+    return add_email_change_error if changed.include?('email') && !new_record?
+  end
+
+  def add_email_change_error
+    errors.add(:base, 'Email is immutable')
+    false
   end
 
   def activate!
