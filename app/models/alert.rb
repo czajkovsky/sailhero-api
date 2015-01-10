@@ -21,6 +21,6 @@ class Alert < ActiveRecord::Base
 
   def archive!
     update_attributes(active: false)
-    AlertNotifier.new(alert: self).call
+    AlertNotifier.new(region: region).call
   end
 end

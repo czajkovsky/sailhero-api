@@ -16,7 +16,7 @@ module V1
       if alert.save
         alert.update_attributes(user: current_user, region: current_user.region)
         alert.user_vote = 0
-        AlertNotifier.new(alert: alert).call
+        AlertNotifier.new(region: alert.region).call
         render status: 201, json: alert
       else
         render status: 422, json: alert.errors

@@ -6,6 +6,6 @@ class AlertNotifier < Notifier
   end
 
   def call
-    notify_all_users_in_region(params[:alert].region)
+    notify_all_users_in_region(params[:region])
   end
 end
