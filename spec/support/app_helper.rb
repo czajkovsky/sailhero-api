@@ -1,6 +1,6 @@
 module Requests
   module AppHelpers
-    def create_client_app(name = 'MyApp', redirect_uri = 'http://app.com')
+    def create_client_app(name = 'MyApp', redirect_uri = 'https://app.com')
       Doorkeeper::Application.create!(name: name,
                                       redirect_uri: redirect_uri)
     end
