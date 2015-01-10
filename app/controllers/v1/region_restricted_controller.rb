@@ -1,6 +1,6 @@
 module V1
   class RegionRestrictedController < VersionController
-    doorkeeper_for :all
+    before_action :doorkeeper_authorize!
     before_action :check_region_presence
 
     def check_region_presence

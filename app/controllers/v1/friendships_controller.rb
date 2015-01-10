@@ -1,7 +1,6 @@
 module V1
   class FriendshipsController < VersionController
-    doorkeeper_for :all
-
+    before_action :doorkeeper_authorize!
     before_action :pending?, only: [:accept, :deny]
     before_action :owner?, only: :cancel
     before_action :createable?, only: :create

@@ -1,6 +1,6 @@
 module V1
   class RegionsController < VersionController
-    doorkeeper_for :all
+    before_action :doorkeeper_authorize!
     expose(:regions)
     expose(:region)
 

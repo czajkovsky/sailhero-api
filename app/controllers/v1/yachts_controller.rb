@@ -1,6 +1,6 @@
 module V1
   class YachtsController < VersionController
-    doorkeeper_for :all
+    before_action :doorkeeper_authorize!
     before_action :authenticate_yacht_owner, only: [:update, :show]
     before_action :check_if_user_has_yacht, only: :create
     expose(:yacht, attributes: :permitted_params)

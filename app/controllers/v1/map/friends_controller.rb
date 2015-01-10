@@ -1,7 +1,7 @@
 module V1
   module Map
     class FriendsController < VersionController
-      doorkeeper_for :all
+      before_action :doorkeeper_authorize!
 
       def index
         render json: friends, each_serializer: Users::NeighbourSerializer

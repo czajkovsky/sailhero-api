@@ -1,8 +1,8 @@
 module V1
   class DevicesController < VersionController
-    doorkeeper_for :all
-    expose(:device, attributes: :permitted_params)
+    before_action :doorkeeper_authorize!
     before_action :device_exists?
+    expose(:device, attributes: :permitted_params)
 
     def create
       if device.save
