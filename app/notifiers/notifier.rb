@@ -7,8 +7,8 @@ class Notifier
   end
 
   def notify_all_users_in_region(region)
-    devices = Device.where(user_id: region.users.pluck(:id))
+    android_devices = Device.where(user_id: region.users.pluck(:id)).android
     GCMPusher.new(data: { message: message }, collapse_key: key,
-                  devices: devices.android.map(&:key)).call
+                  devices: android_devices.map(&:key)).call
   end
 end
