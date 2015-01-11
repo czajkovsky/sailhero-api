@@ -1,4 +1,4 @@
-class AlertConfirmationValidator
+class AlertConfirmationValidator < Validator
   attr_accessor :user, :alert, :status
 
   def initialize(user, alert)
@@ -12,10 +12,6 @@ class AlertConfirmationValidator
     valid? ? self_reporter? : (return self)
     valid? ? in_same_region? : (return self)
     self
-  end
-
-  def valid?
-    status == 200
   end
 
   private

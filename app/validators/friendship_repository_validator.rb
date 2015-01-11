@@ -1,4 +1,4 @@
-class FriendshipRepositoryValidator
+class FriendshipRepositoryValidator < Validator
   attr_accessor :user, :potential_friend, :status
 
   def initialize(user, potential_friend)
@@ -12,10 +12,6 @@ class FriendshipRepositoryValidator
     valid? ? forever_alone? : (return self)
     valid? ? existing_friendship? : (return self)
     self
-  end
-
-  def valid?
-    status == 200
   end
 
   private
