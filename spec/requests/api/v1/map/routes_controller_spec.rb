@@ -3,7 +3,7 @@ require 'spec_helper'
 describe V1::Map::RoutesController, type: :controller do
 
   let(:region1) { create(:region) }
-  let(:region2) { create(:region) }
+  let(:region2) { create(:region, code_name: 'ACR') }
 
   let(:user) { create(:user, region_id: region1.id) }
   let(:user2) { create(:user, email: 'b@test.com') }

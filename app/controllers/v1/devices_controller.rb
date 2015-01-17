@@ -5,9 +5,9 @@ module V1
     expose(:device, attributes: :permitted_params)
 
     def create
+      device.update_attributes(user_id: current_user.id,
+                               token_id: doorkeeper_token.id)
       if device.save
-        device.update_attributes(user_id: current_user.id,
-                                 token_id: doorkeeper_token.id)
         render status: 201, json: device
       else
         render status: 422, json: { errors: device.errors }

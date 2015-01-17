@@ -5,8 +5,10 @@ describe PortCostCalculator do
 
   subject { PortCostCalculator.new(yacht: yacht, port: port).call }
 
-  let(:port) { create(:port) }
-  let(:yacht) { create(:yacht) }
+  let(:user) { create(:user) }
+  let(:region) { create(:region) }
+  let(:port) { create(:port, region: region) }
+  let(:yacht) { create(:yacht, user: user) }
 
   describe 'computing port cost' do
 
@@ -31,7 +33,7 @@ describe PortCostCalculator do
 
     context 'for too big yacht' do
       subject { PortCostCalculator.new(yacht: big_yacht, port: port).call }
-      let(:big_yacht) { create(:yacht, length: 3_000) }
+      let(:big_yacht) { create(:yacht, length: 3_000, user: user) }
 
       it 'renders no cost' do
         expect(subject.cost).to eq(nil)

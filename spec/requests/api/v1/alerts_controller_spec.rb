@@ -89,7 +89,7 @@ describe V1::AlertsController, type: :controller do
     end
 
     describe 'GET#index' do
-      let(:second_region) { create(:region) }
+      let(:second_region) { create(:region, code_name: 'ACR') }
       let(:second_user) do
         create(:user, region_id: second_region.id, email: 'another@email.com')
       end

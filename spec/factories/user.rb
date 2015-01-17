@@ -5,8 +5,8 @@ FactoryGirl.define do
     email 'john.doe@example.com'
     password 'password1'
     password_confirmation 'password1'
-    latitude Faker::Address.latitude
-    longitude Faker::Address.longitude
+    latitude Faker::Address.latitude.to_d.round(6)
+    longitude Faker::Address.longitude.to_d.round(6)
     position_updated_at '2014-12-16 22:33:02'
     active true
   end

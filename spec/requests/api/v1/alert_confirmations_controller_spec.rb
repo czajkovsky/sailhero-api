@@ -42,7 +42,7 @@ describe V1::AlertConfirmationsController, type: :controller do
       end
 
       context 'regions are different' do
-        let(:region2) { create(:region) }
+        let(:region2) { create(:region, code_name: 'ACR') }
         let(:user2) { create(:user, region_id: region2.id, email: 'c@t.co') }
         let(:user2_token) { access_token(app, user2) }
 
@@ -95,6 +95,8 @@ describe V1::AlertConfirmationsController, type: :controller do
           delete :destroy, id: alert, access_token: confirmer_token.token
           alert.reload
         end
+
+        it_behaves_like 'a successful request'
 
         it 'changes alert credibility' do
           expect(alert.credibility).to eq(-1)

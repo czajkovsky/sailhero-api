@@ -6,8 +6,8 @@ module V1
     expose(:yacht, attributes: :permitted_params)
 
     def create
+      yacht.update_attributes(user: current_user)
       if yacht.save
-        current_user.yacht = yacht
         render status: 201, json: yacht
       else
         render status: 422, json: { errors: yacht.errors }

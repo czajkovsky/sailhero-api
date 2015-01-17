@@ -13,8 +13,8 @@ module V1
 
     def create
       alert = Alert.new(permitted_params)
+      alert.update_attributes(user: current_user, region: current_user.region)
       if alert.save
-        alert.update_attributes(user: current_user, region: current_user.region)
         alert.user_vote = 0
         AlertNotifier.new(region: alert.region).call
         render status: 201, json: alert

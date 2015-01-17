@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :pin do
-    latitude 10.0
-    longitude 12.0
+    latitude Faker::Address.latitude.to_d.round(6)
+    longitude Faker::Address.longitude.to_d.round(6)
   end
 end

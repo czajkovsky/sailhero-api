@@ -8,8 +8,8 @@ FactoryGirl.define do
 
   factory :port do
     name Faker::Company.name
-    longitude Faker::Address.latitude
-    latitude Faker::Address.longitude
+    longitude Faker::Address.longitude.to_d.round(6)
+    latitude Faker::Address.latitude.to_d.round(6)
     website 'http://example.com'
     city Faker::Address.city
     street Faker::Address.street_address

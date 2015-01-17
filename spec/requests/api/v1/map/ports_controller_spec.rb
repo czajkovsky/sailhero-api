@@ -3,12 +3,12 @@ require 'spec_helper'
 describe V1::Map::PortsController, type: :controller do
 
   let(:region) { create(:region) }
-  let(:region2) { create(:region) }
+  let(:region2) { create(:region, code_name: 'ACR') }
   let!(:port) { create(:port, region: region) }
   let!(:port_in_different_region) { create(:port, region: region2) }
-  let(:yacht) { create(:yacht) }
-  let(:user) { create(:user, yacht: yacht, region: region) }
+  let(:user) { create(:user, region: region) }
   let(:user_without_yacht) { create(:user, email: 'b@t.com', region: region) }
+  let!(:yacht) { create(:yacht, user: user) }
   let(:app) { create_client_app }
   let(:token) { access_token(app, user) }
   let(:token2) { access_token(app, user_without_yacht) }

@@ -18,7 +18,7 @@ describe V1::MessagesController, type: :controller do
     let(:message_params) { FactoryGirl.attributes_for(:message) }
     let(:inv_message_params) { FactoryGirl.attributes_for(:message, body: nil) }
     let(:message) { create(:message, region: region, user: user) }
-    let(:region2) { create(:region) }
+    let(:region2) { create(:region, code_name: 'ARC') }
     let(:user2) { create(:user, region: region2, email: 'b@test.com') }
     let(:token2) { access_token(app, user2) }
 

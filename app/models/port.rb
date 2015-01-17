@@ -5,6 +5,6 @@ class Port < ActiveRecord::Base
   CURRENCIES = %w(EUR PLN USD CHF).freeze
   validates :currency, inclusion: { in: CURRENCIES }
   validates :name, :city, :street, length: { in: 2..128 }
-  validates :spot, numericality: { greater_than_or_equal_to: 0,
-                                   only_integer: true }
+  validates :spots, numericality: { greater_than_or_equal_to: 0,
+                                    only_integer: true }
 end
