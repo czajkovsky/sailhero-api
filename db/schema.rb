@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150117155424) do
+ActiveRecord::Schema.define(version: 20150117162434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,13 +188,11 @@ ActiveRecord::Schema.define(version: 20150117155424) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "yacht_size_range_prices", force: true do |t|
-    t.integer  "min_length"
-    t.integer  "max_length"
-    t.float    "price"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "port_id"
-    t.integer  "max_width",  default: 100
+    t.integer "min_length", default: 0
+    t.integer "max_length", default: 2000
+    t.integer "price",      default: 0
+    t.integer "port_id",                   null: false
+    t.integer "max_width",  default: 100
   end
 
   create_table "yachts", force: true do |t|
