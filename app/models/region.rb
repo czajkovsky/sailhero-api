@@ -4,4 +4,7 @@ class Region < ActiveRecord::Base
   has_many :messages
   has_many :routes
   has_many :ports
+
+  validates :full_name, :code_name, presence: true
+  validates :code_name, uniqueness: true
 end
