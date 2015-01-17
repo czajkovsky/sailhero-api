@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   scope :api do
     namespace :v1 do
       scope '(:locale)', locale: /en|pl/ do
-        use_doorkeeper
+        scope 'oauth' do
+          post 'token', to: 'doorkeeper/tokens#create'
+          post 'revoke', to: 'doorkeeper/tokens#revoke'
+        end
 
         resources :users, only: [:update, :index, :create] do
           collection do
