@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150117140627) do
+ActiveRecord::Schema.define(version: 20150117141520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,11 +106,9 @@ ActiveRecord::Schema.define(version: 20150117140627) do
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "pins", force: true do |t|
-    t.integer  "route_id"
-    t.decimal  "latitude"
-    t.decimal  "longitude"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "route_id",  null: false
+    t.decimal "latitude"
+    t.decimal "longitude"
   end
 
   create_table "places", force: true do |t|
