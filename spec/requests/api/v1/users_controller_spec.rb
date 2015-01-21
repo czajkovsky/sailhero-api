@@ -14,6 +14,18 @@ describe V1::UsersController, type: :controller do
     let(:user) { create(:user) }
     let(:token) { access_token(app, user) }
 
+    describe 'GET#show' do
+      let!(:user2) { create(:user, user_params('Eve', 'Grey', 'eve@g.com')) }
+
+      before { get :show, id: user2, access_token: token.token }
+
+      it_behaves_like 'a successful request'
+
+      it 'includes user data' do
+        expect(json.user.email).to eq(user2.email)
+      end
+    end
+
     describe 'GET#me' do
       context 'has valid token' do
         before { get :me, access_token: token.token }
