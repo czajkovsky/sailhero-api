@@ -9,7 +9,7 @@ Rails.application.routes.draw do
           post 'revoke', to: 'doorkeeper/tokens#revoke'
         end
 
-        resources :users, only: [:update, :index, :create] do
+        resources :users, only: [:update, :index, :create, :show] do
           collection do
             get 'me'
             post 'me/devices', to: 'devices#create'

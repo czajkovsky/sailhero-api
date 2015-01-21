@@ -23,6 +23,10 @@ module V1
       render status: 200, json: users, each_serializer: Users::FriendSerializer
     end
 
+    def show
+      render status: 200, json: user, serializer: Users::FriendSerializer
+    end
+
     private
 
     def process_image!
