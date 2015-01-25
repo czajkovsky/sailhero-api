@@ -14,7 +14,7 @@ class Notifier
   private
 
   def notify_androids(androids)
-    androids.delete(params[:caller].key)
+    androids.delete(params[:caller].key) if params[:caller]
     GCMPusher.new(data: { message: message }, collapse_key: key,
                   devices: androids).call
   end
