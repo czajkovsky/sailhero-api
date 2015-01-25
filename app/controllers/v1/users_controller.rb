@@ -6,11 +6,11 @@ module V1
     expose(:user, attributes: :permitted_params)
 
     def create
-      save_user(201)
+      save_user(status: 201, notify: false)
     end
 
     def update
-      save_user(200)
+      save_user(status: 200, notify: true)
     end
 
     def me
@@ -41,14 +41,19 @@ module V1
       render status: 403, nothing: true unless matches_user
     end
 
-    def save_user(status)
+    def save_user(args)
       if user.save
-        ProfileNotifier.new(user: user, caller: current_device).call
-        ActivationMailer.confirm_account(user).deliver if status == 201
-        render status: status, json: user, serializer: Users::ProfileSerializer
+        sync_profile if args[:notify]
+        ActivationMailer.confirm_account(user).deliver if args[:status] == 201
+        render status: args[:status], json: user,
+               serializer: Users::ProfileSerializer
       else
         render status: 422, json: { errors: user.errors }
       end
+    end
+
+    def sync_profile
+      ProfileNotifier.new(user: user, caller: current_device).call
     end
 
     def current_resource_owner
