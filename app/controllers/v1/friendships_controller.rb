@@ -9,6 +9,7 @@ module V1
       new_friendship = Friendship.new(friendship_params)
       new_friendship.update_attributes(user_id: current_user.id, status: 0)
       repository = FriendshipRepository.new(current_user, new_friendship.id)
+      notify!(repository)
       render status: 201, json: repository.serialize
     end
 
@@ -25,21 +26,25 @@ module V1
     end
 
     def accept
-      FriendshipNotifier.new(user: friendship.friend,
-                             caller: current_device).call
+      notify!(friendship)
       friendship.accept!
       render json: friendship.serialize
     end
 
     def deny
-      destroy_friendship(notify: friendship.friend)
+      destroy_friendship
     end
 
     def cancel
-      destroy_friendship(notify: friendship.friend)
+      destroy_friendship
     end
 
     private
+
+    def notify!(repo)
+      FriendshipNotifier.new(user: repo.friend, caller: current_device).call
+      FriendshipNotifier.new(user: repo.user, caller: current_device).call
+    end
 
     def friend
       User.where(id: params[:friend_id]).first
@@ -53,8 +58,8 @@ module V1
       FriendshipRepository.new(current_user, params[:id])
     end
 
-    def destroy_friendship(args)
-      FriendshipNotifier.new(user: args[:notify], caller: current_device).call
+    def destroy_friendship
+      notify!(friendship)
       friendship.destroy!
       render status: 200, nothing: true
     end
