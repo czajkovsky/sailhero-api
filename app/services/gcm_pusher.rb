@@ -4,8 +4,9 @@ class GCMPusher < OpenStruct
   end
 
   def call
+    return if devices.nil?
     options = { data: data, collapse_key: collapse_key }
-    devices.each_slice(100).to_a.each { |group| gcm.send(group, options) }
+    devices.each_slice(100).to_a.map { |group| gcm.send(group, options) }
   end
 
   private
