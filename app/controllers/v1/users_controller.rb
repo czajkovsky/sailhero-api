@@ -43,7 +43,7 @@ module V1
 
     def save_user(status)
       if user.save
-        ProfileNotifier.new(user: user).call
+        ProfileNotifier.new(user: user, caller: current_device).call
         ActivationMailer.confirm_account(user).deliver if status == 201
         render status: status, json: user, serializer: Users::ProfileSerializer
       else

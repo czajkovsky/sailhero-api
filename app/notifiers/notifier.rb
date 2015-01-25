@@ -2,13 +2,20 @@ class Notifier
   attr_accessor :message, :key, :params
 
   def notify_single_user(user)
-    GCMPusher.new(data: { message: message }, collapse_key: key,
-                  devices: user.devices.android.map(&:key)).call
+    androids = user.devices.android.map(&:key)
+    notify_androids(androids)
   end
 
   def notify_all_users_in_region(region)
-    android_devices = Device.where(user_id: region.users.pluck(:id)).android
+    androids = Device.where(user_id: region.users.pluck(:id)).android.map(&:key)
+    notify_androids(androids)
+  end
+
+  private
+
+  def notify_androids(androids)
+    androids.delete(params[:caller].key)
     GCMPusher.new(data: { message: message }, collapse_key: key,
-                  devices: android_devices.map(&:key)).call
+                  devices: androids).call
   end
 end

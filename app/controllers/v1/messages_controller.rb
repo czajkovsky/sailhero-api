@@ -12,7 +12,8 @@ module V1
       save_additional_data(current_user, current_user.region_id,
                            params[:latitude], params[:longitude])
       if message.save
-        MessageNotifier.new(message: message).call
+        binding.pry
+        MessageNotifier.new(message: message, caller: current_device).call
         render status: 201, json: message
       else
         render status: 422, json: { errors: message.errors }

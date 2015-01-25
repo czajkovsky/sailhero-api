@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :current_region
+  helper_method :current_device
 
   decent_configuration do
     strategy DecentExposure::StrongParametersStrategy
@@ -40,6 +41,10 @@ class ApplicationController < ActionController::Base
 
   def current_region
     @current_region = current_user ? current_user.region : nil
+  end
+
+  def current_device
+    @current_device = Device.where(token_id: doorkeeper_token.id).first
   end
 
   def valid_token?
