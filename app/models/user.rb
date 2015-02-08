@@ -1,3 +1,4 @@
+require 'file_size_validator'
 class User < ActiveRecord::Base
   before_save :encrypt_password
   before_create :generate_activation_token
@@ -27,6 +28,7 @@ class User < ActiveRecord::Base
   has_many :inv_friends, through: :inv_friendships, source: :user
 
   mount_uploader :avatar, AvatarUploader
+  validates :avatar, file_size: { maximum: 3.5.megabytes.to_i }
 
   scope :active, -> { where(active: true) }
 
