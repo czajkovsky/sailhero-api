@@ -22,6 +22,7 @@ gem 'carrierwave-aws'
 gem 'hashie'
 gem 'kaminari'
 gem 'haml'
+gem 'strong_password'
 
 group :test, :development do
   gem 'factory_girl_rails', require: false
