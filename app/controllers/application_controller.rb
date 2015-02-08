@@ -24,8 +24,8 @@ class ApplicationController < ActionController::Base
   end
 
   def update_current_position
-    latitude = request.headers['HTTP_X-Sailhero-Latitude']
-    longitude = request.headers['HTTP_X-Sailhero-Longitude']
+    latitude = request.headers['X-Sailhero-Latitude']
+    longitude = request.headers['X-Sailhero-Longitude']
     return false if latitude.nil? || longitude.nil? || current_user.nil?
     current_user.update_attributes(latitude: latitude, longitude: longitude,
                                    position_updated_at: Time.now)
