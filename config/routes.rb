@@ -20,7 +20,7 @@ Rails.application.routes.draw do
           post 'select', on: :member, to: 'regions#select'
         end
 
-        resources :messages, except: [:edit, :destroy, :update]
+        resources :messages, only: [:index, :create, :show]
 
         resources :friendships, only: [:index, :show, :create] do
           collection do
@@ -35,12 +35,12 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :alerts, except: [:update, :edit, :destroy] do
+        resources :alerts, only: [:index, :create, :show] do
           post 'confirmations', on: :member, to: 'alert_confirmations#create'
           delete 'confirmations', on: :member, to: 'alert_confirmations#destroy'
         end
 
-        resources :yachts, except: :index
+        resources :yachts, only: [:index, :create, :show, :update, :destroy]
 
         namespace :map do
           resources :ports, only: [:index, :show] do
