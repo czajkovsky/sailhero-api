@@ -61,8 +61,8 @@ describe V1::MessagesController, type: :controller do
       context 'with shared position' do
         before do
           controller.stub(:doorkeeper_token) { token }
-          request.env['X-Sailhero-Longitude'] = 10.0
-          request.env['X-Sailhero-Latitude'] = 12.0
+          request.env['HTTP_X-Sailhero-Longitude'] = 10.0
+          request.env['HTTP_X-Sailhero-Latitude'] = 12.0
           post :create, message: message_params
         end
 
